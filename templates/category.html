@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ category }} - {{ title }} {% endblock %}
+{% block content %}
+<section id="top">
+    <h1>{{ title }} </h1>
+    <p>{{ author }}</p>
+    <p>{{ date }}</p>
+</section>
+<section id="middle">
+    <h2>{{ subtitle }}</h2>
+    {{ formatted-content }}
+</section>
+<section id='end'>
+    <p>Categories: {{ current-catList }}</p>
+    <p>Tags: {{ tags }}</p>
+</section>
+<section id='nav'>
+    <a href="/{{ category }}/{{ previous }}">Previous: {{ previous }}</a>
+    <a href="/{{ category }}/{{ next }}">Next: {{ next }}</a>
+</section>
+{% endblock %}

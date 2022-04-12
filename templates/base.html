@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <title> {% block title %} {% endblock %}</title>
+
+    <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <header>
+        <div id='title'>
+            <h1>Website Builder</h1>
+            <h2>Database Capstone Project</h2>
+        </div>
+        <p>Logged in as:  
+            <select name='logged-in' id="logged-in">
+            <option value='Public'>Public</option>
+            <option value='Subscriber'>Subscriber</option>
+            <option value='Premium'>Premium</option>
+            <option value='Author'>Author</option>
+            <option value='Contributor'>Contributor</option>
+            <option value='Admin'>Admin</option>
+        </select></p>
+        <div id='dropdown'>
+            <p>Menu</p>
+            <div id='inner-dropdown'>
+                {% if admin %}
+                <a href="">Dashboard</a>
+                {% endif %}
+                <a href="">Profile</a>
+                {% if subscriber %}
+                <a href="">My Subscriptions</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <aside>
+        <nav id='nav-sidebar'>
+            <a href="/">Home</a>
+            <label for="user">Switch User</label>
+            <select name='user' id="user">
+                <option value='Public'>Public</option>
+                <option value='Subscriber'>Subscriber</option>
+                <option value='Premium'>Premium</option>
+                <option value='Author'>Author</option>
+                <option value='Contributor'>Contributor</option>
+                <option value='Admin'>Admin</option>
+            </select>
+        </nav>
+        {% if category %}
+            <p>Current Category: {{ category }}</p>
+            {{ catList }}
+        {% endif %}
+        <button id='subscribe'>Subscribe!</button>
+        <button id='donate'>Join Premium</button>
+    </aside>
+    <main>
+        {% block content %} {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; Lucas E Moyer</p>
+        <p>Project in partial fulfillment of Eastern University Data Science Program</p>
+    </footer>
+</body>
+</html>
