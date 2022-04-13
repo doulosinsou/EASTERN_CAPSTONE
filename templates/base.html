@@ -51,8 +51,8 @@
             </select>
         </nav>
         {% if category %}
-            <p>Current Category: {{ category }}</p>
-            {{ catList }}
+            <p>Current Category: {{ category.name }}</p>
+            {% block catlist %}{% endblock %}
         {% endif %}
         <button id='subscribe'>Subscribe!</button>
         <button id='donate'>Join Premium</button>
