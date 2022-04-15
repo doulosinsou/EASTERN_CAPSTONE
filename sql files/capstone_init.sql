@@ -44,6 +44,7 @@ CREATE TABLE Post (
 	post_date 	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     theme		varchar(20) DEFAULT 'Dark-wide',
     page_type	char(20) DEFAULT 'blog',
+    post_order	SMALLINT DEFAULT 0,
     content 	LONGTEXT,
     cover_img_link	varchar(100),
     
