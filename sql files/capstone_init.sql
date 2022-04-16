@@ -3,6 +3,23 @@
 -- DROP DATABASE Capstone; --
 -- CREATE DATABASE	 Capstone; --
 
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- DROP TABLE Categories;
+-- DROP TABLE Contributes;
+-- DROP TABLE Page_type;
+-- DROP TABLE Post;
+-- DROP TABLE Post_cat;
+-- DROP TABLE Revenue;
+-- DROP TABLE Stats;
+-- DROP TABLE Subscriber;
+-- DROP TABLE Subscribes;
+-- DROP TABLE Tags;
+-- DROP TABLE Theme;
+-- DROP TABLE Users;
+-- DROP TABLE Writes;
+-- SET FOREIGN_KEY_CHECKS = 1;
+
+
 --- Creating the Entity tables ---
 
 
@@ -53,11 +70,11 @@ CREATE TABLE Post (
     CONSTRAINT Post_theme_fk FOREIGN KEY (theme) REFERENCES Theme (theme_name)
 );
 
-CREATE TABLE Categories (
-	cat_name	varchar(20) NOT NULL UNIQUE,
-    cat_status	varchar(12) DEFAULT 'public' CHECK(cat_status in ('public','premium','subscription')),
+CREATE TABLE Topics (
+	topic_name		varchar(20) NOT NULL UNIQUE,
+    topic_status	varchar(12) DEFAULT 'public' CHECK(topic_status in ('public','premium','subscription')),
     
-    CONSTRAINT Categories_pk PRIMARY KEY (cat_name)
+    CONSTRAINT Categories_pk PRIMARY KEY (topic_name)
 );
 
 CREATE TABLE Tags (
@@ -99,13 +116,13 @@ CREATE TABLE Writes (
     CONSTRAINT Writes_art_fk FOREIGN KEY (article_ID) REFERENCES Post (article_ID)
 );
 
-CREATE TABLE Post_cat (
-	cat_name	varchar(20) DEFAULT 'Uncategorized',
+CREATE TABLE Topic_Post (
+	topic_name	varchar(20) DEFAULT 'Uncategorized',
     article_ID	SMALLINT NOT NULL,
     
-    CONSTRAINT Post_cat_pk PRIMARY KEY (cat_name, article_ID),
-    CONSTRAINT Post_cat_cat_fk FOREIGN KEY (cat_name) REFERENCES Categories (cat_name),
-    CONSTRAINT Post_cat_art_fk FOREIGN KEY (article_ID) REFERENCES Post (article_ID)
+    CONSTRAINT Topic_Post_pk PRIMARY KEY (topic_name, article_ID),
+    CONSTRAINT Topic_Post_topic_fk FOREIGN KEY (topic_name) REFERENCES Topics (topic_name),
+    CONSTRAINT Topic_Post_art_fk FOREIGN KEY (article_ID) REFERENCES Post (article_ID)
 );
 
 CREATE TABLE Contributes (
@@ -119,14 +136,14 @@ CREATE TABLE Contributes (
 
 CREATE TABLE Subscribes (
 	sub_email 	varchar(50) NOT NULL,
-    cat_name	varchar(20) NOT NULL,
+    topic_name	varchar(20) NOT NULL,
     membership	varchar(12) DEFAULT 'subscriber' CHECK(membership in ('premium','subscriber')),
     sub_date	DATETIME DEFAULT CURRENT_TIMESTAMP,
     renewed_date	DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-    CONSTRAINT Subscribes_pk PRIMARY KEY (sub_email, cat_name),
+    CONSTRAINT Subscribes_pk PRIMARY KEY (sub_email, topic_name),
     CONSTRAINT Subscribes_email_fk FOREIGN KEY (sub_email) REFERENCES Subscriber (email),
-    CONSTRAINT Subscribes_cat_fk FOREIGN KEY (cat_name) REFERENCES Categories (cat_name)
+    CONSTRAINT Subscribes_topic_fk FOREIGN KEY (topic_name) REFERENCES Topics (topic_name)
 );
 
 CREATE TABLE Revenue (

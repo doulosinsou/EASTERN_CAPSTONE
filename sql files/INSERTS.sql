@@ -83,22 +83,29 @@ VALUES ('Subscribed Lorem Ipsum','A static subscription category','<p>All posts 
 INSERT INTO Post (title,subtitle, content)
 VALUES ('Premium Lorem Ipsum','A static premium category','<p>All posts are viewable for premium members</p>');
 
+INSERT INTO Post (title,subtitle, content, post_order)
+VALUES ('Project Goals','Defining our purpose','<p>This is the second article in the Project topic</p>',1);
+
+INSERT INTO Post (title,subtitle, content, post_order)
+VALUES ('Data Handling','What is our project data?','<p>This is the third article in the Project topic</p>',2);
 
 
+--- Inserts for Topics --- 
 
---- Inserts for Categories --- 
-
-INSERT INTO Categories (cat_name, cat_status)
+INSERT INTO Topics (topic_name, topic_status)
 VALUES ('Project','public');
 
-INSERT INTO Categories (cat_name, cat_status)
+INSERT INTO Topics (topic_name, topic_status)
 VALUES ('Public Blog','public');
 
-INSERT INTO Categories (cat_name, cat_status)
+INSERT INTO Topics (topic_name, topic_status)
 VALUES ('Subscribed Blog','subscription');
 
-INSERT INTO Categories (cat_name, cat_status)
+INSERT INTO Topics (topic_name, topic_status)
 VALUES ('Premium Blog','premium');
+
+INSERT INTO Topics (topic_name, topic_status)
+VALUES ('Uncategorized','public');
 
 
 
@@ -171,32 +178,50 @@ INSERT INTO Writes (author_ID, article_ID)
 VALUES (1,1);
 
 INSERT INTO Writes (author_ID, article_ID)
-VALUES (2,1);
+VALUES (1,2);
 
 INSERT INTO Writes (author_ID, article_ID)
-VALUES (3,2);
+VALUES (2,3);
 
 INSERT INTO Writes (author_ID, article_ID)
-VALUES (4,3);
+VALUES (3,4);
 
 INSERT INTO Writes (author_ID, article_ID)
-VALUES (5,4);
+VALUES (4,5);
+
+INSERT INTO Writes (author_ID, article_ID)
+VALUES (1,6);
+
+INSERT INTO Writes (author_ID, article_ID)
+VALUES (1,7);
 
 
 
 --- Inserts for Post_cat ---
 
-INSERT INTO Post_cat (cat_name, article_ID)
+INSERT INTO Topic_Post (topic_name, article_ID)
 VALUES ('Project', 2);
 
-INSERT INTO Post_cat (cat_name, article_ID)
+INSERT INTO Topic_Post (topic_name, article_ID)
 VALUES ('Public Blog', 3);
 
-INSERT INTO Post_cat (cat_name, article_ID)
+INSERT INTO Topic_Post (topic_name, article_ID)
 VALUES ('Subscribed Blog', 4);
 
-INSERT INTO Post_cat (cat_name, article_ID)
+INSERT INTO Topic_Post (topic_name, article_ID)
 VALUES ('Premium Blog', 5);
+
+INSERT INTO Topic_Post (topic_name, article_ID)
+VALUES ('Project', 6);
+
+INSERT INTO Topic_Post (topic_name, article_ID)
+VALUES ('Project', 7);
+
+INSERT INTO Topic_Post (topic_name, article_ID)
+VALUES ('Uncategorized', 1);
+
+INSERT INTO Topic_Post (topic_name, article_ID)
+VALUES ('Public Blog', 1);
 
 
 
@@ -215,25 +240,25 @@ VALUES (6, 5);
 
 --- Inserts for Subscribes --- 
 
-INSERT INTO Subscribes (sub_email, cat_name)
+INSERT INTO Subscribes (sub_email, topic_name)
 VALUES ("basicSubscriber@subs.org", "Project");
 
-INSERT INTO Subscribes (sub_email, cat_name)
+INSERT INTO Subscribes (sub_email, topic_name)
 VALUES ("basicSubscriber2@subs.org", "Public Blog");
 
-INSERT INTO Subscribes (sub_email, cat_name, membership)
+INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("basicSubscriber2@subs.org", "Subscribed Blog", 'Subscriber'); 
 
-INSERT INTO Subscribes (sub_email, cat_name, membership)
+INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("premiumSubscriber@subs.org", "Premium Blog", "Premium"); 
 
-INSERT INTO Subscribes (sub_email, cat_name, membership)
+INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("premiumSubscriber2@subs.org", "Project", "Premium"); 
 
-INSERT INTO Subscribes (sub_email, cat_name, membership)
+INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("premiumSubscriber2@subs.org", "Public Blog", "Premium"); 
 
-INSERT INTO Subscribes (sub_email, cat_name, membership)
+INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("premiumSubscriber2@subs.org", "Premium Blog", "Premium"); 
 
 

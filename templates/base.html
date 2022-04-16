@@ -11,24 +11,26 @@
 </head>
 <body>
     <header>
-        <div id='title'>
+        <a id="title" href="/"><div>
             <h1>Website Builder</h1>
             <h2>Database Capstone Project</h2>
-        </div>
-        <p>Logged in as:  
-            <select name='logged-in' id="logged-in">
-            <option value='Public'>Public</option>
-            <option value='Subscriber'>Subscriber</option>
-            <option value='Premium'>Premium</option>
-            <option value='Author'>Author</option>
-            <option value='Contributor'>Contributor</option>
-            <option value='Admin'>Admin</option>
-        </select></p>
+        </div></a>
+        <form action="/viewas/" method="POST">
+            <label for="'logged-in">Change view as:</label>
+            <select name='logged-in' id="logged-in" onchange="this.form.submit()" >
+                <option value='Public'>Public</option>
+                <option value='basicSubscriber@subs.org'>Subscriber</option>
+                <option value='premiumSubscriber@subs.org'>Premium</option>
+                <option value='joejfield@website.com'>Author</option>
+                <option value='abiandres@website.com'>Contributor</option>
+                <option value='admin@moyeraudio.com'>Admin</option>
+            </select>
+        </form>
         <div id='dropdown'>
             <p>Menu</p>
             <div id='inner-dropdown'>
                 {% if admin %}
-                <a href="">Dashboard</a>
+                <a href="/">Dashboard</a>
                 {% endif %}
                 <a href="">Profile</a>
                 {% if subscriber %}
@@ -39,7 +41,6 @@
     </header>
     <aside>
         <nav id='nav-sidebar'>
-            <a href="/">Home</a>
             <label for="user">Switch User</label>
             <select name='user' id="user">
                 <option value='Public'>Public</option>
@@ -50,9 +51,9 @@
                 <option value='Admin'>Admin</option>
             </select>
         </nav>
-        {% if category %}
-            <p>Current Category: {{ category.name }}</p>
-            {% block catlist %}{% endblock %}
+        {% if topic %}
+            <p>Current Topic: {{ topic.name }}</p>
+            <ul id="current_articles">{% block catList %}{% endblock %}</ul>
         {% endif %}
         <button id='subscribe'>Subscribe!</button>
         <button id='donate'>Join Premium</button>
