@@ -67,7 +67,7 @@ def sortTopic(thisTopic=None,title=None):
 def aboutCat(thisTopic):
 
 
-    
+
 
     return "About "+thisTopic
 
@@ -100,7 +100,7 @@ def category(thisTopic="Project",title="Project Goals"):
         'list':catlist['title'],
     }
 
-    return render_template('topic.html', 
+    return render_template('post.html', 
         post=post,
         topic=topic_,
         role=session['role'],
@@ -123,7 +123,7 @@ def topics():
     print('role')
     print(session['role'])
 
-    return render_template('list.html', 
+    return render_template('topic.html', 
         availableTopics=availableTopics,
         email=email,
         role=session['role'],

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
+
+{% block sidebar %}
+    <p>Current Topic: {{ topic.name }}</p>
+    <ul id="current_articles">
+        {% for catpost in topic.list %}
+        <li><a href='{{ catpost }}'>{{ catpost }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block content %}
+<section id="top">
+    <h1>{{ post.title }} </h1>
+    <p>{{ post.author }}</p>
+    <p>{{ post.date }}</p>
+</section>
+<section id="middle">
+    {% if post.subtitle != None %}
+        <h2>{{ post.subtitle }}</h2>
+    {% endif %}
+    <div>{{ post.content|safe }}</div>
+</section>
+<section id='end'>
+    <p>Topics: {{ post.topics }}</p>
+    <p>Tags: {{ post.tags }}</p>
+</section>
+<section id='nav'>
+    <a href="{{ post.previous }}">Previous: {{ post.previous }}</a>
+    <a href="{{ post.next }}">Next: {{ post.next }}</a>
+</section>
+{% endblock %}

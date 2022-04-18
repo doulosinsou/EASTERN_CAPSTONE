@@ -1,34 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
+{% block title %} List Subcriptions {% endblock %}
 
 {% block sidebar %}
-    <p>Current Topic: {{ topic.name }}</p>
-    <ul id="current_articles">
-        {% for catpost in topic.list %}
-        <li><a href='{{ catpost }}'>{{ catpost }}</a></li>
+    <p>Logged in as: {{ role }}</p>
+    <p>Newest articles</p>
+    <ul>
+        {% for i in range( Feed['title']|length ) %}
+        <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}">{{ Feed['title'][i] }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
 
 {% block content %}
 <section id="top">
-    <h1>{{ post.title }} </h1>
-    <p>{{ post.author }}</p>
-    <p>{{ post.date }}</p>
-</section>
-<section id="middle">
-    {% if post.subtitle != None %}
-        <h2>{{ post.subtitle }}</h2>
-    {% endif %}
-    <div>{{ post.content|safe }}</div>
+    <h2>Current Subscriptions</h2>
+    {% for i in range( availableTopics['topic_name']|length ) %}
+        <a href="/topic/{{ availableTopics['topic_name'][i] }}">{{ availableTopics['topic_name'][i] }}</a></br>
+    {% endfor %}
 </section>
 <section id='end'>
-    <p>Topics: {{ post.topics }}</p>
-    <p>Tags: {{ post.tags }}</p>
+    <h2>Available Subscriptions</h2>
+    {% for topic in potential_feed %}
+        <a href="/topic/{{ topic['topic_name'] }}">{{ topic['topic_name'] }}</a>
+    {% endfor %}
 </section>
-<section id='nav'>
-    <a href="{{ post.previous }}">Previous: {{ post.previous }}</a>
-    <a href="{{ post.next }}">Next: {{ post.next }}</a>
-</section>
+
 {% endblock %}
