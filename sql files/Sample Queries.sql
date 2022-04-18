@@ -50,4 +50,26 @@ SELECT Topics.topic_name
 FROM Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email
 WHERE Subscriber.email = "basicSubscriber2@subs.org";
 
+--- def grab_public_topics ---
+SELECT topic_name 
+FROM Topics
+WHERE topic_status="public";
 
+--- def grab_role ---
+SELECT role 
+FROM (SELECT email, user_role AS role
+	FROM Users
+		UNION
+	SELECT sub_email, membership AS role
+	FROM Subscribes) AS all_users
+WHERE email="basicSubscriber@subs.org";
+
+--- def grab_article_feed ---
+SELECT Topics.topic_name, Topics.topic_status, Subscribes.membership, Post.article_ID, Post.title, Post.post_date
+FROM 	(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email) 
+	INNER JOIN 
+		(Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID) 
+	ON Topics.topic_name=Topic_Post.topic_name
+WHERE Subscriber.email = "premiumSubscriber2@subs.org" AND Subscriber.sub_status="active"
+ORDER BY
+;

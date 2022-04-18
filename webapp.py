@@ -23,40 +23,53 @@ def check_user():
         role = session['role']
         print(role)
     
-
 @app.route('/')
-def index():
-    pass
-    # Q = custom_SQL()
-    # homepage = customSQL.grab_article(Q)
+@app.route('/<page>')
+def index(page='home'):
+    if page in ['topics','topic','viewas']:
+        return redirect(url_for(page))
+    
+    Q = custom_SQL()
+    page = customSQL.grab_article(Q,page)
 
-@app.route("/Topic/<thisTopic>/<title>")
-@app.route("/Topics/")
+    post = {
+        'title': page['title'][0],
+        'content': page['content'][0],
+        'username': session['email']
+    }
+
+    template=page['page_type'][0]+'.html'
+    return render_template(template, post=post)
+
+
+@app.route("/topic/<thisTopic>/<title>")
 def sortTopic(thisTopic=None,title=None):
+    print(thisTopic, title)
     if thisTopic and title:
         return category(thisTopic,title)
     elif thisTopic:
         return aboutCat(thisTopic)
+    else:
+        return redirect(url_for('/topics'))
+
     
-    Q = custom_SQL()
+    # Q = custom_SQL()
 
-    email = session['email']
-    if email == None:
-        availableTopics = customSQL.grab_public_topics(Q)
-    else:   
-        availableTopics = customSQL.grab_subscribed_topics(Q,email)
+    # email = session['email']
+    # if email == None:
+    #     availableTopics = customSQL.grab_public_topics(Q)
+    # else:   
+    #     availableTopics = customSQL.grab_subscribed_topics(Q,email)
 
-    print(availableTopics['topic_name'])
+    # print('availableTopics')
+    # print(availableTopics['topic_name'])
 
-    return category()
-
+    # return category()
 
 def aboutCat(thisTopic):
-    pass
+    return "About "+thisTopic
 
 def category(thisTopic="Project",title="Project Goals"):
-
-
     #Deliver page post
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
@@ -91,6 +104,34 @@ def category(thisTopic="Project",title="Project Goals"):
         admin=True
         )
 
+
+@app.route("/topics/")
+def topics():
+    Q = custom_SQL()
+    email = session['email']
+
+    if email == None:
+        availableTopics = customSQL.grab_public_topics(Q)
+        feed = customSQL.grab_article_feed("basicSubscriber@subs.org")
+    else:   
+        availableTopics = customSQL.grab_subscribed_topics(Q,email)
+        feed = customSQL.grab_article_feed(Q,email)
+
+    print('feed:')
+    print(feed)
+    print('availableTopics')
+    print(availableTopics)
+
+    return render_template('list.html', 
+        availableTopics=availableTopics,
+        email=email,
+        role=session['role'],
+        Feed=feed,
+        )
+
+
+
+
 @app.route('/viewas/', methods=['POST'])
 def viewas():
     viewer=request.form['logged-in']
@@ -99,7 +140,7 @@ def viewas():
     session['email'] = viewer
     session['role'] = role['role'][0]
 
-    return make_response(redirect(request.referrer))
+    return make_response(redirect(url_for('/topics')))
 
     # viewas=request.form['logged-in']
     # resp = make_response(redirect(request.referrer))

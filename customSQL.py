@@ -9,10 +9,10 @@ class custom_SQL:
         except mysql.connector.Error as err:
             return(err)
     
-    def select(self,Q,table,conditions,where=False):
+    def select(self,Q,table,conditions=False,orderby=False):
         cur = self.con.cursor(buffered=True)
         statement = f'SELECT {Q} FROM {table}'
-        if where:
+        if conditions:
             features = []
             matches = []
             for key in conditions:
@@ -24,8 +24,14 @@ class custom_SQL:
                 for feat in features[1:]:
                     statement += ' AND {}=%s'.format(feat)
             # print(statement)
+
+            if orderby:
+                statement+=" ORDER BY "+orderby
+
             cur.execute(statement,(*matches,))
         else:
+            if orderby:
+                statement+=" ORDER BY "+orderby
             cur.execute(statement,(Q,table))
 
         column_names = [c[0] for c in cur.description]
@@ -64,7 +70,7 @@ def grab_article(sql_obj, title, post_id=False):
     conditions={"Post.title":title}
     if post_id:
         conditions["Post.article_ID":post_id]
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_all_topics(sql_obj):
     find="topic_name, topic_status"
@@ -75,19 +81,19 @@ def grab_articles_in_topic(sql_obj,topic_name):
     find="Post.title"
     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
     conditions={"Topics.topic_name":topic_name}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_topics_in_article(sql_obj,article_ID):
     find="Topics.topic_name"
     table="Topics INNER JOIN Topic_Post ON Topics.topic_name=Topic_Post.topic_name INNER JOIN Post ON Topic_Post.article_ID=Post.article_ID"
     conditions={"Post.article_ID":article_ID}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_tags_in_article(sql_obj,article_ID):
     find="tag_name"
     table="Tags"
     conditions={"article_ID":article_ID}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_authors(sql_obj):
     find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS author"
@@ -103,13 +109,13 @@ def grab_author_articles(sql_obj,author_ID):
     find="Post.title"
     table="Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID"
     conditions={"Users.ID":author_ID}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_contributor_articles(sql_obj,contributor_ID):
     find="Post.title"
     table="Post INNER JOIN Contributes ON Post.article_ID=Contributes.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID"
     conditions={"Users.ID":contributor_ID}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_kin_article(sql_obj,title,topic,kin):
     find="Post.title,Topics.topic_name"
@@ -119,27 +125,32 @@ def grab_kin_article(sql_obj,title,topic,kin):
         "Post.post_order":f'(SELECT post_order FROM Post WHERE title = "{title}") + {kin}'
         }
     print(find, '/n', table, '/n', conditions)
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_subscribed_topics(sql_obj,user_email):
     find="Topics.topic_name"
     table="Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email"
     conditions={"Subscriber.email":user_email}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_public_topics(sql_obj):
     find="topic_name"
     table="Topics"
     conditions={"topic_status":"public"}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
 def grab_role(sql_obj,email):
     find="role"
     table="(SELECT email, user_role AS role FROM Users UNION SELECT sub_email, membership AS role FROM Subscribes) AS all_users"
     conditions={"email":email}
-    return sql_obj.select(find,table,conditions,where=True)
+    return sql_obj.select(find,table,conditions)
 
-
+def grab_article_feed(sql_obj,email):
+    find="Topics.topic_name, Topics.topic_status, Subscribes.membership, Post.article_ID, Post.title, Post.post_date"
+    table="(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email) INNER JOIN (Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID) ON Topics.topic_name=Topic_Post.topic_name"
+    conditions={"Subscriber.email":email,"Subscriber.sub_status":"active"}
+    orderby="Post.post_date DESC"
+    return sql_obj.select(find,table,conditions,orderby)
 
 
 

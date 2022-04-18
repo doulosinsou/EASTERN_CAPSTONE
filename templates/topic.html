@@ -2,10 +2,13 @@
 
 {% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
 
-{% block catList %}
-    {% for catpost in topic.list %}
+{% block sidebar %}
+    <p>Current Topic: {{ topic.name }}</p>
+    <ul id="current_articles">
+        {% for catpost in topic.list %}
         <li><a href='{{ catpost }}'>{{ catpost }}</a></li>
-    {% endfor %}
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block content %}
