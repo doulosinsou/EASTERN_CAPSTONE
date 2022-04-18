@@ -27,7 +27,7 @@ class custom_SQL:
 
             if orderby:
                 statement+=" ORDER BY "+orderby
-
+            
             cur.execute(statement,(*matches,))
         else:
             if orderby:
@@ -77,11 +77,12 @@ def grab_all_topics(sql_obj):
     table="Topics"
     return sql_obj.select(find,table)
 
-def grab_articles_in_topic(sql_obj,topic_name):
-    find="Post.title"
+def grab_articles_in_topic(sql_obj,topic_name,order="DESC"):
+    find="Post.title, Topics.topic_description, Topics.topic_status"
     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
     conditions={"Topics.topic_name":topic_name}
-    return sql_obj.select(find,table,conditions)
+    orderby=f"Post.post_order {order}, Post.post_date {order}"
+    return sql_obj.select(find,table,conditions,orderby)
 
 def grab_topics_in_article(sql_obj,article_ID):
     find="Topics.topic_name"

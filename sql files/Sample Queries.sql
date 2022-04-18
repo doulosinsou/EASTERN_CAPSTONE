@@ -10,10 +10,20 @@ WHERE title="Welcome";
 SELECT topic_name, topic_status
 FROM Topics;
 
---- def grab_articles_in_topic ---
+--- def grab_articles_in_topic_newst_first ---
 SELECT Post.title
 FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name
-WHERE Topics.topic_name="Project";
+WHERE Topics.topic_name="Project"
+ORDER BY Post.post_order DESC, Post.post_date DESC;
+
+--- def grab_articles_for_topic_oldest_first ---
+SELECT Post.title
+FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name
+WHERE Topics.topic_name="Project"
+ORDER BY Post.post_order ASC, Post.post_date ASC;
+
+
+
 
 --- def grab_topics_in_article ---
 SELECT Topics.topic_name

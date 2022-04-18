@@ -58,27 +58,34 @@ def index(page='home'):
 @app.route("/topic/<thisTopic>/<title>")
 def sortTopic(thisTopic=None,title=None):
     if thisTopic and title:
-        return category(thisTopic,title)
+        return prepTopic(thisTopic,title)
     elif thisTopic:
-        return aboutCat(thisTopic)
+        return aboutTop(thisTopic)
     else:
         return redirect('/topics/')
 
-def aboutCat(thisTopic):
+def aboutTop(thisTopic):
+    Q = custom_SQL()
+    topic_list = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
+    print(topic_list)
+    return render_template('topic.html', 
+        topic= {
+            "post_title":topic_list['title'],
+            "topic_name":thisTopic,
+            "topic_status":topic_list['topic_status'][0],
+            "topic_description":topic_list['topic_description'][0]
+        },
+        role=session['role'],
+        )
 
-
-
-
-    return "About "+thisTopic
-
-def category(thisTopic="Project",title="Project Goals"):
+def prepTopic(thisTopic="Project",title="Project Goals"):
     #Deliver page post
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
-    cats = customSQL.grab_topics_in_article(Q,article['article_ID'][0])
+    tops = customSQL.grab_topics_in_article(Q,article['article_ID'][0])
     previous = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,"-1")
     after = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,"1")
-    catlist = customSQL.grab_articles_in_topic(Q,thisTopic)
+    toplist = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
     tags = customSQL.grab_tags_in_article(Q,article['article_ID'][0])
 
     Q.close()
@@ -89,7 +96,7 @@ def category(thisTopic="Project",title="Project Goals"):
         'author':article['author'][i],
         'date':article['post_date'][i],
         'subtitle':article['subtitle'][i],
-        'topics':', '.join(cats['topic_name']),
+        'topics':', '.join(tops['topic_name']),
         'tags':', '.join(tags['tag_name']),
         'content': article['content'][i],
         'previous':previous['title'][0],
@@ -97,7 +104,7 @@ def category(thisTopic="Project",title="Project Goals"):
         }
     topic_ = {
         'name':thisTopic,
-        'list':catlist['title'],
+        'list':toplist['title'],
     }
 
     return render_template('post.html', 
@@ -123,7 +130,7 @@ def topics():
     print('role')
     print(session['role'])
 
-    return render_template('topic.html', 
+    return render_template('feed.html', 
         availableTopics=availableTopics,
         email=email,
         role=session['role'],
