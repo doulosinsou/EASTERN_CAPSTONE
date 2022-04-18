@@ -1,3 +1,4 @@
+# from types import NoneType
 from flask import Flask, render_template, redirect, url_for, request, make_response, session
 from datetime import datetime
 
@@ -26,8 +27,10 @@ def check_user():
 @app.route('/')
 @app.route('/<page>')
 def index(page='home'):
+    print('/ index?')
     if page in ['topics','topic','viewas']:
-        return redirect(url_for(page))
+        print("Made it past page in [***]")
+        return redirect(page)
     
     Q = custom_SQL()
     page = customSQL.grab_article(Q,page)
@@ -38,19 +41,28 @@ def index(page='home'):
         'username': session['email']
     }
 
+    user = True if session['role'] in ['admin','author','contributor'] else False
+
     template=page['page_type'][0]+'.html'
-    return render_template(template, post=post)
 
+    return render_template(
+        template, 
+        post=post,
+        user=user,
+        role=session['role'],
+        )
 
+@app.route('/topic/')
+@app.route('/Topic')
+@app.route('/topic/<thisTopic>')
 @app.route("/topic/<thisTopic>/<title>")
 def sortTopic(thisTopic=None,title=None):
-    print(thisTopic, title)
     if thisTopic and title:
         return category(thisTopic,title)
     elif thisTopic:
         return aboutCat(thisTopic)
     else:
-        return redirect(url_for('/topics'))
+        return redirect('/topics/')
 
     
     # Q = custom_SQL()
@@ -67,6 +79,7 @@ def sortTopic(thisTopic=None,title=None):
     # return category()
 
 def aboutCat(thisTopic):
+    print("reached aboutCat(thisTopic) ")
     return "About "+thisTopic
 
 def category(thisTopic="Project",title="Project Goals"):
@@ -101,10 +114,10 @@ def category(thisTopic="Project",title="Project Goals"):
     return render_template('topic.html', 
         post=post,
         topic=topic_,
-        admin=True
+        role=session['role'],
         )
 
-
+@app.route("/Topics/")
 @app.route("/topics/")
 def topics():
     Q = custom_SQL()
@@ -117,16 +130,15 @@ def topics():
         availableTopics = customSQL.grab_subscribed_topics(Q,email)
         feed = customSQL.grab_article_feed(Q,email)
 
-    print('feed:')
-    print(feed)
-    print('availableTopics')
-    print(availableTopics)
+    print('role')
+    print(session['role'])
 
     return render_template('list.html', 
         availableTopics=availableTopics,
         email=email,
         role=session['role'],
         Feed=feed,
+
         )
 
 
@@ -137,10 +149,15 @@ def viewas():
     viewer=request.form['logged-in']
     Q = custom_SQL()
     role = customSQL.grab_role(Q,viewer)
+    print(role)
+    if role['role'] == []:
+        session['role'] = "Public"
+    else:
+        session['role'] = role['role'][0]
     session['email'] = viewer
-    session['role'] = role['role'][0]
+    
 
-    return make_response(redirect(url_for('/topics')))
+    return redirect('/topics')
 
     # viewas=request.form['logged-in']
     # resp = make_response(redirect(request.referrer))

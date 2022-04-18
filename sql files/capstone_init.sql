@@ -137,7 +137,7 @@ CREATE TABLE Contributes (
 CREATE TABLE Subscribes (
 	sub_email 	varchar(50) NOT NULL,
     topic_name	varchar(20) NOT NULL,
-    membership	varchar(12) DEFAULT 'subscriber' CHECK(membership in ('premium','subscriber')),
+    membership	varchar(12) DEFAULT 'Subscriber' CHECK(membership in ('Premium','Subscriber')),
     sub_date	DATETIME DEFAULT CURRENT_TIMESTAMP,
     renewed_date	DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     

@@ -71,5 +71,4 @@ FROM 	(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name I
 		(Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID) 
 	ON Topics.topic_name=Topic_Post.topic_name
 WHERE Subscriber.email = "premiumSubscriber2@subs.org" AND Subscriber.sub_status="active"
-ORDER BY
-;
+ORDER BY Post.post_date DESC;
