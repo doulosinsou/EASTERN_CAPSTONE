@@ -27,10 +27,10 @@ def check_user():
 @app.route('/')
 @app.route('/<page>')
 def index(page='home'):
-    print('/ index?')
-    if page in ['topics','topic','viewas']:
-        print("Made it past page in [***]")
-        return redirect(page)
+    # print('/ index?')
+    # if page in ['topics','topic','viewas']:
+    #     print("Made it past page in [***]")
+    #     return redirect(page)
     
     Q = custom_SQL()
     page = customSQL.grab_article(Q,page)
@@ -64,22 +64,11 @@ def sortTopic(thisTopic=None,title=None):
     else:
         return redirect('/topics/')
 
-    
-    # Q = custom_SQL()
-
-    # email = session['email']
-    # if email == None:
-    #     availableTopics = customSQL.grab_public_topics(Q)
-    # else:   
-    #     availableTopics = customSQL.grab_subscribed_topics(Q,email)
-
-    # print('availableTopics')
-    # print(availableTopics['topic_name'])
-
-    # return category()
-
 def aboutCat(thisTopic):
-    print("reached aboutCat(thisTopic) ")
+
+
+    
+
     return "About "+thisTopic
 
 def category(thisTopic="Project",title="Project Goals"):
@@ -117,6 +106,7 @@ def category(thisTopic="Project",title="Project Goals"):
         role=session['role'],
         )
 
+@app.route('/feed/')
 @app.route("/Topics/")
 @app.route("/topics/")
 def topics():

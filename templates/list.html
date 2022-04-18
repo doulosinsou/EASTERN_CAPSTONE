@@ -7,7 +7,7 @@
     <p>Newest articles</p>
     <ul>
         {% for i in range( Feed['title']|length ) %}
-        <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}"></a></li>
+        <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}">{{ Feed['title'][i] }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -92,20 +92,29 @@ VALUES ('Data Handling','What is our project data?','<p>This is the third articl
 
 --- Inserts for Topics --- 
 
-INSERT INTO Topics (topic_name, topic_status)
-VALUES ('Project','public');
+INSERT INTO Topics (topic_name, topic_status, topic_description)
+VALUES ('Project','public','This topic regards the building and format of this website. This is a Capstone project in partial fulfillment of Eastern University\'s Data Science Master\'s program. This implementation is a MYSQL Database driven website. Follow the posts in this Topic to follow thie building stages and logic behind each step.');
 
-INSERT INTO Topics (topic_name, topic_status)
-VALUES ('Public Blog','public');
+INSERT INTO Topics (topic_name, topic_status,topic_description)
+VALUES ('Public Blog','public','This topic represents all the blog posts that should be visible to the public. One does not have to subscribe in order to read these posts');
 
-INSERT INTO Topics (topic_name, topic_status)
-VALUES ('Subscribed Blog','subscription');
+INSERT INTO Topics (topic_name, topic_status,topic_description)
+VALUES ('Subscribed Blog','subscription','This topic represents all the blog posts that should be visible to basic subscribers. It would not be visible to the public without subscribeing. Anyone would be able to subscribe to this category free of charge');
 
-INSERT INTO Topics (topic_name, topic_status)
-VALUES ('Premium Blog','premium');
+INSERT INTO Topics (topic_name, topic_status,topic_description)
+VALUES ('Premium Blog','premium','This topic represents all the blog posts that would only be visible to paid members (or promotional upgrades).');
 
-INSERT INTO Topics (topic_name, topic_status)
-VALUES ('Uncategorized','public');
+INSERT INTO Topics (topic_name, topic_status,topic_description)
+VALUES ('Uncategorized','public','This topic is a default backup for all posts which are otherwise unlabled.');
+
+-- ALTER TABLE Topics
+-- ADD COLUMN topic_description LONGTEXT ;
+
+-- UPDATE Topics
+-- SET topic_description = 'This topic is a default backup for all posts which are otherwise unlabled.'
+-- WHERE topic_name = 'Uncategorized';
+
+
 
 
 

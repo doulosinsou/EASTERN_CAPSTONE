@@ -73,6 +73,7 @@ CREATE TABLE Post (
 CREATE TABLE Topics (
 	topic_name		varchar(20) NOT NULL UNIQUE,
     topic_status	varchar(12) DEFAULT 'public' CHECK(topic_status in ('public','premium','subscription')),
+    topic_description	LONGTEXT,
     
     CONSTRAINT Categories_pk PRIMARY KEY (topic_name)
 );
