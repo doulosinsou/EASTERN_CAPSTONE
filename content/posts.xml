@@ -26,37 +26,40 @@
     <cover_img_link></cover_img_link>
     <content></content>
 </post> -->
+<post_feed>
+    <post>
+        <title>Xml demo</title>
+        <subtitle>make working model</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>lucas.moyer@eastern.edu</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>joe</first_name>
+                <last_name>johnson</last_name>
+                <email>joey@son.com</email>
+            </user>
+            <user type='container'>
+                <first_name>abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abia@dres.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>XML</topic_name>
+            <topic_name>Parser</topic_name>
+        </topics>
+        <tags>
+            <tag_name>XML</tag_name>
+            <tag_name>Parser</tag_name>
+        </tags>
+        <post_order>0</post_order>
+        <cover_img_link></cover_img_link>
+        <content>This is the first test in order to discover best XML parsing strategies for Python</content>
+    </post>
 
-<post>
-    <title>Xml demo</title>
-    <subtitle>make working model</subtitle>
-    <author>
-        <first_name>Lucas</first_name>
-        <last_name>Moyer</last_name>
-        <email>lucas.moyer@eastern.edu</email>
-    </author>
-    <contributors>
-        <user>
-            <first_name>joe</first_name>
-            <last_name>johnson</last_name>
-            <email>joey@son.com</email>
-        </user>
-         <user>
-            <first_name>abi</first_name>
-            <last_name>Andres</last_name>
-            <email>abia@dres.com</email>
-        </user>
-    </contributors>
-    <theme>Bright-medium</theme>
-    <topics>
-        <topic_name>XML</topic_name>
-        <topic_name>Parser</topic_name>
-    </topics>
-    <tags>
-        <tag_name>XML</tag_name>
-        <tag_name>Parser</tag_name>
-    </tags>
-    <post_order>0</post_order>
-    <cover_img_link></cover_img_link>
-    <content>This is the first test in order to discover best XML parsing strategies for Python</content>
-</post>
+
+</post_feed>

@@ -12,38 +12,50 @@
 #     content = post_data[5]
 #     cover_img_link = post_data[6]
 
-from xml.dom import minidom
+import xml.etree.ElementTree as ET
 
-def get_str(parent,child):
-    return parent.getElementsByTagName(child)[0].childNodes[0].data
+def findTag(node,tagname):
+    for n in node:
+        if hasattr(n,'tag'):
+            if n.tag == tagname:
+                return n
 
-def get_list(parent,child):
-    group = []
-    taglist = parent.getElementsByTagName(child)
-    for tag in taglist:
-        for node in walk(tag.childNodes):
-            group.append((tag.tagName, node))
-    return group
-
-def walk(parent):
-    for child in parent:
-        # if hasattr(child,'data') and not child.nodeType == child.TEXT_NODE:
-        #     yield (parent,child.data)
-        if child.nodeType != child.TEXT_NODE:
-            yield (parent,child.data)
+def nested(node,tagname):
+    group_list = []
+    for item in findTag(node,tagname):
+        nest_dict = dict()
+        if 'type' in item.attrib.keys():
+            for c in item:
+                nest_dict[c.tag] = c.text 
         else:
-            walk(child.childNodes)
-        # if child.nodeType != child.TEXT_NODE:
-        #     for node in child.childNodes:
-        #         yield (child.tagName,node.data)
+            nest_dict[item.tag] = item.text
+        group_list.append(nest_dict)
+    return group_list
 
+def gather_posts(root):
+    postList = []
 
+    for post in feed:
+        post_dict = dict()
 
-file = minidom.parse('posts.xml')
-post = file.getElementsByTagName('post')
+        post_dict['title'] = findTag(post,'title').text
+        post_dict['subtitle'] = findTag(post,'subtitle').text
+        post_dict['author'] = nested(post,'author')
+        post_dict['contributors'] = nested(post,'contributors')
+        post_dict['theme'] = findTag(post,'theme').text
+        post_dict['topics'] = nested(post,'topics')
+        post_dict['tags'] = nested(post,'tags')
+        post_dict['post_order'] = int(findTag(post,'post_order').text)
+        post_dict['cover_img_link'] = findTag(post,'cover_img_link').text
+        post_dict['content'] = findTag(post,'content').text
 
-for p in post:
-    title = get_str(p,'title')
-    author = get_list(p,'contributors')
+        postList.append(post_dict)
     
-    print(title, author)
+    return postList
+
+file = ET.parse('posts.xml')
+feed = file.getroot()
+
+posts = gather_posts(feed)
+
+print(posts)
