@@ -1,16 +1,5 @@
-# import customSQL
-# from customSQL import custom_SQL
-
-
-
-# def put_post(sql_obj, post_data):
-#     title = post_data[0]
-#     subtitle = post_data[1]
-#     theme = post_data[2]
-#     page_type = "blog"
-#     post_order = post_data[4]
-#     content = post_data[5]
-#     cover_img_link = post_data[6]
+import customSQL
+from customSQL import custom_SQL
 
 import xml.etree.ElementTree as ET
 
@@ -32,10 +21,10 @@ def nested(node,tagname):
         group_list.append(nest_dict)
     return group_list
 
-def gather_posts(root):
+def gather_posts(root, parser):
     postList = []
 
-    for post in feed:
+    for post in root:
         post_dict = dict()
 
         post_dict['title'] = findTag(post,'title').text
@@ -47,15 +36,40 @@ def gather_posts(root):
         post_dict['tags'] = nested(post,'tags')
         post_dict['post_order'] = int(findTag(post,'post_order').text)
         post_dict['cover_img_link'] = findTag(post,'cover_img_link').text
-        post_dict['content'] = findTag(post,'content').text
+        post_dict['content'] = parser.tostring(findTag(post,'div'))
 
+        
         postList.append(post_dict)
     
     return postList
 
-file = ET.parse('posts.xml')
+
+file = ET.parse('content/posts.xml')
 feed = file.getroot()
+posts = gather_posts(feed, ET)
 
-posts = gather_posts(feed)
+for post in posts[:1]:
+    Q = custom_SQL() 
 
-print(posts)
+    row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
+
+    for topic in post['topics']:
+        customSQL.put_topic_post(Q,topic['topic_name'],row_id)
+
+    for tag in post['tags']:
+        # if not Q.exists('tag_name','Tags',tag['tag_name'],{'article_ID':row_id}):
+        customSQL.put_tag(Q,tag,row_id)
+
+    author_id = customSQL.grab_author_id(Q,post['author']['email'])
+    customSQL.put_writes(Q,row_id,author_id)
+
+    for contributor in topic['contributors']:
+        cont_id = customSQL.grab_author_id(Q,contributor['email'])
+        customSQL.put_contributes(Q,row_id,cont_id)
+
+    Q.close()
+    
+Q= custom_SQL
+findinsert = customSQL.grab_article(Q,posts[0]['title'])
+print(findinsert['title'][0])
+

@@ -34,7 +34,7 @@ def index(page='home'):
     
     Q = custom_SQL()
     page = customSQL.grab_article(Q,page)
-
+    Q.close()
     post = {
         'title': page['title'][0],
         'content': page['content'][0],
@@ -67,7 +67,7 @@ def sortTopic(thisTopic=None,title=None):
 def aboutTop(thisTopic):
     Q = custom_SQL()
     topic_list = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
-    print(topic_list)
+    Q.close()
     return render_template('topic.html', 
         topic= {
             "post_title":topic_list['title'],
@@ -126,9 +126,7 @@ def topics():
     else:   
         availableTopics = customSQL.grab_subscribed_topics(Q,email)
         feed = customSQL.grab_article_feed(Q,email)
-
-    print('role')
-    print(session['role'])
+    Q.close()
 
     return render_template('feed.html', 
         availableTopics=availableTopics,
@@ -146,7 +144,7 @@ def viewas():
     viewer=request.form['logged-in']
     Q = custom_SQL()
     role = customSQL.grab_role(Q,viewer)
-    print(role)
+    Q.close()
     if role['role'] == []:
         session['role'] = "Public"
     else:

@@ -46,15 +46,33 @@ class custom_SQL:
 
         return data_dict
 
-    def insert(self,table,columns,values,close=True):
+    def insert(self,table,col_val_dict,close=True):
         cur = self.con.cursor(buffered=True)
-        statement = 'INSERT INTO %s %s VALUES %s'
-        cur.execute(statement,(table,columns,values))
+        columns=tuple([key for key in col_val_dict.keys()])
+        values=tuple([col_val_dict[c] for c in columns])
+        statement = 'INSERT INTO {} {} VALUES {}'.format(table,columns,values)
+        print(statement)
+        
+        # cur.execute(statement,(values,))
+        cur.execute(statement)
         last_id = cur.lastrowid
         if close:
             cur.close()
         return last_id
 
+    def exists(self,what,table,target, conditions=False):
+        cur = self.con.cursor(buffered=True)
+        statement = 'SELECT EXISTS( SELECT %s FROM %s WHERE %s=%s'
+        if conditions:
+            cond_values = []
+            for cond in conditions.keys():
+                statement += "AND {}=%s ".format(cond)
+                cond_values.append(conditions[cond])
+
+            vals = (what,table,what,target, *cond_values)
+        else:
+            vals = (what,table,what,target)
+        return cur.execute(statement,vals)
 
     def commit(self):
         self.con.commit()
@@ -100,6 +118,14 @@ def grab_authors(sql_obj):
     find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS author"
     table="Users INNER JOIN Writes ON Users.ID=Writes.author_ID"
     return sql_obj.select(find,table)
+
+def grab_author_id(sql_obj,email):
+    find="ID"
+    table="Users"
+    conditions={
+        "email":email
+    }
+    return sql_obj.select(find,table,conditions)
 
 def grab_contributors(sql_obj):
     find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS contributor"
@@ -155,3 +181,73 @@ def grab_article_feed(sql_obj,email):
 
 
 
+
+
+def put_article(sql_obj,title,subtitle,theme,content,post_order):
+    table = 'Post'
+    col_value= {
+        'title':title,
+        'subtitle':subtitle,
+        'content':content,
+        'post_order':post_order,
+        'theme':theme
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_topic(sql_obj,name,status,description):
+    table = 'Topics'
+    col_value= {
+        'topic_name':name,
+        'topic_status':status,
+        'topic_description':description
+    }
+    return sql_obj.insert(table,col_value)
+    
+def put_tag(sql_obj,name,article_ID):
+    table = 'Tags'
+    col_value= {
+        'tag_name':name,
+        'article_ID':article_ID,
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_stat(sql_obj,article_ID,IP_address):
+    table = 'Stats'
+    col_value= {
+        'IP_address':IP_address,
+        'article_ID':article_ID,
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_writes(sql_obj,article_ID,author_ID):
+    table = 'Writes'
+    col_value= {
+        'author_ID':author_ID,
+        'article_ID':article_ID,
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_topic_post(sql_obj,topic_name,article_ID):
+    table = 'Topic_Post'
+    col_value= {
+        'topic_name':topic_name,
+        'article_ID':article_ID,
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_contributes(sql_obj,article_ID,contributor_ID):
+    table = 'Contributes'
+    col_value= {
+        'contributor':contributor_ID,
+        'article_ID':article_ID,
+    }
+    return sql_obj.insert(table,col_value)
+
+
+def put_revenue(sql_obj,email,amount):
+    table = 'Revenue'
+    col_value= {
+        'sub_email':email,
+        'trans_amount':amount,
+    }
+    return sql_obj.insert(table,col_value)
