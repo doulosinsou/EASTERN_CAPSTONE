@@ -25,8 +25,8 @@
     <div>{{ post.content|safe }}</div>
 </section>
 <section id='end'>
-    <p>Topics: {{ post.topics }}</p>
-    <p>Tags: {{ post.tags }}</p>
+    <p>Topics: {% for p in post.topics %}<a href="/topic/{{ p }}">{{ p }}</a>,{% endfor %}</p>
+    <p>Tags: {% for t in post.tags %}<a href="/tag/{{ t }}">{{ t }}</a>,{% endfor %}</p>
 </section>
 <section id='nav'>
     <a href="{{ post.previous }}">Previous: {{ post.previous }}</a>

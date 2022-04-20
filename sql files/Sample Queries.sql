@@ -22,8 +22,16 @@ FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER J
 WHERE Topics.topic_name="Project"
 ORDER BY Post.post_order ASC, Post.post_date ASC;
 
+--- def grab_articles_in_tag---
+SELECT Post.title, Topic_Post.topic_name
+FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID
+WHERE Tags.tag_name="public";
 
-
+--- def grab_all_tags ---
+SELECT tag_name, COUNT(*) as count
+FROM Tags
+GROUP BY tag_name
+ORDER BY count DESC;
 
 --- def grab_topics_in_article ---
 SELECT Topics.topic_name
@@ -39,21 +47,28 @@ SELECT DISTINCT concat(Users.first_name, ' ', Users.last_name) AS contributor, I
 FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor;
 
 --- def grab_author_articles ---
-SELECT Post.title
-FROM Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID
-WHERE Users.ID=1;
+SELECT Post.title, Topic_Post.topic_name
+FROM (Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID) INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID
+WHERE Users.ID=1
+ORDER BY topic_name;
+
 
 --- def grab_contributor_articles ---
 SELECT Post.title
 FROM Post INNER JOIN Contributes ON Post.article_ID=Contributes.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID
 WHERE Users.ID=5;
 
+--- def grab_about_author ---
+SELECT *, DATE_FORMAT(date_employ, '%M %Y') as date, TIMESTAMPDIFF(DAY,date_employ,NOW()) as days_employed
+FROM Users
+WHERE first_name="Lucas" AND last_name="Moyer";
 
---- def grab_kin_article
+--- def grab_kin_article ---
 SELECT Post.title, Topics.topic_name
 FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name
-WHERE Topics.topic_name = "Project" AND Post.post_order = (SELECT post_order FROM Post WHERE title = "Project Goals") + 1 ;
+WHERE Topics.topic_name = "Project" AND Post.post_order = ((SELECT post_order FROM Post WHERE title = "Project Goals" LIMIT 1) + 1) ;
 
+SELECT post_order FROM Post WHERE title = "Public Lorem Ipsum 3" LIMIT 1;
 
 --- def grab_subscribed_topics ---
 SELECT Topics.topic_name

@@ -39,7 +39,7 @@
             <user type='container'>
                 <first_name>Abi</first_name>
                 <last_name>Andres</last_name>
-                <email>abiadnres@website.com</email>
+                <email>abiandres@website.com</email>
             </user>
             <user type='container'>
                 <first_name>Lucas</first_name>
@@ -59,7 +59,7 @@
         <post_order>0</post_order>
         <cover_img_link></cover_img_link>
         <div class='content'>
-            <p>This Blog is a public Topic. The content of these post are generated through <a href='www.lipsum.com'>lipsum.com</a>. The purpose of this blog is the show that a public topic on this site can be viewable by anyone without needed to be logged in or subscribed. See the <a href='/topics/'>topics</a> page to view additional topics (often called Categories). Use the "View As" dropdown above to change who you are viewing as.</p>
+            <p>This Blog is a public Topic. The content of these post are generated through <a href='https://www.lipsum.com'>lipsum.com</a>. The purpose of this blog is the show that a public topic on this site can be viewable by anyone without needed to be logged in or subscribed. See the <a href='/topics/'>topics</a> page to view additional topics (often called Categories). Use the "View As" dropdown above to change who you are viewing as.</p>
         </div>
     </post>
     <post>
@@ -74,7 +74,7 @@
             <user type='container'>
                 <first_name>Abi</first_name>
                 <last_name>Andres</last_name>
-                <email>abiadnres@website.com</email>
+                <email>abiandres@website.com</email>
             </user>
             <user type='container'>
                 <first_name>Lucas</first_name>
@@ -112,7 +112,7 @@
             <user type='container'>
                 <first_name>Abi</first_name>
                 <last_name>Andres</last_name>
-                <email>abiadnres@website.com</email>
+                <email>abiandres@website.com</email>
             </user>
             <user type='container'>
                 <first_name>Lucas</first_name>
@@ -150,7 +150,7 @@
             <user type='container'>
                 <first_name>Abi</first_name>
                 <last_name>Andres</last_name>
-                <email>abiadnres@website.com</email>
+                <email>abiandres@website.com</email>
             </user>
             <user type='container'>
                 <first_name>Lucas</first_name>
@@ -176,7 +176,7 @@
         </div>
     </post>
     <post>
-        <title>Public Lorem Ipsum 3</title>
+        <title>Public Lorem Ipsum 4</title>
         <subtitle>264 words from Lipsum.com</subtitle>
         <author>
             <first_name>Joe</first_name>
@@ -187,7 +187,7 @@
             <user type='container'>
                 <first_name>Abi</first_name>
                 <last_name>Andres</last_name>
-                <email>abiadnres@website.com</email>
+                <email>abiandres@website.com</email>
             </user>
             <user type='container'>
                 <first_name>Lucas</first_name>

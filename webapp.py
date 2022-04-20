@@ -83,8 +83,8 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
     tops = customSQL.grab_topics_in_article(Q,article['article_ID'][0])
-    previous = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,"-1")
-    after = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,"1")
+    previous = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,-1)
+    after = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,1)
     toplist = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
     tags = customSQL.grab_tags_in_article(Q,article['article_ID'][0])
 
@@ -96,8 +96,10 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
         'author':article['author'][i],
         'date':article['post_date'][i],
         'subtitle':article['subtitle'][i],
-        'topics':', '.join(tops['topic_name']),
-        'tags':', '.join(tags['tag_name']),
+        'topics':tops['topic_name'],
+        'tags':tags['tag_name'],
+        # 'topics':', '.join(tops['topic_name']),
+        # 'tags':', '.join(tags['tag_name']),
         'content': article['content'][i],
         'previous':previous['title'][0],
         'next':after['title'][0]

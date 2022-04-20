@@ -36,7 +36,7 @@ def gather_posts(root, parser):
         post_dict['tags'] = nested(post,'tags')
         post_dict['post_order'] = int(findTag(post,'post_order').text)
         post_dict['cover_img_link'] = findTag(post,'cover_img_link').text
-        post_dict['content'] = parser.tostring(findTag(post,'div'))
+        post_dict['content'] = str(parser.tostring(findTag(post,'div'))).replace('"',"'")
 
         
         postList.append(post_dict)
@@ -48,28 +48,28 @@ file = ET.parse('content/posts.xml')
 feed = file.getroot()
 posts = gather_posts(feed, ET)
 
-for post in posts[:1]:
-    Q = custom_SQL() 
-
+Q = custom_SQL() 
+for post in posts:
     row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
 
     for topic in post['topics']:
         customSQL.put_topic_post(Q,topic['topic_name'],row_id)
 
     for tag in post['tags']:
-        # if not Q.exists('tag_name','Tags',tag['tag_name'],{'article_ID':row_id}):
-        customSQL.put_tag(Q,tag,row_id)
+        customSQL.put_tag(Q,tag['tag_name'],row_id)
 
-    author_id = customSQL.grab_author_id(Q,post['author']['email'])
-    customSQL.put_writes(Q,row_id,author_id)
+    author_id = customSQL.grab_author_id(Q,post['author'][2]['email'])
+    customSQL.put_writes(Q,row_id,author_id["ID"][0])
 
-    for contributor in topic['contributors']:
+    for contributor in post['contributors']:
         cont_id = customSQL.grab_author_id(Q,contributor['email'])
-        customSQL.put_contributes(Q,row_id,cont_id)
-
-    Q.close()
+        customSQL.put_contributes(Q,row_id,cont_id['ID'][0])
     
-Q= custom_SQL
+Q.commit()
+Q.close()
+    
+Q= custom_SQL()
+print(posts[0]['title'])
 findinsert = customSQL.grab_article(Q,posts[0]['title'])
-print(findinsert['title'][0])
+print(findinsert)
 

@@ -23,11 +23,11 @@ class custom_SQL:
             if len(conditions.keys())>1:
                 for feat in features[1:]:
                     statement += ' AND {}=%s'.format(feat)
-            # print(statement)
+            
 
             if orderby:
                 statement+=" ORDER BY "+orderby
-            
+            print(statement)
             cur.execute(statement,(*matches,))
         else:
             if orderby:
@@ -50,8 +50,9 @@ class custom_SQL:
     def insert(self,table,col_val_dict,close=True):
         cur = self.con.cursor(buffered=True)
         columns=tuple([key for key in col_val_dict.keys()])
+        col_string=','.join(columns)
         values=tuple([col_val_dict[c] for c in columns])
-        statement = 'INSERT INTO {} {} VALUES {}'.format(table,columns,values)
+        statement = 'INSERT INTO {} ({}) VALUES {}'.format(table,col_string,values)
         print(statement)
         
         # cur.execute(statement,(values,))
@@ -59,6 +60,7 @@ class custom_SQL:
         last_id = cur.lastrowid
         if close:
             cur.close()
+            # self.commit()
         return last_id
 
     def exists(self,what,table,target, conditions=False):
@@ -169,7 +171,7 @@ def grab_kin_article(sql_obj,title,topic,kin):
     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
     conditions={
         "Topics.topic_name":topic,
-        "Post.post_order":f'(SELECT post_order FROM Post WHERE title = "{title}") + {kin}'
+        "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}") + {kin})'
         }
     print(find, '/n', table, '/n', conditions)
     return sql_obj.select(find,table,conditions)
@@ -196,7 +198,7 @@ def grab_article_feed(sql_obj,email):
     find="Topics.topic_name, Topics.topic_status, Subscribes.membership, Post.article_ID, Post.title, Post.post_date"
     table="(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email) INNER JOIN (Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID) ON Topics.topic_name=Topic_Post.topic_name"
     conditions={"Subscriber.email":email,"Subscriber.sub_status":"active"}
-    orderby="Post.post_date DESC"
+    orderby="Post.post_date DESC LIMIT 10"
     return sql_obj.select(find,table,conditions,orderby)
 
 
