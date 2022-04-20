@@ -85,6 +85,8 @@ class custom_SQL:
 
 
 
+########### SELECT ############
+
 def grab_article(sql_obj, title, post_id=False):
     find="Post.article_ID, Post.title, concat(Users.first_name,' ',Users.last_name) AS author, Post.subtitle, Post.post_date, Post.theme, Post.page_type, Post.post_order, Post.content, Post.cover_img_link"
     table="Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Users.ID=Writes.author_ID"
@@ -201,9 +203,17 @@ def grab_article_feed(sql_obj,email):
     orderby="Post.post_date DESC LIMIT 10"
     return sql_obj.select(find,table,conditions,orderby)
 
+def grab_theme(sql_obj,theme):
+    find="*"
+    table="Theme"
+    conditions={"theme_name":theme}
+    return sql_obj.select(find,table,conditions)
 
 
 
+
+
+############# INSERTS ##############
 
 def put_article(sql_obj,title,subtitle,theme,content,post_order):
     table = 'Post'

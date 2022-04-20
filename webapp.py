@@ -34,6 +34,9 @@ def index(page='home'):
     
     Q = custom_SQL()
     page = customSQL.grab_article(Q,page)
+    theme = customSQL.grab_theme(Q,page['theme'][0])
+
+
     Q.close()
     post = {
         'title': page['title'][0],
@@ -50,6 +53,7 @@ def index(page='home'):
         post=post,
         user=user,
         role=session['role'],
+        theme=theme
         )
 
 @app.route('/topic/')
@@ -87,6 +91,8 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
     after = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,1)
     toplist = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
     tags = customSQL.grab_tags_in_article(Q,article['article_ID'][0])
+    theme = customSQL.grab_theme(Q,article['theme'][0])
+    print(theme)
 
     Q.close()
 
@@ -113,6 +119,7 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
         post=post,
         topic=topic_,
         role=session['role'],
+        theme=theme
         )
 
 
@@ -125,6 +132,7 @@ def topics():
 
     return render_template('topics.html', 
         topic_list=topic_list,
+        role=session['role'],
         )
 
 
@@ -171,6 +179,7 @@ def prepTag(tagname='public'):
     return render_template('tag_page.html', 
         tag=tagname,
         article_list=article_list,
+        role=session['role'],
         )
 
 @app.route('/about/')
@@ -185,6 +194,7 @@ def allAuthors():
     return render_template('about.html', 
         authors=authors,
         contributors=contributors,
+        role=session['role'],
         )
 
 @app.route('/author/<author>')
@@ -222,7 +232,8 @@ def aboutAuthor(author=None):
             "avatar_link":profile['avatar_link'][0]
         },
         articles=auth_by_topic if len(articles) else False,
-        contribs=contrib_by_topic if len(contribs) else False
+        contribs=contrib_by_topic if len(contribs) else False,
+        role=session['role'],
         )
 
 

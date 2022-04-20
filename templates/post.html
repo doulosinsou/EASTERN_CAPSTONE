@@ -2,12 +2,24 @@
 
 {% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
 
+{% block style %} 
+<style>
+    :root {
+        --page-width: {{ theme.theme_format[0] }} ;
+        --primary-color: {{ theme.color_primary[0] }};
+        --secondary-color: {{ theme.color_secondary[0] }};
+        --text-color: {{ theme.text_color[0] }};
+        --font: {{ theme.font[0] }};
+    }
+</style>
+{% endblock %}
+
 {% set sidebarvar = 'sidebar3' %}
 {% block sidebar3 %}
     <p>Current Topic: {{ topic.name }}</p>
     <ul id="current_articles">
-        {% for catpost in topic.list %}
-        <li><a href='{{ catpost }}'>{{ catpost }}</a></li>
+        {% for topost in topic.list %}
+        <li><a href='{{ topost }}'>{{ topost }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

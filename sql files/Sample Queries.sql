@@ -97,3 +97,13 @@ FROM 	(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name I
 	ON Topics.topic_name=Topic_Post.topic_name
 WHERE Subscriber.email = "premiumSubscriber2@subs.org" AND Subscriber.sub_status="active"
 ORDER BY Post.post_date DESC;
+
+
+--- def grab_theme ---
+SELECT *
+FROM Theme
+WHERE theme_name="Dark-wide";
+
+
+SELECT * FROM Post 
+WHERE content LIKE '%Purpose%';

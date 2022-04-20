@@ -36,8 +36,8 @@ def gather_posts(root, parser):
         post_dict['tags'] = nested(post,'tags')
         post_dict['post_order'] = int(findTag(post,'post_order').text)
         post_dict['cover_img_link'] = findTag(post,'cover_img_link').text
-        post_dict['content'] = str(parser.tostring(findTag(post,'div'))).replace('"',"'")
-
+        # post_dict['content'] = str(parser.tostring(findTag(post,'div'))).replace('"',"'").decode("utf-8")
+        post_dict['content'] = parser.tostring(findTag(post,'div')).decode("utf-8")
         
         postList.append(post_dict)
     
@@ -49,7 +49,7 @@ feed = file.getroot()
 posts = gather_posts(feed, ET)
 
 Q = custom_SQL() 
-for post in posts:
+for post in posts[:1]:
     row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
 
     for topic in post['topics']:

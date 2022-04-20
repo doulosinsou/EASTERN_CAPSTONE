@@ -5,6 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <title> {% block title %} {% endblock %}</title>
+    {% block style %} {% endblock %}
 
     <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
 
@@ -15,29 +16,41 @@
             <h1>Website Builder</h1>
             <h2>Database Capstone Project</h2>
         </div></a>
-        <form action="/viewas/" method="POST">
-            <label for="'logged-in">Change view as:</label>
-            <select name='logged-in' id="logged-in" onchange="this.form.submit()" >
-                <option value='Public'>Public</option>
-                <option value='basicSubscriber@subs.org' {% if role=='Subscriber'  %} selected {% endif %}>Subscriber</option>
-                <option value='premiumSubscriber2@subs.org'{% if role=='Premium' %} selected {% endif %}>Premium</option>
-                <option value='joejfield@website.com'{% if role=='Author' %} selected {% endif %}>Author</option>
-                <option value='abiandres@website.com'{% if role=='Contributor' %} selected {% endif %}>Contributor</option>
-                <option value='admin@moyeraudio.com'{% if role=='Admin' %} selected {% endif %}>Admin</option>
-            </select>
-        </form>
-        <div id='dropdown'>
-            <p>Menu</p>
-            <div id='inner-dropdown'>
-                {% if admin %}
-                <a href="/">Dashboard</a>
-                {% endif %}
-                <a href="">Profile</a>
-                {% if subscriber %}
-                <a href="">My Subscriptions</a>
-                {% endif %}
+        <div id="head-nav-container">
+            <div id="head-nav-upper">
+                <form action="/viewas/" method="POST">
+                    <label for="'logged-in">Change view as:</label>
+                    <select name='logged-in' id="logged-in" onchange="this.form.submit()" >
+                        <option value='Public'>Public</option>
+                        <option value='basicSubscriber@subs.org' {% if role=='Subscriber'  %} selected {% endif %}>Subscriber</option>
+                        <option value='premiumSubscriber2@subs.org'{% if role=='Premium' %} selected {% endif %}>Premium</option>
+                        <option value='joejfield@website.com'{% if role=='Author' %} selected {% endif %}>Author</option>
+                        <option value='abiandres@website.com'{% if role=='Contributor' %} selected {% endif %}>Contributor</option>
+                        <option value='admin@moyeraudio.com'{% if role=='Admin' %} selected {% endif %}>Admin</option>
+                    </select>
+                </form>
+                <div id='profile'>
+                    {% if role in ['admin','author','contributor'] %}
+                    <a href="/dashboard">Dashboard</a>
+                    {% endif %}
+                    {% if role in ['subscriber','premium'] %}
+                    <a href="/feed">My Subscriptions</a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            <div id="head-nav-lower">
+                <nav id="header-nav">
+                    <ul>
+                        <li><a href="/home">HOME</a></li>
+                        <li><a href="/search">SEARCH</a></li>
+                        <li><a href="/topics">TOPICS</a></li>
+                        <li><a href="/about">ABOUT</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
+
     </header>
     <aside id="sidebar">
         

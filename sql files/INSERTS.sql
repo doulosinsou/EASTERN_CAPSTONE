@@ -46,25 +46,30 @@ VALUES ('dashboard','dash.html');
 
 --- Inserts for Theme --- 
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Bright-wide', '#f7f9f8', '#fe0037', '1200px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
+VALUES ('Bright-wide', '#f7f9f8', '#fe0037', '1200px', '#eeeeee');
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Bright-medium', '#f7f9f8', '#fe0037', '900px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
+VALUES ('Bright-medium', '#f7f9f8', '#fe0037', '900px', '#eeeeee');
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Bright-narrow', '#f7f9f8', '#fe0037', '600px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
+VALUES ('Bright-narrow', '#f7f9f8', '#fe0037', '600px', '#eeeeee');
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Dark-wide', '#323538', '#fe9815', '1200px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, font)
+VALUES ('Dark-wide', '#323538', '#fe9815', '1200px', 'Times');
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Dark-medium', '#323538', '#fe9815', '900px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, font)
+VALUES ('Dark-medium', '#323538', '#fe9815', '900px', 'Times');
 
-INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format)
-VALUES ('Dark-narrow', '#323538', '#fe9815', '600px');
+INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, font)
+VALUES ('Dark-narrow', '#323538', '#fe9815', '600px', 'Times');
 
+-- ALTER TABLE Theme
+-- ADD COLUMN text_color varchar(20) DEFAULT '#5b5b5b' ;
 
+UPDATE Theme
+SET text_color = '#5b5b5b'
+WHERE theme_name = 'Dark-wide';
 
 
 --- Inserts for Post --- 

@@ -48,6 +48,7 @@ CREATE TABLE Theme (
     theme_name		varchar(20) NOT NULL UNIQUE,
     color_primary	varchar(20),
     color_secondary	varchar(20),
+    text_color		varchar(20) DEFAULT '#eeeeee',
     theme_format	varchar(12) DEFAULT '900px' CHECK(theme_format in ('600px','900px','1200px')),
     font			varchar(12) DEFAULT 'Arial',
     
