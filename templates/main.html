@@ -2,19 +2,7 @@
 
 {% block title %} {{ post.title }} {% endblock %}
 
-{% block sidebar %}
-    <nav>
-    <ul id="current_articles">
-        {% if user %}
-        <li><a href='/dashboard'>Dashboard (admin)</a></li>
-        {% endif %}
-        <li><a href='/'>Home</a></li>
-        <li><a href='/search'>Search</a></li>
-        <li><a href='/feed'>Feed</a></li>
-        <li><a href='/about'>About</a></li>
-    </ul>
-    </nav>
-{% endblock %}
+{% set sidebarvar = 'sidebar1' %}
 
 {% block content %}
 <section id="top">

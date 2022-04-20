@@ -32,7 +32,8 @@ class custom_SQL:
         else:
             if orderby:
                 statement+=" ORDER BY "+orderby
-            cur.execute(statement,(Q,table))
+            # cur.execute(statement,(Q,table))
+            cur.execute(statement)
 
         column_names = [c[0] for c in cur.description]
         data_dict = dict()
@@ -95,12 +96,23 @@ def grab_all_topics(sql_obj):
     table="Topics"
     return sql_obj.select(find,table)
 
+def grab_all_tags(sql_obj):
+    find="tag_name, COUNT(*) as count"
+    table="Tags GROUP BY tag_name ORDER BY count DESC"
+    return sql_obj.select(find,table)
+
 def grab_articles_in_topic(sql_obj,topic_name,order="DESC"):
     find="Post.title, Topics.topic_description, Topics.topic_status"
     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
     conditions={"Topics.topic_name":topic_name}
     orderby=f"Post.post_order {order}, Post.post_date {order}"
     return sql_obj.select(find,table,conditions,orderby)
+
+def grab_articles_in_tag(sql_obj,tag_name):
+    find="Post.title, Topic_Post.topic_name"
+    table=" Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID"
+    conditions={"Tags.tag_name":tag_name}
+    return sql_obj.select(find,table,conditions)
 
 def grab_topics_in_article(sql_obj,article_ID):
     find="Topics.topic_name"
@@ -115,9 +127,15 @@ def grab_tags_in_article(sql_obj,article_ID):
     return sql_obj.select(find,table,conditions)
 
 def grab_authors(sql_obj):
-    find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS author"
+    find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS author, Users.avatar_link"
     table="Users INNER JOIN Writes ON Users.ID=Writes.author_ID"
     return sql_obj.select(find,table)
+
+def grab_about_author(sql_obj,first_name,last_name):
+    find="*,  DATE_FORMAT(date_employ, '%M %Y') as date, TIMESTAMPDIFF(DAY,date_employ,NOW()) as days_employed"
+    table="Users"
+    conditions={'first_name':first_name,'last_name':last_name}
+    return sql_obj.select(find,table,conditions)
 
 def grab_author_id(sql_obj,email):
     find="ID"
@@ -128,21 +146,23 @@ def grab_author_id(sql_obj,email):
     return sql_obj.select(find,table,conditions)
 
 def grab_contributors(sql_obj):
-    find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS contributor"
-    table="Users INNER JOIN Contributes ON Users.ID=Contributes.author_ID"
+    find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS contributor, Users.avatar_link"
+    table="Users INNER JOIN Contributes ON Users.ID=Contributes.contributor"
     return sql_obj.select(find,table)
 
 def grab_author_articles(sql_obj,author_ID):
-    find="Post.title"
-    table="Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID"
+    find="Post.title, Topic_Post.topic_name"
+    table="(Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID) INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
     conditions={"Users.ID":author_ID}
-    return sql_obj.select(find,table,conditions)
+    orderby="topic_name"
+    return sql_obj.select(find,table,conditions,orderby)
 
 def grab_contributor_articles(sql_obj,contributor_ID):
-    find="Post.title"
-    table="Post INNER JOIN Contributes ON Post.article_ID=Contributes.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID"
+    find="Post.title, Topic_Post.topic_name"
+    table="(Post INNER JOIN Contributes ON Post.article_ID=Contributes.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID) INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
     conditions={"Users.ID":contributor_ID}
-    return sql_obj.select(find,table,conditions)
+    orderby="topic_name"
+    return sql_obj.select(find,table,conditions,orderby)
 
 def grab_kin_article(sql_obj,title,topic,kin):
     find="Post.title,Topics.topic_name"

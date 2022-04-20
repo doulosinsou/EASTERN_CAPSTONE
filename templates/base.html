@@ -40,7 +40,11 @@
         </div>
     </header>
     <aside id="sidebar">
-        {% block sidebar %} {% endblock %}
+        
+        {% if sidebarvar == 'sidebar1' %} {% include 'sidebar.html' %} {% block sidebar1 %} {% endblock %} {% endif %}
+        {% if sidebarvar == 'sidebar2' %} {% block sidebar2 %} {% endblock %} {% endif %}
+        {% if sidebarvar == 'sidebar3' %} {% block sidebar3 %} {% endblock %} {% endif %}
+        {% if sidebarvar == 'sidebar4' %} {% block sidebar4 %} {% endblock %} {% endif %}
     </aside>
     <main>
         {% block content %} {% endblock %}

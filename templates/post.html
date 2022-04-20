@@ -2,7 +2,8 @@
 
 {% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
 
-{% block sidebar %}
+{% set sidebarvar = 'sidebar3' %}
+{% block sidebar3 %}
     <p>Current Topic: {{ topic.name }}</p>
     <ul id="current_articles">
         {% for catpost in topic.list %}
@@ -14,7 +15,7 @@
 {% block content %}
 <section id="top">
     <h1>{{ post.title }} </h1>
-    <p>{{ post.author }}</p>
+    <a href="/author/{{ post.author }}">{{ post.author }}</a>
     <p>{{ post.date }}</p>
 </section>
 <section id="middle">

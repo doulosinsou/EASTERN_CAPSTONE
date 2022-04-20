@@ -113,10 +113,21 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
         role=session['role'],
         )
 
-@app.route('/feed/')
+
 @app.route("/Topics/")
 @app.route("/topics/")
 def topics():
+    Q = custom_SQL()
+    topic_list= customSQL.grab_all_topics(Q)
+    Q.close()
+
+    return render_template('topics.html', 
+        topic_list=topic_list,
+        )
+
+
+@app.route('/feed/')
+def feed():
     Q = custom_SQL()
     email = session['email']
 
@@ -136,7 +147,81 @@ def topics():
 
         )
 
+@app.route('/tags/')
+@app.route('/tag/')
+@app.route('/Tags/')
+def aboutTag():
+    Q = custom_SQL()
+    tag_list= customSQL.grab_all_tags(Q)
+    Q.close()
 
+    return render_template('tags.html', 
+        tag_list=tag_list,
+        )
+
+
+@app.route('/tag/<tagname>')
+def prepTag(tagname='public'):
+    Q = custom_SQL()
+    article_list= customSQL.grab_articles_in_tag(Q, tagname)
+    Q.close()
+
+    return render_template('tag_page.html', 
+        tag=tagname,
+        article_list=article_list,
+        )
+
+@app.route('/about/')
+@app.route('/authors/')
+@app.route('/author/')
+def allAuthors():
+    Q = custom_SQL()
+    authors= customSQL.grab_authors(Q)
+    contributors=customSQL.grab_contributors(Q)
+    Q.close()
+
+    return render_template('about.html', 
+        authors=authors,
+        contributors=contributors,
+        )
+
+@app.route('/author/<author>')
+def aboutAuthor(author=None):
+    Q = custom_SQL()
+    if " " in author:
+        author = author.split(' ')
+    elif "-" in author:
+        author = author.split('-')
+    profile= customSQL.grab_about_author(Q,author[0],author[1])
+    articles = customSQL.grab_author_articles(Q, profile['ID'][0])
+    contribs = customSQL.grab_contributor_articles(Q, profile['ID'][0])
+    Q.close()
+
+
+    def sort_topic(query):
+        by_topic = {}
+        for (topic, title) in zip(query['topic_name'],query['title']):
+            if topic not in by_topic.keys():
+                by_topic[topic] = []
+            by_topic[topic].append(title)
+        return by_topic
+
+    auth_by_topic = sort_topic(articles)
+    contrib_by_topic = sort_topic(contribs)
+
+    return render_template('author.html', 
+        author={
+            "name":profile['first_name'][0]+' '+profile['last_name'][0],
+            "role":profile['user_role'][0],
+            "date":profile['date'][0],
+            "days_employed":profile['days_employed'][0],
+            "email":profile['email'][0],
+            "biography":profile['biography'][0],
+            "avatar_link":profile['avatar_link'][0]
+        },
+        articles=auth_by_topic if len(articles) else False,
+        contribs=contrib_by_topic if len(contribs) else False
+        )
 
 
 @app.route('/viewas/', methods=['POST'])
@@ -152,7 +237,7 @@ def viewas():
     session['email'] = viewer
     
 
-    return redirect('/topics')
+    return redirect('/feed/')
 
     # viewas=request.form['logged-in']
     # resp = make_response(redirect(request.referrer))

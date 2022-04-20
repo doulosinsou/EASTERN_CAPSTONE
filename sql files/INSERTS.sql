@@ -2,26 +2,27 @@
 
 --- Inserts for users ---
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('Lucas', 'Moyer', 'admin@moyeraudio.com','admin', 'Luke is the primary author of this project.');
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('Lucas', 'Moyer', 'admin@moyeraudio.com','admin', 'Luke is the primary author of this project.', 'man.png');
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('Joe','Jerryfield','joejfield@website.com','author', 'Joe writes news articles');
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('Joe','Jerryfield','joejfield@website.com','author', 'Joe writes news articles', 'man.png');
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('Liz','Longerfield','lizlfield@website.com','author',"Liz writes children's articles");
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('Liz','Longerfield','lizlfield@website.com','author',"Liz writes children's articles", 'woman.png');
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('Ashley','Atfield','ashleyafield@website.com','author',"Ashley writes science articles");
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('Ashley','Atfield','ashleyafield@website.com','author',"Ashley writes science articles", 'woman.png');
 
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('Abi','Andres','abiandres@website.com','contributor',"Abi edits news articles", 'woman.png');
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('Abi','Andres','abiandres@website.com','contributor',"Abi edits news articles");
+INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
+VALUES ('John','Jackson','johnjackson@website.com','contributor',"John edits science and children's articles", 'man.png');
 
-INSERT INTO Users (first_name, last_name, email, user_role, biography)
-VALUES ('John','Jackson','johnjackson@website.com','contributor',"John edits science and children's articles");
-
-
+-- UPDATE Users 
+-- SET `avatar_link` = 'woman.png' 
+-- WHERE (`ID` = '3') or (`ID` = '4') or (`ID` = '5');
 
 
 
@@ -206,7 +207,7 @@ VALUES (1,7);
 
 
 
---- Inserts for Post_cat ---
+--- Inserts for Topic_Post ---
 
 INSERT INTO Topic_Post (topic_name, article_ID)
 VALUES ('Project', 2);

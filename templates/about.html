@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} Authors and Contributors {% endblock %}
+
+{% set sidebarvar = 'sidebar1' %}
+
+{% block content %}
+<section id="top">
+    <h2>Authors</h2>
+</section>
+<section id='middle'>
+    {% for i in range( authors['author']|length ) %}
+    <div class="user_avatar">
+        <a href="/author/{{ authors['author'][i] }}">
+            <img src="{{ url_for('static', filename = 'img/'+authors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
+            {{ authors['author'][i] }}
+        </a>
+    </div>
+    {% endfor %}
+</section>
+<section id='end'>
+    <h2>Contributors</h2>
+    {% for i in range( contributors['contributor']|length ) %}
+    <div class="user_avatar">
+        <a href="/author/{{ contributors['contributor'][i] }}">
+            <img src="{{ url_for('static', filename = 'img/'+contributors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
+            {{ contributors['contributor'][i] }}
+        </a>
+    </div>
+    {% endfor %}
+</section>
+
+{% endblock %}

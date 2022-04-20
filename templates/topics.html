@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Topics {% endblock %}
+
+{% set sidebarvar = 'sidebar1' %}
+
+{% block content %}
+<section id="top">
+    <h2>All Topics</h2>
+</section>
+<section id='end'>
+    {% for i in range( topic_list['topic_name']|length ) %}
+        <a href="/topic/{{ topic_list['topic_name'][i] }}">{{ topic_list['topic_name'][i] }} <i>{{ topic_list['topic_status'][i] }}</i></a></br>
+    {% endfor %}
+</section>
+
+{% endblock %}
