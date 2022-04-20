@@ -104,6 +104,14 @@ SELECT *
 FROM Theme
 WHERE theme_name="Dark-wide";
 
+--- method exists ---
+
+SELECT EXISTS(
+	SELECT membership
+    FROM Subscribes
+    WHERE sub_email='basicSubscriber@subs.org' AND topic_name='Premium Blog'
+);
+
 
 SELECT * FROM Post 
 WHERE content LIKE '%Purpose%';

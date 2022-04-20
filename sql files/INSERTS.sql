@@ -47,13 +47,13 @@ VALUES ('dashboard','dash.html');
 --- Inserts for Theme --- 
 
 INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
-VALUES ('Bright-wide', '#f7f9f8', '#fe0037', '1200px', '#eeeeee');
+VALUES ('Bright-wide', '#f7f9f8', '#fe0037', '1200px', '#5b5b5b');
 
 INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
-VALUES ('Bright-medium', '#f7f9f8', '#fe0037', '900px', '#eeeeee');
+VALUES ('Bright-medium', '#f7f9f8', '#fe0037', '900px', '#5b5b5b');
 
 INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, text_color)
-VALUES ('Bright-narrow', '#f7f9f8', '#fe0037', '600px', '#eeeeee');
+VALUES ('Bright-narrow', '#f7f9f8', '#fe0037', '600px', '#5b5b5b');
 
 INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, font)
 VALUES ('Dark-wide', '#323538', '#fe9815', '1200px', 'Times');

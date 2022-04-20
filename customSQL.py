@@ -1,3 +1,4 @@
+from tokenize import group
 import mysql.connector
 from auth import MYSQL_credentials as cred
 
@@ -9,7 +10,7 @@ class custom_SQL:
         except mysql.connector.Error as err:
             return(err)
     
-    def select(self,Q,table,conditions=False,orderby=False):
+    def select(self,Q,table,conditions=False,orderby=False,groupby=False):
         cur = self.con.cursor(buffered=True)
         statement = f'SELECT {Q} FROM {table}'
         if conditions:
@@ -27,12 +28,17 @@ class custom_SQL:
 
             if orderby:
                 statement+=" ORDER BY "+orderby
+            if groupby:
+                statement+=" GROUP BY "+groupby
             print(statement)
             cur.execute(statement,(*matches,))
         else:
             if orderby:
                 statement+=" ORDER BY "+orderby
+            if groupby:
+                statement+=" GROUP BY "+groupby
             # cur.execute(statement,(Q,table))
+            print(statement)
             cur.execute(statement)
 
         column_names = [c[0] for c in cur.description]
@@ -248,11 +254,12 @@ def put_tag(sql_obj,name,article_ID):
     }
     return sql_obj.insert(table,col_value)
 
-def put_stat(sql_obj,article_ID,IP_address):
+def put_stat(sql_obj,article_ID,IP_address,datetime):
     table = 'Stats'
     col_value= {
         'IP_address':IP_address,
         'article_ID':article_ID,
+        'visit':datetime
     }
     return sql_obj.insert(table,col_value)
 
