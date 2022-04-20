@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} List Subcriptions {% endblock %}
+
+{% set sidebarvar = 'sidebar2' %}
+{% block sidebar2 %}
+    <p>Logged in as: {{ role }}</p>
+    <p>Newest articles</p>
+    <ul>
+        {% for i in range( Feed['title']|length ) %}
+        <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}">{{ Feed['title'][i] }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block content %}
+<section id="top">
+    <h2>Current Subscriptions</h2>
+    {% for i in range( availableTopics['topic_name']|length ) %}
+        <a href="/topic/{{ availableTopics['topic_name'][i] }}">{{ availableTopics['topic_name'][i] }}</a></br>
+    {% endfor %}
+</section>
+<section id='end'>
+    <h2>Available Subscriptions</h2>
+    {% for topic in potential_feed %}
+        <a href="/topic/{{ topic['topic_name'] }}">{{ topic['topic_name'] }}</a>
+    {% endfor %}
+</section>
+
+{% endblock %}

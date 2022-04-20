@@ -63,19 +63,24 @@ class custom_SQL:
             # self.commit()
         return last_id
 
-    def exists(self,what,table,target, conditions=False):
+    def exists(self,what,table,conditions):
         cur = self.con.cursor(buffered=True)
-        statement = 'SELECT EXISTS( SELECT %s FROM %s WHERE %s=%s'
-        if conditions:
-            cond_values = []
-            for cond in conditions.keys():
-                statement += "AND {}=%s ".format(cond)
-                cond_values.append(conditions[cond])
+        statement = f'SELECT EXISTS( SELECT {what} FROM {table}'
+        cond_keys = []
+        cond_values = []
+        for cond in conditions.keys():
+            cond_keys.append(cond)
+            cond_values.append(conditions[cond])
+        statement += " WHERE {}=%s".format(cond_keys[0])
+        if len(cond_keys)>1:
+            for cond in cond_keys[1:]:
+                statement += " AND {}=%s ".format(cond)
+        statement += ")"
+        vals = (*cond_values,)
 
-            vals = (what,table,what,target, *cond_values)
-        else:
-            vals = (what,table,what,target)
-        return cur.execute(statement,vals)
+        cur.execute(statement,vals)
+        answer = cur.fetchone()
+        return answer
 
     def commit(self):
         self.con.commit()
@@ -119,7 +124,7 @@ def grab_articles_in_tag(sql_obj,tag_name):
     return sql_obj.select(find,table,conditions)
 
 def grab_topics_in_article(sql_obj,article_ID):
-    find="Topics.topic_name"
+    find="Topics.topic_name, Topics.topic_status"
     table="Topics INNER JOIN Topic_Post ON Topics.topic_name=Topic_Post.topic_name INNER JOIN Post ON Topic_Post.article_ID=Post.article_ID"
     conditions={"Post.article_ID":article_ID}
     return sql_obj.select(find,table,conditions)

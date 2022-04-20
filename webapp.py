@@ -71,6 +71,7 @@ def sortTopic(thisTopic=None,title=None):
 def aboutTop(thisTopic):
     Q = custom_SQL()
     topic_list = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
+
     Q.close()
     return render_template('topic.html', 
         topic= {
@@ -80,10 +81,13 @@ def aboutTop(thisTopic):
             "topic_description":topic_list['topic_description'][0]
         },
         role=session['role'],
+        subscribed=is_subscribed(thisTopic)
         )
 
 def prepTopic(thisTopic="Project",title="Project Goals"):
     #Deliver page post
+
+
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
     tops = customSQL.grab_topics_in_article(Q,article['article_ID'][0])
@@ -92,9 +96,11 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
     toplist = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
     tags = customSQL.grab_tags_in_article(Q,article['article_ID'][0])
     theme = customSQL.grab_theme(Q,article['theme'][0])
-    print(theme)
 
     Q.close()
+   
+    if not is_subscribed(thisTopic):
+        return redirect(f'/topic/{thisTopic}')
 
     i=0
     post = {
@@ -236,6 +242,25 @@ def aboutAuthor(author=None):
         role=session['role'],
         )
 
+@app.route('/dashboard/')
+def dashboard():
+    if session['role'] not in ['admin','author','contributor']:
+        return redirect('/home')
+    
+    user_stats = {}
+    if session['role'] == 'admin':
+        pass
+    if session['role'] == 'author':
+        pass
+    elif session['role'] == 'contributor':
+        pass
+
+
+    return render_template('dashboard.html',
+        user_stats = user_stats
+    )
+
+
 
 @app.route('/viewas/', methods=['POST'])
 def viewas():
@@ -249,15 +274,17 @@ def viewas():
         session['role'] = role['role'][0]
     session['email'] = viewer
     
-
+    if role['role'] in ['admin','author','contributor']:
+        return redirect('/dashboard/')
     return redirect('/feed/')
 
-    # viewas=request.form['logged-in']
-    # resp = make_response(redirect(request.referrer))
-    # resp.set_cookie('email',viewas)
-
-    # Q = custom_SQL()
-    # role = customSQL.grab_role(Q,viewas)
-    # resp.set_cookie('role',role['role'][0])
-
-    # return resp
+def is_subscribed(topic):
+    if session['role'] in ['admin','author','contributor']:
+        return True
+    Q = custom_SQL()
+    is_public = Q.exists('topic_status','Topics',{'topic_name':topic,'topic_status':'public'})
+    is_subbed = Q.exists('membership','Subscribes',{'sub_email':session['email'],'topic_name':topic})
+    
+    answer = any([is_public[0], is_subbed[0]])
+    Q.close()
+    return answer

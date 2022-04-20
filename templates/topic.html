@@ -9,10 +9,15 @@
     <h2>{{ topic.topic_name }}</h2>
     <p>{{ topic.topic_description }}</p>
 </section>
+
 <section id='end'>
+{% if subscribed %}
     {% for i in range( topic['post_title']|length ) %}
         <a href="/topic/{{ topic.topic_name }}/{{ topic['post_title'][i] }}">{{ topic['post_title'][i] }}</a></br>
     {% endfor %}
+{% else %}
+    <p>You are not subsribed to this topic. Please subscribe in order to read.</p>
+{% endif %}
 </section>
 
 {% endblock %}
