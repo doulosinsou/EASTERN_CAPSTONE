@@ -1,3 +1,5 @@
+--------- Count of views per site,article,topic,tag,author,contributor ---------
+
 --- def stat_site_views ---
 SELECT COUNT(IP_address) as all_views
 FROM Stats;
@@ -38,12 +40,17 @@ FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID
 WHERE Post.title = 'Home'
 GROUP BY year, month, day, hour, SECOND(visit);
 
+--- def stat_all_topic_views ---
+SELECT COUNT(IP_address) as all_views, Topic_Post.topic_name
+FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
+GROUP BY Topic_Post.topic_name;
+
 --- def stat_topic_views ---
 SELECT COUNT(IP_address) as all_views
 FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
 WHERE Topic_Post.topic_name = 'Public Blog';
 
-SELECT COUNT(DISTINCT IP_address) as all_views
+SELECT COUNT(DISTINCT IP_address) as unique_views
 FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
 WHERE Topic_Post.topic_name = 'Public Blog';
 
@@ -53,6 +60,21 @@ FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_
 WHERE Topic_Post.topic_name = 'Public Blog'
 GROUP BY year, month, day, hour, SECOND(visit);
 
+--- def stat_all_tag_views ---
+SELECT COUNT(IP_address) as all_views, Tags.tag_name
+FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID
+GROUP BY Tags.tag_name;
+
+--- def stat_tag_views ---
+SELECT COUNT(IP_address) as all_views
+FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID
+WHERE Tags.tag_name = 'demo';
+
+--- def stat_tag_views_time ---
+SELECT COUNT(IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour
+FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID
+WHERE Tags.tag_name = 'demo'
+GROUP BY year, month, day, hour;
 
 --- def stat_author_views ---
 SELECT COUNT(IP_address) as all_views
@@ -106,6 +128,15 @@ FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Contri
 WHERE Users.first_name = 'Lucas' AND Users.last_name = "Moyer" AND Topic_Post.topic_name='Project'
 GROUP BY year, month, day, hour;
 
+
+
+
+
+
+--------- Count of subscriptions per site,article,topic,author,contributor ---------
+
+
+
 --- def stat_site_subs ---
 SELECT COUNT(sub_email) AS count_subs 
 FROM Subscribes;
@@ -141,6 +172,33 @@ FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
 	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
 WHERE author='Lucas Moyer';
 
+--- def stat_all_contributor_subs ---
+SELECT COUNT(author) AS count_subs, author
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
+		FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
+GROUP BY author;
+
+--- def stat_contributor_subs ---
+SELECT COUNT(author) AS count_subs, author
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
+		FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
+WHERE author = 'Lucas Moyer';
+
+
+
+
+
+
+
+--------- SUM of revenue per site,article,topic,author,contributor ---------
+
+
+
+
 --- def stat_site_revenue ---
 SELECT SUM(trans_amount)
 FROM Revenue;
@@ -155,4 +213,11 @@ SELECT SUM(trans_amount), Topics.topic_name
 FROM Revenue INNER JOIN Subscribes ON Revenue.sub_email=Subscribes.sub_email INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name
 WHERE Topics.topic_name='Project';
 
+--- def stat_author_revenue ---
+SELECT SUM(trans_amount) AS revenue, author
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
+		FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email
+GROUP BY author;
 
