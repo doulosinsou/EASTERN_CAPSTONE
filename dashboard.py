@@ -121,7 +121,7 @@ def stat_contributor_topic_views_time(sql_obj,author_name,topic_name,unique=Fals
 if __name__=="__main__":
     Q = custom_SQL()
 
-    s2 = stat_contributor_topic_views_time(Q,'Lucas Moyer',"Project", unique=True)
+    s2 = stat_site_views(Q)
 
     Q.close()
     print(s2)

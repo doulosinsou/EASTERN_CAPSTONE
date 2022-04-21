@@ -89,7 +89,7 @@ CREATE TABLE Tags (
 
 CREATE TABLE Subscriber (
 	email	varchar(50) NOT NULL,
-    sub_status	varchar(12) DEFAULT 'inactive' CHECK(sub_status in ('active','inactive')),
+    sub_status	varchar(12) DEFAULT 'active' CHECK(sub_status in ('active','inactive')),
     
     CONSTRAINT Subscriber_pk PRIMARY KEY (email)
 );
@@ -151,7 +151,7 @@ CREATE TABLE Subscribes (
 CREATE TABLE Revenue (
 	sub_email 		varchar(50) NOT NULL,
     trans_date		DATETIME DEFAULT CURRENT_TIMESTAMP,
-    trans_amount	SMALLINT DEFAULT 0,
+    trans_amount	SMALLINT DEFAULT 10,
     
     CONSTRAINT Revenue_pk PRIMARY KEY (sub_email, trans_date),
     CONSTRAINT Revenue_email_fk FOREIGN KEY (sub_email) REFERENCES Subscriber (email)

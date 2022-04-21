@@ -287,11 +287,28 @@ def put_contributes(sql_obj,article_ID,contributor_ID):
     }
     return sql_obj.insert(table,col_value)
 
-
 def put_revenue(sql_obj,email,amount):
     table = 'Revenue'
     col_value= {
         'sub_email':email,
         'trans_amount':amount,
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_subscriber(sql_obj,email):
+    table = 'Subscriber'
+    col_value= {
+        'email':email,
+        'sub_status':'active',
+    }
+    return sql_obj.insert(table,col_value)
+
+def put_subscribes(sql_obj,email,topic_name,membership,sub_date):
+    table = 'Subscriber'
+    col_value= {
+        'sub_email':email,
+        'topic_name':topic_name,
+        'membership':membership,
+        'sub_date':sub_date
     }
     return sql_obj.insert(table,col_value)
