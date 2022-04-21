@@ -116,7 +116,57 @@ def stat_contributor_topic_views_time(sql_obj,author_name,topic_name,unique=Fals
     group="year, month, day, hour"
     return sql_obj.select(find,table,conditions=conditions,groupby=group)
 
+def stat_site_subs(sql_obj):
+    find='COUNT(sub_email) AS count_subs'
+    table="Subscribes"
+    return sql_obj.select(find,table)
 
+def stat_all_topic_subs(sql_obj):
+    find='COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name'
+    table="Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+    group="Subscribes.topic_name"
+    return sql_obj.select(find,table,groupby=group)
+
+def stat_topic_subs(sql_obj,topic_name):
+    find='COUNT(Subscribes.sub_email) AS count_subs'
+    table="Subscribes"
+    conditions={"topic_name":topic_name}
+    return sql_obj.select(find,table,conditions=conditions)
+
+def stat_membership_subs(sql_obj):
+    find='COUNT(sub_email) AS count_subs, membership'
+    table="Subscribes"
+    group="membership"
+    return sql_obj.select(find,table,groupby=group)
+
+def stat_all_author_subs(sql_obj):
+    find='COUNT(author) AS count_subs, author'
+    table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+    group="author"
+    return sql_obj.select(find,table,groupby=group)
+
+def stat_author_subs(sql_obj, author_name):
+    find='COUNT(author) AS count_subs, author'
+    table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+    conditions={"author":author_name}
+    return sql_obj.select(find,table,conditions=conditions)
+
+def stat_site_revenue(sql_obj):
+    find='SUM(trans_amount)'
+    table='Revenue'
+    return sql_obj.select(find,table)
+
+def stat_all_topics_revenue(sql_obj):
+    find='SUM(trans_amount), Topics.topic_name'
+    table="Revenue INNER JOIN Subscribes ON Revenue.sub_email=Subscribes.sub_email INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+    group="Topics.topic_name"
+    return sql_obj.select(find,table,groupby=group)
+
+def stat_topic_revenue(sql_obj,topic_name):
+    find='SUM(trans_amount), Topics.topic_name'
+    table="Revenue INNER JOIN Subscribes ON Revenue.sub_email=Subscribes.sub_email INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+    conditions={"Topics.topic_name":topic_name}
+    return sql_obj.select(find,table,conditions=conditions)
 
 if __name__=="__main__":
     Q = custom_SQL()

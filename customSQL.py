@@ -304,7 +304,7 @@ def put_subscriber(sql_obj,email):
     return sql_obj.insert(table,col_value)
 
 def put_subscribes(sql_obj,email,topic_name,membership,sub_date):
-    table = 'Subscriber'
+    table = 'Subscribes'
     col_value= {
         'sub_email':email,
         'topic_name':topic_name,
