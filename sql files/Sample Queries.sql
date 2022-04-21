@@ -112,6 +112,13 @@ SELECT EXISTS(
     WHERE sub_email='basicSubscriber@subs.org' AND topic_name='Premium Blog'
 );
 
-
+--- def grab_like ---
 SELECT * FROM Post 
 WHERE content LIKE '%Purpose%';
+
+SELECT DISTINCT title, topic_name, SUBSTRING(content, 1, 200) AS preview
+FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
+WHERE content LIKE '%Premium%';
+
+
+

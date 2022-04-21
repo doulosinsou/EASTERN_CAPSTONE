@@ -1,14 +1,14 @@
-# from types import NoneType
-from flask import Flask, render_template, redirect, url_for, request, make_response, session
+from flask import Flask, render_template, redirect, url_for, request, make_response, session, jsonify
 from datetime import datetime
 
 import customSQL
 from customSQL import custom_SQL
 
-
+from dashapp import dashapp
 
 
 app = Flask(__name__)
+app.register_blueprint(dashapp)
 
 #default dummy key for now
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -145,21 +145,26 @@ def topics():
 @app.route('/feed/')
 def feed():
     Q = custom_SQL()
+    role = session['role']
     email = session['email']
 
-    if email == None:
-        availableTopics = customSQL.grab_public_topics(Q)
-        feed = customSQL.grab_article_feed("basicSubscriber@subs.org")
+    if (role == 'Public'):
+        availableTopics = []
+        potential_feed = customSQL.grab_public_topics(Q)
+        feed = customSQL.grab_article_feed(Q,"basicSubscriber@subs.org")
     else:   
         availableTopics = customSQL.grab_subscribed_topics(Q,email)
         feed = customSQL.grab_article_feed(Q,email)
+        potential_feed = customSQL.grab_all_topics(Q)
     Q.close()
 
+    print(potential_feed)
     return render_template('feed.html', 
         availableTopics=availableTopics,
         email=email,
         role=session['role'],
         Feed=feed,
+        potential_feed=potential_feed
 
         )
 
@@ -242,23 +247,9 @@ def aboutAuthor(author=None):
         role=session['role'],
         )
 
-@app.route('/dashboard/')
-def dashboard():
-    if session['role'] not in ['admin','author','contributor']:
-        return redirect('/home')
-    
-    user_stats = {}
-    if session['role'] == 'admin':
-        pass
-    if session['role'] == 'author':
-        pass
-    elif session['role'] == 'contributor':
-        pass
+# @app.route('/dashboard/')
+# dashapp.dashboard()
 
-
-    return render_template('dashboard.html',
-        user_stats = user_stats
-    )
 
 
 
@@ -268,15 +259,39 @@ def viewas():
     Q = custom_SQL()
     role = customSQL.grab_role(Q,viewer)
     Q.close()
+    print(role)
     if role['role'] == []:
         session['role'] = "Public"
     else:
         session['role'] = role['role'][0]
     session['email'] = viewer
     
-    if role['role'] in ['admin','author','contributor']:
+    if session['role'] in ['admin']:
         return redirect('/dashboard/')
-    return redirect('/feed/')
+    elif session['role'] == "Public":
+        return redirect('/home')
+    else:
+        return redirect('/feed/')
+
+
+@app.route('/search/',methods=["POST","GET"])
+def search():
+    if request.method == "POST":
+        # print(request.form)
+        searchText = request.json
+        Q = custom_SQL()
+        foundList = customSQL.grab_like(Q,searchText['search'])
+        print(foundList)
+        # except:
+        if foundList ==[]:
+            Q.close()
+            return jsonify({'response':False})
+        Q.close()
+            
+        return jsonify({'answer':foundList,'response':True})
+    else:
+        return render_template('search.html')
+
 
 def is_subscribed(topic):
     if session['role'] in ['admin','author','contributor']:

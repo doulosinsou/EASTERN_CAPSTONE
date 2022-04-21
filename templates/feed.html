@@ -6,7 +6,7 @@
 {% block sidebar2 %}
     <p>Logged in as: {{ role }}</p>
     <p>Newest articles</p>
-    <ul>
+    <ul id="feed-sidebar">
         {% for i in range( Feed['title']|length ) %}
         <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}">{{ Feed['title'][i] }}</a></li>
         {% endfor %}
@@ -22,8 +22,8 @@
 </section>
 <section id='end'>
     <h2>Available Subscriptions</h2>
-    {% for topic in potential_feed %}
-        <a href="/topic/{{ topic['topic_name'] }}">{{ topic['topic_name'] }}</a>
+    {% for i in range( potential_feed['topic_name']|length ) %}
+        <a href="/topic/{{ potential_feed['topic_name'][i] }}">{{ potential_feed['topic_name'][i] }}</a></br>
     {% endfor %}
 </section>
 

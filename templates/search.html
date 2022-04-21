@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Search Site {% endblock %}
+
+{% set sidebarvar = 'sidebar1' %}
+
+{% block content %}
+<section id="top">
+    <h1>Search</h1>
+    <form id="searchbar">
+        <input type="text" name="search" placeholder="Search The Site.."> 
+    </form>
+    <button id="searchsubmit" onclick=search()>Search</button>
+    
+</section>
+<section id="middle">
+    <div id="results">
+        <div class="search-result">
+            <h3 class="title"></h3>
+            <p class="preview"></p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

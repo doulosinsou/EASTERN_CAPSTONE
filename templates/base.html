@@ -3,12 +3,11 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
     <title> {% block title %} {% endblock %}</title>
     {% block style %} {% endblock %}
 
     <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
-
 </head>
 <body>
     <header>
@@ -18,7 +17,7 @@
         </div></a>
         <div id="head-nav-container">
             <div id="head-nav-upper">
-                <form action="/viewas/" method="POST">
+                <form action="/viewas/" method="POST" id="view-select">
                     <label for="'logged-in">Change view as:</label>
                     <select name='logged-in' id="logged-in" onchange="this.form.submit()" >
                         <option value='Public'>Public</option>
@@ -29,15 +28,6 @@
                         <option value='admin@moyeraudio.com'{% if role=='admin' %} selected {% endif %}>Admin</option>
                     </select>
                 </form>
-                <div id='profile'>
-                    {% if role in ['admin','author','contributor'] %}
-                    <a href="/dashboard">Dashboard</a>
-                    {% endif %}
-                    {% if role in ['Subscriber','Premium'] %}
-                    <a href="/feed">My Subscriptions</a>
-                    {% endif %}
-                    
-                </div>
             </div>
             <div id="head-nav-lower">
                 <nav id="header-nav">
@@ -45,6 +35,12 @@
                         <li><a href="/home">HOME</a></li>
                         <li><a href="/search">SEARCH</a></li>
                         <li><a href="/topics">TOPICS</a></li>
+                        {% if role in ['admin','author','contributor'] %}
+                        <li><a href="/dashboard">DASHBOARD</a></li>
+                        {% endif %}
+                        {% if role in ['Subscriber','Premium'] %}
+                         <li><a href="/feed">FEED</a></li>
+                         {% endif %}
                         <li><a href="/about">ABOUT</a></li>
                     </ul>
                 </nav>
@@ -67,5 +63,7 @@
         <p>&copy; Lucas E Moyer</p>
         <p>Project in partial fulfillment of Eastern University Data Science Program</p>
     </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>

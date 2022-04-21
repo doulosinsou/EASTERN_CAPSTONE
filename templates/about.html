@@ -9,25 +9,31 @@
     <h2>Authors</h2>
 </section>
 <section id='middle'>
+    <div class="about-wrapper">
     {% for i in range( authors['author']|length ) %}
-    <div class="user_avatar">
+    <figure class="user_avatar">
         <a href="/author/{{ authors['author'][i] }}">
             <img src="{{ url_for('static', filename = 'img/'+authors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
-            {{ authors['author'][i] }}
+            <figcaption>{{ authors['author'][i] }}  </figcaption>
         </a>
-    </div>
+    </figure>
     {% endfor %}
+    </div>
 </section>
 <section id='end'>
     <h2>Contributors</h2>
+    <div class="about-wrapper">
     {% for i in range( contributors['contributor']|length ) %}
-    <div class="user_avatar">
-        <a href="/author/{{ contributors['contributor'][i] }}">
+   
+        <figure class="user_avatar">
+            <a href="/author/{{ contributors['contributor'][i] }}">
             <img src="{{ url_for('static', filename = 'img/'+contributors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
-            {{ contributors['contributor'][i] }}
-        </a>
-    </div>
+            <figcaption>{{ contributors['contributor'][i] }}</figcaption>
+            </a>
+        </figure>
+    
     {% endfor %}
+    </div>
 </section>
 
 {% endblock %}

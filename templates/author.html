@@ -6,15 +6,20 @@
 
 {% block content %}
 <section id="top">
-    <img src="{{ url_for('static', filename = 'img/'+author['avatar_link']) }}" alt="avatar from pixabay.com">
-    <h2>{{ author['name'] }}</h2>
-    <p>{{ author['role'] }} since {{ author['date'] }} ({{ author['days_employed'] }} days)</p>
-    <p>Contact <a href="mailto:{{ author['email'] }}">directly</a></p>
+    <div id="profile-wrapper">
+        <img src="{{ url_for('static', filename = 'img/'+author['avatar_link']) }}" alt="avatar from pixabay.com">
+        <div id="profile-name-wrapper">
+            <h2>{{ author['name'] }}</h2>
+            <p>{{ author['role'] }} since {{ author['date'] }} ({{ author['days_employed'] }} days)</p>
+            <p>Contact <a href="mailto:{{ author['email'] }}">directly</a></p>
+        </div>
+    </div>
 </section>
 <section id="middle">
     <h3>Bio</h3>
     <p>{{ author['biography'] }}</p>
 </section>
+<hr class="divider">
 <section id='end'>
     {% if articles %}
     <h3>Contributions to this site as Author:</h3>
@@ -27,6 +32,7 @@
     {% endif %}
 
     {% if contribs %}
+    <hr class="divider">
     <h3>Contributions to this site as Contributor:</h3>
     {% for key in contribs.keys() %}
         <h4>{{ key }}</h4>

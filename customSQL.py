@@ -86,6 +86,17 @@ class custom_SQL:
 
         cur.execute(statement,vals)
         answer = cur.fetchone()
+        cur.close()
+        return answer
+
+    def like(self,what,table,item,term):
+        cur = self.con.cursor(buffered=True)
+
+        statement = f"SELECT {what} FROM {table} WHERE {item} LIKE CONCAT('%', %s, '%') limit 10"
+    
+        cur.execute(statement,(term,))
+        answer = cur.fetchall()
+        cur.close()
         return answer
 
     def commit(self):
@@ -220,8 +231,11 @@ def grab_theme(sql_obj,theme):
     conditions={"theme_name":theme}
     return sql_obj.select(find,table,conditions)
 
-
-
+def grab_like(sql_obj,searchtext):
+    find="title, topic_name, SUBSTRING(content, 1, 200) AS preview"
+    table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+    term="content" 
+    return  sql_obj.like(find,table,term,searchtext)
 
 
 ############# INSERTS ##############

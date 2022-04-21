@@ -2,21 +2,27 @@
 html {
     font-size: 22px;
     color:white;
+    height: 100%;
 }
 
 body {
+    min-height:100vh;
     background: var(--primary-color, rgb(66, 66, 66));
     margin:0 auto;
     padding:0;
-
+    gap: 20px;
     display:grid;
+    grid-template-rows: 250px 1fr 50px;
     grid-template-columns: 250px 1fr;
+    /* grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%; */
     grid-template-areas: 
     "header header"
     "sidebar main"
     "footer footer";
     
     height:100%;
+
 
     /* width:var(--page-width,1400px); */
 }
@@ -47,14 +53,16 @@ header {
 aside {
     grid-area:sidebar;
     color:var(--text-color);
+    padding-left:20px;
 }
 
 main {
     grid-area:main;
     width:var(--page-width, 100%);
-    margin:0 auto;
+    margin: 0 auto;
     color:var(--text-color,inherit);
-    font-family:var(--font)
+    font-family:var(--font);
+    padding-right:20px;
 }
 
 footer {
@@ -65,4 +73,124 @@ footer {
 #title {
     text-decoration: none;
     color:white;
+    width:800px;
+}
+
+#head-nav-container {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    display:relative;
+}
+
+#head-nav-upper, #head-nav-lower{
+    align-self:end;
+}
+#head-nav-upper{
+   align-items:right;
+}
+#head0nav-lower{
+    width:100%;
+}
+
+#view-select label, select {
+    display:block;
+    width:200px;
+}
+
+#view-select label {
+    text-align:center;
+}
+
+#header-nav ul{
+    list-style-type:none;
+    
+}
+
+#header-nav ul li {
+    display:inline;
+    margin:0 10px 0 10px;
+}
+
+#profile{
+    text-align:center;
+    margin-top:10px;
+}
+
+#end, #top{
+    line-height:1.6em;
+}
+
+#profile-wrapper{
+    display:flex;
+    flex-direction:row;
+}
+
+#profile-wrapper img {
+    width:300px;
+    height:300px;
+}
+
+#profile-name-wrapper{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
+    margin-left:50px;
+}
+
+.divider{
+    width: 80%;
+    margin: 50px 0 50px 0;
+
+}
+
+div.about-wrapper {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+figure img {
+    width:300px;
+    height:300px;
+
+}
+
+.user_avatar figcaption{
+    text-align:center;
+    font-size:1.4em;
+}
+
+
+#searchbar{
+    width:500px;
+    height:50px;
+    margin:0 auto;
+    display:inline;
+}
+
+#searchbar input{
+    width:500px;
+    height:50px;
+    margin:0 auto;
+    font-size:1.2em;
+}
+
+
+#searchsubmit{
+    display:inline;
+    height: 50px;
+    width:100px;
+    font-size:1.2em;
+}
+
+.search-results{
+    width:800px;
+    padding: 20px 0 20px 0;
+}
+
+#feed-sidebar{
+    line-height:1.4em;
+    list-style-type:none;
+    padding:0;
 }
