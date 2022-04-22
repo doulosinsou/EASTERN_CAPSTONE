@@ -2,6 +2,18 @@
 
 {% block title %} Dashboard {% endblock %}
 
+{% block style %} 
+<style>
+    :root {
+        --page-width: {{ '100%' }} ;
+        --primary-color: {{ '#f7f9f8' }};
+        --secondary-color: {{ '#fe0037' }};
+        --text-color: {{ '#5b5b5b' }};
+        --font: {{ 'Ariel' }};
+    }
+</style>
+{% endblock %}
+
 {% set sidebarvar = 'sidebar2' %}
 {% block sidebar2 %}
     <p>Logged in as: {{ role }}</p>
@@ -12,9 +24,45 @@
 {% endblock %}
 
 {% block content %}
-<section id="top">
+<section id="stats-options">
+    <h1>Dashboard</h1>
+    <div di="stats-meta">
+        <div>
+            <form id="stats-time">
+
+            </form>
+        </div>
+    </div>
 </section>
-<section id='end'>
+<section id="stats-upper">
+    <div id="stats-upper-left">
+        <div id="ul-params"></div>
+        <div id="ul-chart-wrapper">
+            <canvas id="ul-chart"></canvas>
+        </div>
+    </div>
+    <div id="stats-upper-right">
+        <div id="stats-kpi-1">
+            <canvas id="kpi1" width="250" height="250"></canvas>
+        </div>
+        <div id="stats-kpi-2">
+            <canvas id="kpi2" width="250" height="250"></canvas>
+        </div>
+    </div>
+</section>
+<section id='stats-lower'>
+    <div id="stats-lower-left">
+        <div id="ll-params"></div>
+        <div id="ll-chart-wrapper">
+            <canvas id="ll-chart"></canvas>
+        </div>
+    </div>
+    <div id="stats-lower-right">
+
+    </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='dashAPI.js') }}"></script>
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
 {% endblock %}

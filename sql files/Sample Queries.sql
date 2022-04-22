@@ -80,14 +80,23 @@ SELECT topic_name
 FROM Topics
 WHERE topic_status="public";
 
+
+
+-- Use function to determine premium status
+
+
 --- def grab_role ---
 SELECT role 
 FROM (SELECT email, user_role AS role
 	FROM Users
 		UNION
-	SELECT sub_email, membership AS role
+	SELECT sub_email, SubscriptionLevel(membership, sub_date) AS role
 	FROM Subscribes) AS all_users
 WHERE email="basicSubscriber@subs.org";
+
+
+
+
 
 --- def grab_article_feed ---
 SELECT Topics.topic_name, Topics.topic_status, Subscribes.membership, Post.article_ID, Post.title, Post.post_date
@@ -122,3 +131,17 @@ WHERE content LIKE '%Premium%';
 
 
 
+--- def kpi_av_day_views_in_month ---
+
+SELECT ROUND( AVG(c.views) ,2) as av
+FROM (SELECT COUNT(IP_address) as views
+	FROM Stats 
+    WHERE YEAR(visit) ='2020' and MONTH(visit)='4'
+    GROUP BY MONTH(visit), DAY(visit)) as c;
+
+
+ --- def kpi_revenue_goal_month ---
+ 
+ SELECT (SUM(trans_amount)/4500 * 100) as percent_goal
+ FROM Revenue
+ WHERE YEAR(trans_date)='2022' and MONTH(trans_date)='4';

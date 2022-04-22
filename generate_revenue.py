@@ -25,7 +25,7 @@ def subscribe(email_list,topic_list,membership):
         if membership == 'Premium':
             if email=='premiumSubscriber2@subs.org':
                 continue
-            customSQL.put_revenue(Q,email,random.choice(price_list))
+            customSQL.put_revenue(Q,email,random.choice(price_list),randDate)
     
     Q.commit()
     Q.close()
@@ -36,7 +36,7 @@ email_list = [makeSubscriber() for i in range(num_of_subscribers)]
 
 Q = custom_SQL()
 topics = customSQL.grab_all_topics(Q)['topic_name']
-premium_subs = Q.select("sub_email","Subscribes",{"membership":"Premium"})['sub_email']
+# premium_subs = Q.select("sub_email","Subscribes",{"membership":"Premium"})['sub_email']
 Q.close()
 
 num_premium = random.randint(80,150)

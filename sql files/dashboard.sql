@@ -19,7 +19,7 @@ FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID
 WHERE Post.title = 'Home';
 
 --- def stat_views_site_time ---
-SELECT COUNT(IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour
+SELECT COUNT(IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day
 FROM Stats
 GROUP BY year, month, day, hour, SECOND(visit);
 
@@ -104,6 +104,43 @@ FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Writes
 WHERE Users.first_name = 'Lucas' AND Users.last_name = "Moyer" AND Topic_Post.topic_name='Project'
 GROUP BY year, month, day, hour;
 
+--- def stat_all_author_posts ---
+SELECT COUNT(article_ID) AS post, CONCAT(first_name,' ',last_name) as author
+FROM Writes INNER JOIN Users ON Writes.author_id=Users.ID
+GROUP BY author;
+
+
+
+
+
+
+
+--- def stat_all_author_posts_revenue ---
+-- EXAMPLE --
+
+--- What are the total posts per author and what is that authors revenue contribution? 
+--- Authors contribution defined as: the sum of reveue associated with subscribers who subscribe to topics to which the author also contributes
+
+
+SELECT post,revenue, post_count.author, post_count.avatar_link
+FROM
+(SELECT COUNT(article_ID) AS post, CONCAT(first_name,' ',last_name) as author, Users.avatar_link
+FROM Writes INNER JOIN Users ON Writes.author_id=Users.ID
+GROUP BY author ) as post_count
+INNER JOIN
+(SELECT SUM(trans_amount) AS revenue, author
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
+		FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email
+GROUP BY author) as author_revenue
+ON post_count.author=author_revenue.author;
+
+--- Equivalent to below view ---
+
+SELECT * FROM author_stats;
+
+
 
 --- def stat_contributor_views ---
 SELECT COUNT(IP_address) as all_views
@@ -145,6 +182,14 @@ FROM Subscribes;
 SELECT COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name
 FROM Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name
 GROUP BY Subscribes.topic_name;
+
+
+--- def stat_all_topic_subs_time ---
+SELECT COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name, YEAR(sub_date) as year, MONTH(sub_date) as month
+FROM Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name
+WHERE YEAR(sub_date) = 2020
+GROUP BY Subscribes.topic_name, year, month;
+
 
 --- def stat_topic_subs
 SELECT COUNT(sub_email) AS count_subs 

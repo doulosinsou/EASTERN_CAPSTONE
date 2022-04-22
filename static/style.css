@@ -194,3 +194,45 @@ figure img {
     list-style-type:none;
     padding:0;
 }
+
+
+/* Charts styling */
+
+#stats-upper, #stats-lower{
+    width:95%;
+    min-width:800px;
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+#stats-upper {
+    border-bottom:rgba(66, 66, 66,.2) 2px solid;
+    margin-bottom: 40px;
+    padding-bottom:40px;
+}
+
+#stats-upper-left, #stats-lower-left {
+    border-right:rgba(66, 66, 66,.2) 2px solid;
+    margin-right:40px;
+    padding-right:40px;
+}
+
+#stats-upper-left, #stats-upper-right, #stats-lower-left, #stats-lower-right{
+    width:45%;
+}
+
+#stats-upper-right{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+}
+
+#stats-kpi-1, #stats-kpi-2{
+    width:250px;
+    height:250px;
+}
+
+#ul-chart{
+    /* max-width:500px; */
+}

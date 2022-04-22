@@ -156,3 +156,5 @@ CREATE TABLE Revenue (
     CONSTRAINT Revenue_pk PRIMARY KEY (sub_email, trans_date),
     CONSTRAINT Revenue_email_fk FOREIGN KEY (sub_email) REFERENCES Subscriber (email)
 );
+
+

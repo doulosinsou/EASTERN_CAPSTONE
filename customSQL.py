@@ -99,6 +99,13 @@ class custom_SQL:
         cur.close()
         return answer
 
+    def custom(self,statement,values):
+        cur = self.con.cursor(buffered=True)
+        cur.execute(statement,(*values,))
+        answer = cur.fetchall()
+        cur.close()
+        return answer
+
     def commit(self):
         self.con.commit()
 
@@ -301,11 +308,12 @@ def put_contributes(sql_obj,article_ID,contributor_ID):
     }
     return sql_obj.insert(table,col_value)
 
-def put_revenue(sql_obj,email,amount):
+def put_revenue(sql_obj,email,amount,date):
     table = 'Revenue'
     col_value= {
         'sub_email':email,
         'trans_amount':amount,
+        'trans_date':date
     }
     return sql_obj.insert(table,col_value)
 
