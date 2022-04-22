@@ -59,17 +59,17 @@ def viewstime():
     Q = custom_SQL()
     if req['type'] == 'views':
         views = dashboard.stat_views_site_time(Q,req['year'],req['month'],req['unique'])
-        prepped = {"y":views['viewers'],"x":views['month']}
-        return jsonify(prepped)
+        # prepped = {"y":views['viewers'],"x":views['month']}
+        return jsonify(views)
 
 @dashapp.route('/stats/views-type/', methods=['POST'])
 def viewstype():
     req = request.json
     Q = custom_SQL()
     if req['type'] == 'subs':
-        views = dashboard.stat_all_topic_subs(Q)
-        prepped = {"y":views['count_subs'],"x":views['topic_name']}
-        return jsonify(prepped)
+        views = dashboard.stat_all_topic_subs_time(Q,req['year'],req['month'])
+        # prepped = {"y":views['count_subs'],"x":views['topic_name']}
+        return jsonify(views)
 
 @dashapp.route('/stats/kpi/', methods=['POST'])
 def stats():

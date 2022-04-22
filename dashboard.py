@@ -194,11 +194,14 @@ def stat_all_topic_subs_time(sql_obj,year=False,month=False):
     table="Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
     conditions={}
     group="Subscribes.topic_name"
-
     if year:
-        conditions={"YEAR(sub_date)":year}
+        conditions["YEAR(sub_date)"] = year
+        group+=", year"
+    if month:
+        conditions["MONTH(sub_date)"] = month
+        group+=", month"
 
-    return sql_obj.select(find,table,groupby=group)
+    return sql_obj.select(find,table,conditions=conditions,groupby=group)
 
 def stat_topic_subs(sql_obj,topic_name):
     find='COUNT(Subscribes.sub_email) AS count_subs'

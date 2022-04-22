@@ -8,14 +8,14 @@ window.onload=()=>{
 // UPPER LEFT CHART
 
 async function build_ul_chart(){
-    const data = await fetchAPI('views-time',{'year':2021,'month':false,'unique':false,'type':'views'})
+    const data = await fetchAPI('views-time',{'year':false,'month':false,'unique':false,'type':'views'})
 
     const label = 'Views over 2021'
     const x = ['Jan','Feb','Mar','Apr','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     // const y = [0,10,5,2,20,30,45]
 
-    // const x = data.x
-    const y = data.y
+    // const x = data.views
+    const y = data.month
 
     draw_ul_chart(x,y,label)
 }
@@ -121,8 +121,8 @@ async function build_ll_chart(){
     // const x = ['Jan','Feb','Mar','Apr','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     // const y = [0,10,5,2,20,30,45]
 
-    const x = data.x
-    const y = data.y
+    const x = data.count_subs
+    const y = data.topic_name
 
     draw_ll_chart(x,y,label)
 }
@@ -180,15 +180,28 @@ function draw_ll_chart(xdata,ydata,label){
 
 async function build_lr_chart(){
     //Call for author list
-    const data = await fetchAPI('authors',{'year':2021,'month':false,'unique':false})
+    const data = await fetchAPI('authors',{'year':2021,'month':false,'unique':false});
+    const auth_stats_wrapper = document.getElementById('stats-author-wrapper');
+
 
     for (i=0;i<data.length;i++){
         let row = data[i]
-        let user_wrapper = document.createElement('div')
-        user_wrapper.classList.add('stats-author')
+        let user_wrapper = document.createElement('div');
+        user_wrapper.classList.add('stats-author');
         user_wrapper.id = "stats-"+row[i].author.replace(/\s/g,"_");
         
+        let img = make_avatar(row.avatar);
+        let p_name = make_name(row.author);
+        let div_post = make_sparkline(row.views);
+        let p_posts = make_post_stat(row.posts);
+        let p_revenue = make_revenue_stat(row.revenue);
 
+        let tags = [img,p_name,div_post,p_posts,p_revenue];
+        for (i=0;i<tags.length;i++){
+            user_wrapper.appendChild(tags[i]);
+        }
+        auth_stats_wrapper.appendChild(user_wrapper);
+        
     }
 
 
@@ -212,7 +225,7 @@ function draw_lr_chart(xdata,ydata,domID){
         labels:ul_xLabs,
         datasets:[
             {
-                label:label,
+                label:'',
                 borderColor:'rgb(255,99,132)',
                 data:ul_ycoord
             }
@@ -225,13 +238,8 @@ function draw_lr_chart(xdata,ydata,domID){
         options: {
             plugins:{
                 title:{
-                    display:true,
-                    text:'Page views per month',
-                    fullSize:true,
-                    font:{
-                        size:24,
-                    }
-                },
+                    display:false,
+                    },
                 legend:{
                     display:false,
                 }
@@ -277,7 +285,8 @@ function make_sparkline(data){
     div = document.createElement('p');
     div.classList.add('stats-sparkline','stat-author-item','stat-author-item-'+i);
     
-    let xdata = data[]
+    let xdata = data.month 
+    let ydata = data.viewers
     draw_lr_chart(xdata,ydata,div)
 
 
