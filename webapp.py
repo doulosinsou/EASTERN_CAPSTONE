@@ -7,7 +7,7 @@ from customSQL import custom_SQL
 from dashapp import dashapp
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(dashapp)
 
 #default dummy key for now

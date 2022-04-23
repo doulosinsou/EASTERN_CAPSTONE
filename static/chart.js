@@ -1,37 +1,50 @@
+let chart1 = false;
+let chart2 = false;
+let chart3 = false;
+// let chart4 = false;
+
+chart4 = [false,false,false,false]
+
 window.onload=()=>{
-    build_ul_chart()
-    build_ur_chart()
-    build_ll_chart()
-    build_lr_chart()
+    resort_dashboard()
 }
 
 // UPPER LEFT CHART
 
-async function build_ul_chart(){
-    const data = await fetchAPI('views-time',{'year':false,'month':false,'unique':false,'type':'views'})
+async function build_ul_chart(type,year,month,unique){
+    const data = await fetchAPI('views-time',{'type':type,'year':year,'month':month,'unique':unique})
+    let x 
+    if (month){
+        x = data.day
+    }
+    else if (year){
+        console.log(data.month)
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        x = []
+        for (i=0;i<data.month.length;i++){
+            x.push(months[data.month[i]-1]);
+        }
+    }
+    else{
+        x = data.year.map(String);
+    }    
 
-    const label = 'Views over 2021'
-    const x = ['Jan','Feb','Mar','Apr','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    // const y = [0,10,5,2,20,30,45]
-
-    // const x = data.views
-    const y = data.month
+    const y = data.viewers;
+    const label = 'Site '+type;
 
     draw_ul_chart(x,y,label)
 }
 
 
 function draw_ul_chart(xdata,ydata,label){
-    const ul_xLabs = xdata
-    const ul_ycoord = ydata
-
+    
     const ul_data = {
-        labels:ul_xLabs,
+        labels:xdata,
         datasets:[
             {
                 label:label,
                 borderColor:'rgb(255,99,132)',
-                data:ul_ycoord
+                data:ydata
             }
         ]
     };
@@ -43,7 +56,7 @@ function draw_ul_chart(xdata,ydata,label){
             plugins:{
                 title:{
                     display:true,
-                    text:'Page views per month',
+                    text:label,
                     fullSize:true,
                     font:{
                         size:24,
@@ -56,10 +69,21 @@ function draw_ul_chart(xdata,ydata,label){
         }
     }
 
-    const ulChart = new Chart(
-        document.getElementById('ul-chart'),
-        ul_config
-    )
+    if (chart1){
+        chart1.data.labels = xdata;
+        chart1.data.datasets.forEach((dataset) => {
+            dataset.data = ydata;
+            dataset.label = label;
+        });
+        chart1.options.plugins.title.text = label
+        chart1.update();
+    }else{
+        chart1 = new Chart(
+            document.getElementById('ul-chart'),
+            ul_config
+        )
+
+    }
 }
 
 
@@ -67,7 +91,9 @@ function draw_ul_chart(xdata,ydata,label){
 
 
 
-async function build_ur_chart(year=2020,month=12){
+async function build_ur_chart(year,month){
+    year = false
+    month = false
     data_av = await fetchAPI('kpi',{'request':'KPI_av','year':year,'month':month})
     data_goal = await fetchAPI('kpi',{'request':'KPI_goal','year':year,'month':month})
     
@@ -114,31 +140,30 @@ function draw_circle(canvas,color,kpi,message){
 
 // LOWER LEFT CHART
 
-async function build_ll_chart(){
-    const data = await fetchAPI('views-type',{'type':'subs'})
+async function build_ll_chart(type,category,year,month){
+    const data = await fetchAPI('views-type',{'type':type,'category':category,'year':year,"month":month})
 
-    const label = 'subs by topic'
+    const label = type + ' by ' + category
     // const x = ['Jan','Feb','Mar','Apr','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     // const y = [0,10,5,2,20,30,45]
 
-    const x = data.count_subs
-    const y = data.topic_name
+    const y = data.count_
+    const x = data.cat_
+    console.log(x,y)
 
     draw_ll_chart(x,y,label)
 }
 
 
 function draw_ll_chart(xdata,ydata,label){
-    const ul_xLabs = xdata
-    const ul_ycoord = ydata
 
-    const ul_data = {
-        labels:ul_xLabs,
+    const ll_data = {
+        labels:xdata,
         datasets:[
             {
                 label:label,
                 borderColor:'rgb(255,99,132)',
-                data:ul_ycoord,
+                data:ydata,
                 backgroundColor:[
                     'rgba(54, 162, 235, 0.4)'
                 ]
@@ -146,14 +171,14 @@ function draw_ll_chart(xdata,ydata,label){
         ]
     };
 
-    const ul_config = {
+    const ll_config = {
         type:'bar',
-        data:ul_data,
+        data:ll_data,
         options: {
             plugins:{
                 title:{
                     display:true,
-                    text:'Subscribers per Topic',
+                    text:label,
                     fullSize:true,
                     font:{
                         size:24,
@@ -165,76 +190,86 @@ function draw_ll_chart(xdata,ydata,label){
             },
             indexAxis:'y',
         }
+    };
+
+    if (chart2){
+        chart2.data.labels = xdata;
+        chart2.data.datasets.forEach((dataset) => {
+            dataset.data = ydata;
+        });
+        chart2.options.plugins.title.text = label
+        chart2.update();
+    }else{
+        chart2 = new Chart(
+            document.getElementById('ll-chart'),
+            ll_config
+        );
     }
 
-    const ulChart = new Chart(
-        document.getElementById('ll-chart'),
-        ul_config
-    )
-}
+};
 
 
 
 // LOWER RIGHT CHART
 
 
-async function build_lr_chart(){
+async function build_lr_chart(type,year,month,unique){
     //Call for author list
-    const data = await fetchAPI('authors',{'year':2021,'month':false,'unique':false});
+    
+    const data = await fetchAPI('authors',{'type':type,'year':year,'month':month,'unique':unique});
     const auth_stats_wrapper = document.getElementById('stats-author-wrapper');
 
-
     for (i=0;i<data.length;i++){
+        let canvasID
         let row = data[i]
-        let user_wrapper = document.createElement('div');
-        user_wrapper.classList.add('stats-author');
-        user_wrapper.id = "stats-"+row[i].author.replace(/\s/g,"_");
-        
-        let img = make_avatar(row.avatar);
-        let p_name = make_name(row.author);
-        let div_post = make_sparkline(row.views);
-        let p_posts = make_post_stat(row.posts);
-        let p_revenue = make_revenue_stat(row.revenue);
+        if (!chart4[i]){
+            let user_wrapper = document.createElement('div');
+            let nid = "stats-"+row.author.replace(/\s/g,"-")
+            user_wrapper.classList.add('stats-author');
+            user_wrapper.id = nid;
+            
+            let img = make_avatar(row.avatar,1);
+            let p_name = make_name(row.author,2);
+            let [container,ID] = make_canvas(nid,3);
+            let p_posts = make_post_stat(row.posts,4);
+            let p_revenue = make_revenue_stat(row.revenue,5);
 
-        let tags = [img,p_name,div_post,p_posts,p_revenue];
-        for (i=0;i<tags.length;i++){
-            user_wrapper.appendChild(tags[i]);
-        }
+            let tags = [img,p_name,container,p_posts,p_revenue];
+            for (j=0;j<tags.length;j++){
+                user_wrapper.appendChild(tags[j]);
+            canvasID = ID
+            }
         auth_stats_wrapper.appendChild(user_wrapper);
         
+        }
+
+        let xdata = [...Array(row.views.month.length).keys()]
+        let ydata = row.views.viewers
+        
+        draw_lr_chart(xdata,ydata,canvasID,i)
+
     }
-
-
-
-    const label = 'Views over 2021'
-    const x = ['Jan','Feb','Mar','Apr','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-    // const y = [0,10,5,2,20,30,45]
-
-    // const x = data.x
-    const y = data.y
-
-    draw_ul_chart(x,y,label)
 }
 
 
-function draw_lr_chart(xdata,ydata,domID){
-    const ul_xLabs = xdata
-    const ul_ycoord = ydata
+function draw_lr_chart(xdata,ydata,domID,i){
+    const lr_xLabs = xdata
+    const lr_ycoord = ydata
 
-    const ul_data = {
-        labels:ul_xLabs,
+    const lr_data = {
+        labels:lr_xLabs,
         datasets:[
             {
                 label:'',
                 borderColor:'rgb(255,99,132)',
-                data:ul_ycoord
+                data:lr_ycoord
             }
         ]
     };
 
-    const ul_config = {
+    const lr_config = {
         type:'line',
-        data:ul_data,
+        data:lr_data,
         options: {
             plugins:{
                 title:{
@@ -243,19 +278,45 @@ function draw_lr_chart(xdata,ydata,domID){
                 legend:{
                     display:false,
                 }
+            },
+            maintainAspectRatio:false,
+            scales:{
+                xAxis:{
+                    display:false,
+                },
+                yAxis:{
+                    display:false,
+                }
+            },
+            elements:{
+                point:{
+                    radius: 0,
+                }
             }
         }
     }
+    
+    if (chart4[i]){
+        chart4[i].data.labels = lr_xLabs;
+        chart4[i].data.datasets.forEach((dataset) => {
+            dataset.data = lr_ycoord;
+        });
+        chart4[i].update();
+    }else{
+        const new_chart = new Chart(
+            document.getElementById(domID),
+            lr_config
+        )
+        chart4[i] = new_chart;
+    }
 
-    const ulChart = new Chart(
-        domID,
-        ul_config
-    )
 }
 
-function make_avatar(link){
+function make_avatar(link,i){
     img = document.createElement('img');
-    img.src = link;
+    img.classList.add('stat-author-item','stat-author-item-'+i)
+    linktext = "/img/"+link
+    img.src = linktext;
     img.alt = "avatar from Pixabay.com";
     return img
 }
@@ -281,14 +342,49 @@ function make_revenue_stat(stat,i){
     return p
 }
 
-function make_sparkline(data){
-    div = document.createElement('p');
-    div.classList.add('stats-sparkline','stat-author-item','stat-author-item-'+i);
+function make_canvas(nid,i){
+    container = document.createElement('div');
+    container.classList.add('stats-sparkline','stat-author-item','stat-author-item-'+i);
+    canvas = document.createElement('canvas');
+    canvas.id=nid+"-spark";
+    container.appendChild(canvas);
+    return [container, canvas.id]
+}
+
+
+
+
+
+function resort_dashboard(){
+
+    let unique = document.getElementById('_type-all').value;
+    let year = document.getElementById('sort-year').value 
+    let month = document.getElementById('sort-month').value 
+    const view_subs = document.getElementById('sort-graph').value 
+    const top_tag = document.getElementById('sort-graph-2').value 
+
+    if (unique == 'false'){
+        unique = false;
+    }else{
+        unique = true;
+    }
+    if (year == 'false'){
+        year = false;
+    }else{
+        year = parseInt(year);
+    }
+    if (month == 'false'){
+        month = false;
+    }else{
+        month = parseInt(month);
+    }
+
+    build_ul_chart(view_subs,year,month,unique)
+    build_ur_chart(year,month)
+    build_ll_chart(view_subs,top_tag,year,month)
+    build_lr_chart(view_subs,year,month,unique)
     
-    let xdata = data.month 
-    let ydata = data.viewers
-    draw_lr_chart(xdata,ydata,div)
 
 
-    return div
+
 }

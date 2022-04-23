@@ -17,10 +17,44 @@
 {% set sidebarvar = 'sidebar2' %}
 {% block sidebar2 %}
     <p>Logged in as: {{ role }}</p>
-    <p>Newest articles</p>
-    <ul>
-
-    </ul>
+    <label for="sort-year">Sort By Year</label>
+    <select name='sort-year' id="sort-year" onchange="resort_dashboard()" >
+        <option value=false selected>All</option>
+        <option value=2020>2020</option>
+        <option value=2021>2021</option>
+    </select>
+    <label for="sort-month">Sort By Month</label>
+    <select name='sort-month' id="sort-month" onchange="resort_dashboard()" >
+        <option value=false selected>All</option>
+        <option value=1>January</option>
+        <option value=2>Febuary</option>
+        <option value=3>March</option>
+        <option value=4>April</option>
+        <option value=5>May</option>
+        <option value=6>June</option>
+        <option value=7>July</option>
+        <option value=8>August</option>
+        <option value=9>September</option>
+        <option value=10>October</option>
+        <option value=11>November</option>
+        <option value=12>December</option>
+    </select>
+    <label for="sort-graph">Change Graphs</label>
+    <select name='sort-graph' id="sort-graph" onchange="resort_dashboard()" >
+        <option value="views" selected>Page Views</option>
+        <option value='subs'>Subscriptions</option>
+    </select>
+    <label for="sort-graph-2">Change Bar Graph</label>
+    <select name='sort-graph-2' id="sort-graph-2" onchange="resort_dashboard()" >
+        <option value="topic" selected>Topics</option>
+        <option value='tag'>Tags</option>
+    </select>
+    <label for="_type-all">IP_address</label>
+    <select name='sort-graph-3' id="_type-all" onchange="resort_dashboard()" >
+        <option value="false" selected>All</option>
+        <option value='true'>Unique</option>
+    </select>
+    
 {% endblock %}
 
 {% block content %}
@@ -58,7 +92,16 @@
         </div>
     </div>
     <div id="stats-lower-right">
-
+        <!-- <h3>Authors</h3> -->
+        <div id="stats-author-wrapper">
+            <div class="stats-author" id="stats-author-header">
+                <p class="stat-author-item stat-author-item-1"></p>
+                <p class="stat-author-item stat-author-item-2">Author</p>
+                <p class="stat-author-item stat-author-item-3">Engagement</p>
+                <p class="stat-author-item stat-author-item-4">Posts</p>
+                <p class="stat-author-item stat-author-item-5">Revenue</p>
+            </div>
+        </div>
     </div>
 </section>
 

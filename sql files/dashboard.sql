@@ -45,6 +45,16 @@ SELECT COUNT(IP_address) as all_views, Topic_Post.topic_name
 FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
 GROUP BY Topic_Post.topic_name;
 
+
+
+--- def stat_all_topic_views_time ---
+SELECT COUNT(IP_address) as count_, Topic_Post.topic_name as cat_, YEAR(visit) as year, MONTH(visit) as month
+FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
+GROUP BY cat_, year, month;
+
+
+
+
 --- def stat_topic_views ---
 SELECT COUNT(IP_address) as all_views
 FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
@@ -64,6 +74,15 @@ GROUP BY year, month, day, hour, SECOND(visit);
 SELECT COUNT(IP_address) as all_views, Tags.tag_name
 FROM Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID
 GROUP BY Tags.tag_name;
+
+
+--- def stat_all_tag_subs_time---
+SELECT COUNT(DISTINCT sub_email) as count_, Tags.tag_name as cat_, YEAR(sub_date) as year, MONTH(sub_date) as month
+FROM (Subscribes INNER JOIN Topic_Post ON Subscribes.topic_name=Topic_Post.topic_name) INNER JOIN Tags ON Topic_Post.article_ID=Tags.article_ID
+GROUP BY cat_, year, month;
+
+
+
 
 --- def stat_tag_views ---
 SELECT COUNT(IP_address) as all_views
@@ -178,6 +197,11 @@ GROUP BY year, month, day, hour;
 SELECT COUNT(sub_email) AS count_subs 
 FROM Subscribes;
 
+--- def stat_site_subs_time ---
+SELECT COUNT(sub_email) AS count_subs, sub_date, YEAR(sub_date) as year, MONTH(sub_date) as month, DAY(sub_date) AS day
+FROM Subscribes
+GROUP BY year, month;
+
 --- def stat_all_topic_subs ---
 SELECT COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name
 FROM Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name
@@ -187,7 +211,7 @@ GROUP BY Subscribes.topic_name;
 --- def stat_all_topic_subs_time ---
 SELECT COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name, YEAR(sub_date) as year, MONTH(sub_date) as month
 FROM Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name
-WHERE YEAR(sub_date) = 2020
+WHERE YEAR(sub_date) = 2020 and MONTH(sub_date) = 4
 GROUP BY Subscribes.topic_name, year, month;
 
 

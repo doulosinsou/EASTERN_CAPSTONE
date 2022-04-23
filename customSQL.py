@@ -100,9 +100,14 @@ class custom_SQL:
         return answer
 
     def custom(self,statement,values):
+        print(statement, values)
         cur = self.con.cursor(buffered=True)
-        cur.execute(statement,(*values,))
+        if len(values) > 0:
+            cur.execute(statement,(*values,))
+        else:
+            cur.execute(statement)
         answer = cur.fetchall()
+        print(answer)
         cur.close()
         return answer
 
