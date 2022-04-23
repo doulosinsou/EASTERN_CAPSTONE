@@ -1,3 +1,20 @@
+
+--- def kpi_av_day_views_in_month ---
+
+SELECT ROUND( AVG(c.views) ,2) as av
+FROM (SELECT COUNT(IP_address) as views
+	FROM Stats 
+    WHERE YEAR(visit) ='2020' and MONTH(visit)='4'
+    GROUP BY MONTH(visit), DAY(visit)) as c;
+
+
+ --- def kpi_revenue_goal_month ---
+ 
+ SELECT (SUM(trans_amount)/4500 * 100) as percent_goal
+ FROM Revenue
+ WHERE YEAR(trans_date)='2022' and MONTH(trans_date)='4';
+
+
 --------- Count of views per site,article,topic,tag,author,contributor ---------
 
 --- def stat_site_views ---
@@ -233,13 +250,40 @@ FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
 	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
 GROUP BY author;
 
---- def stat_author_subs ---
-SELECT COUNT(author) AS count_subs, author
+
+--- def stat_all_author_subs_time ---
+SELECT COUNT(author) AS viewers, author, YEAR(sub_date) as year, MONTH(sub_date) as month, DAY(sub_date) as day
 FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author
 		FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID
 		GROUP BY author, topic_name) AS U 
 	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
+GROUP BY author;
+
+
+
+
+
+--- def stat_author_subs ---
+SELECT COUNT(author) AS count_subs, author
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author 
+		FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
 WHERE author='Lucas Moyer';
+
+
+
+--- def stat_author_subs_time ---
+SELECT COUNT(sub_email) AS viewers, author, YEAR(sub_date) as year, MONTH(sub_date) as month, DAY(sub_date) as day
+FROM (SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author 
+		FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID
+		GROUP BY author, topic_name) AS U 
+	INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name
+WHERE author='Lucas Moyer'
+GROUP BY year, month, day;
+
+
+
 
 --- def stat_all_contributor_subs ---
 SELECT COUNT(author) AS count_subs, author

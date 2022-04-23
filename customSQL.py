@@ -202,15 +202,22 @@ def grab_contributor_articles(sql_obj,contributor_ID):
     orderby="topic_name"
     return sql_obj.select(find,table,conditions,orderby)
 
-def grab_kin_article(sql_obj,title,topic,kin):
-    find="Post.title,Topics.topic_name"
-    table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
-    conditions={
-        "Topics.topic_name":topic,
-        "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}") + {kin})'
-        }
-    print(find, '/n', table, '/n', conditions)
-    return sql_obj.select(find,table,conditions)
+# def grab_kin_article(sql_obj,title,topic,kin):
+#     find="Post.title,Topics.topic_name"
+#     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
+#     conditions={
+#         "Topics.topic_name":topic,
+#         "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 1)'
+#         }
+#     return sql_obj.select(find,table,conditions)
+
+
+def grab_kin_next(sql_obj,title,topic):
+    SELECT = "SELECT Post.title, Topics.topic_name"
+    FROM = " FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
+    WHERE = 'WHERE Topics.topic_name = %s AND Post.post_order = ((SELECT post_order FROM Post WHERE title = %s LIMIT 1) + 1) '
+    return sql_obj.custom(SELECT+FROM+WHERE, (topic,title))
+
 
 def grab_subscribed_topics(sql_obj,user_email):
     find="Topics.topic_name"

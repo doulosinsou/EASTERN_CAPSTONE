@@ -297,3 +297,12 @@ figure img {
     background-color:transparent;
 }
 
+#sidebar label{
+    margin-top:20px;
+}
+
+#sidebar select{
+    height:40px;
+    font-size:.9em;
+    margin-bottom:20px;
+}

@@ -131,17 +131,3 @@ WHERE content LIKE '%Premium%';
 
 
 
---- def kpi_av_day_views_in_month ---
-
-SELECT ROUND( AVG(c.views) ,2) as av
-FROM (SELECT COUNT(IP_address) as views
-	FROM Stats 
-    WHERE YEAR(visit) ='2020' and MONTH(visit)='4'
-    GROUP BY MONTH(visit), DAY(visit)) as c;
-
-
- --- def kpi_revenue_goal_month ---
- 
- SELECT (SUM(trans_amount)/4500 * 100) as percent_goal
- FROM Revenue
- WHERE YEAR(trans_date)='2022' and MONTH(trans_date)='4';
