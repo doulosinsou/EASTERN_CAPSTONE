@@ -91,13 +91,12 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
     tops = customSQL.grab_topics_in_article(Q,article['article_ID'][0])
-    previous = customSQL.grab_kin_next(Q,article['title'][0],thisTopic)
-    after = customSQL.grab_kin_next(Q,article['title'][0],thisTopic)
+    previous = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,-1)
+    after = customSQL.grab_kin_article(Q,article['title'][0],thisTopic,1)
     toplist = customSQL.grab_articles_in_topic(Q,thisTopic,order="ASC")
     tags = customSQL.grab_tags_in_article(Q,article['article_ID'][0])
     theme = customSQL.grab_theme(Q,article['theme'][0])
-    print(article['title'])
-    print(after)
+
     Q.close()
    
     if not is_subscribed(thisTopic):

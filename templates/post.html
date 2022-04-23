@@ -40,7 +40,7 @@
     <p>Topics: {% for p in post.topics %}<a href="/topic/{{ p }}">{{ p }}</a>,{% endfor %}</p>
     <p>Tags: {% for t in post.tags %}<a href="/tag/{{ t }}">{{ t }}</a>,{% endfor %}</p>
 </section>
-<section id='nav'>
+<section id='post-nav'>
     <a href="{{ post.previous }}">Previous: {{ post.previous }}</a>
     <a href="{{ post.next }}">Next: {{ post.next }}</a>
 </section>

@@ -48,28 +48,37 @@ file = ET.parse('content/posts.xml')
 feed = file.getroot()
 posts = gather_posts(feed, ET)
 
+
+update=True
+
 Q = custom_SQL() 
-for post in posts[:1]:
-    row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
+for post in posts:
+    if update:
+        row_id = customSQL.grab_article(Q,post['title'])['article_ID']
+        print(row_id, post['title'],post['content'][:30])
+        Q.update('Post','content',post['content'],row_id[0])
+        print()
+    else:
+        row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
 
-    for topic in post['topics']:
-        customSQL.put_topic_post(Q,topic['topic_name'],row_id)
+        for topic in post['topics']:
+            customSQL.put_topic_post(Q,topic['topic_name'],row_id)
 
-    for tag in post['tags']:
-        customSQL.put_tag(Q,tag['tag_name'],row_id)
+        for tag in post['tags']:
+            customSQL.put_tag(Q,tag['tag_name'],row_id)
 
-    author_id = customSQL.grab_author_id(Q,post['author'][2]['email'])
-    customSQL.put_writes(Q,row_id,author_id["ID"][0])
+        author_id = customSQL.grab_author_id(Q,post['author'][2]['email'])
+        customSQL.put_writes(Q,row_id,author_id["ID"][0])
 
-    for contributor in post['contributors']:
-        cont_id = customSQL.grab_author_id(Q,contributor['email'])
-        customSQL.put_contributes(Q,row_id,cont_id['ID'][0])
+        for contributor in post['contributors']:
+            cont_id = customSQL.grab_author_id(Q,contributor['email'])
+            customSQL.put_contributes(Q,row_id,cont_id['ID'][0])
     
 Q.commit()
 Q.close()
     
-Q= custom_SQL()
-print(posts[0]['title'])
-findinsert = customSQL.grab_article(Q,posts[0]['title'])
-print(findinsert)
+# Q= custom_SQL()
+# print(posts[0]['title'])
+# findinsert = customSQL.grab_article(Q,posts[0]['title'])
+# print(findinsert)
 

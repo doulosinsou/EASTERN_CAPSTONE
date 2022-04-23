@@ -70,6 +70,12 @@ footer {
     text-align:center;
 }
 
+
+#post-nav {
+    display:flex;
+    justify-content: space-between;
+}
+
 #title {
     text-decoration: none;
     color:white;

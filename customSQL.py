@@ -69,6 +69,21 @@ class custom_SQL:
             # self.commit()
         return last_id
 
+    def update(self,table,column,value,row_id, close=True):
+        cur = self.con.cursor(buffered=False)
+        statement = "UPDATE {} SET {} = '{}' WHERE article_ID={}".format(table,column,value,row_id)
+        # print(statement) 
+        # cur.execute(statement,(values,))
+        # cur.execute(statement, multi=True)
+        cur.execute(statement)
+        last_id = cur.lastrowid
+        
+        if close:
+            
+            cur.close()
+            # self.commit()
+        return last_id
+
     def exists(self,what,table,conditions):
         cur = self.con.cursor(buffered=True)
         statement = f'SELECT EXISTS( SELECT {what} FROM {table}'
@@ -202,21 +217,21 @@ def grab_contributor_articles(sql_obj,contributor_ID):
     orderby="topic_name"
     return sql_obj.select(find,table,conditions,orderby)
 
-# def grab_kin_article(sql_obj,title,topic,kin):
-#     find="Post.title,Topics.topic_name"
-#     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
-#     conditions={
-#         "Topics.topic_name":topic,
-#         "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 1)'
-#         }
-#     return sql_obj.select(find,table,conditions)
+def grab_kin_article(sql_obj,title,topic,kin):
+    find="Post.title,Topics.topic_name"
+    table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
+    conditions={
+        "Topics.topic_name":topic,
+        "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 1)'
+        }
+    return sql_obj.select(find,table,conditions)
 
 
-def grab_kin_next(sql_obj,title,topic):
-    SELECT = "SELECT Post.title, Topics.topic_name"
-    FROM = " FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
-    WHERE = 'WHERE Topics.topic_name = %s AND Post.post_order = ((SELECT post_order FROM Post WHERE title = %s LIMIT 1) + 1) '
-    return sql_obj.custom(SELECT+FROM+WHERE, (topic,title))
+# def grab_kin_next(sql_obj,title,topic):
+#     SELECT = "SELECT Post.title, Topics.topic_name"
+#     FROM = " FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+#     WHERE = f'WHERE Topics.topic_name = `{topic}` AND Post.post_order = ((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 2)'
+#     return sql_obj.custom(SELECT+FROM+WHERE,tuple())
 
 
 def grab_subscribed_topics(sql_obj,user_email):
@@ -346,3 +361,12 @@ def put_subscribes(sql_obj,email,topic_name,membership,sub_date):
         'sub_date':sub_date
     }
     return sql_obj.insert(table,col_value)
+
+
+
+
+
+def alter_article(sql_obj,title,content):
+    table = 'Post'
+    column='content'
+    return sql_obj.update(table,column,content,title)
