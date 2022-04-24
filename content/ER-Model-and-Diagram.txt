@@ -1,0 +1,10 @@
+<p>Lucid.app Model:</p>
+<a href="https://lucid.app/lucidchart/caa6739f-69f9-4d41-b5fe-7b8222c443dc/edit?invitationId=inv_b1e80131-73a2-4a37-b60d-0d34f2463fdb">Lucidapp Model</a>
+<p>Duplicated link text: https://lucid.app/lucidchart/caa6739f-69f9-4d41-b5fe-7b8222c443dc/edit?invitationId=inv_b1e80131-73a2-4a37-b60d-0d34f2463fdb </p>
+<img src=" {{ url_for('static', filename='/img/ERModel.png') }} "></img>
+
+<p>Lucid.app Diagram:</p>
+<a href="https://lucid.app/lucidchart/8deaf70f-edfc-460a-a3e8-70dc6f8bf5be/edit?invitationId=inv_a5dd1ee3-dc53-4fdf-9a21-c50e86730d93">Lucidapp Diagram</a>
+<p>https://lucid.app/lucidchart/8deaf70f-edfc-460a-a3e8-70dc6f8bf5be/edit?invitationId=inv_a5dd1ee3-dc53-4fdf-9a21-c50e86730d93</p>
+<img src=" {{ url_for('static', filename='/img/ERDiagram.png') }} "></img>
+        

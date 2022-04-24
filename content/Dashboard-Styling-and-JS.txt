@@ -1,0 +1,915 @@
+<p>At this point, almost the whole project is done, save for some page styling and dashboard functionality. First, I will give the css. Then I will provide the javascript which the dashboard will use to run the server calls and handle the returned data. Finally, I will provide the server routes which the dashboard is making calls to. </p>
+ 
+<p>Style.css</p>
+<pre><code>
+
+ 
+html {
+   font-size: 22px;
+   color:white;
+   height: 100%;
+}
+ 
+body {
+   min-height:100vh;
+   background: var(--primary-color, rgb(66, 66, 66));
+   margin:0 auto;
+   padding:0;
+   gap: 20px;
+   display:grid;
+   grid-template-rows: 250px 1fr 50px;
+   grid-template-columns: 250px 1fr;
+   grid-template-areas:
+   "header header"
+   "sidebar main"
+   "footer footer";
+  
+   height:100%;
+ 
+}
+ 
+a {
+   color:var(--secondary-color, golden-rod);
+}
+ 
+a:visited{
+   opacity: .8;
+}
+ 
+h1 {
+   color:rgb(49, 125, 153);
+   font-weight: bold;
+}
+ 
+header {
+   display:flex;
+   padding: 25px;
+   justify-content:space-between;
+   background-color:#1C2833;
+   margin-bottom:20px;
+ 
+   grid-area:header;
+}
+ 
+aside {
+   grid-area:sidebar;
+   color:var(--text-color);
+   padding-left:20px;
+}
+ 
+main {
+   grid-area:main;
+   width:var(--page-width, 100%);
+   margin: 0 auto;
+   color:var(--text-color,inherit);
+   font-family:var(--font);
+   padding-right:20px;
+}
+ 
+footer {
+   grid-area:footer;
+   text-align:center;
+}
+ 
+ 
+#post-nav {
+   display:flex;
+   justify-content: space-between;
+}
+ 
+#title {
+   text-decoration: none;
+   color:white;
+   width:800px;
+}
+ 
+#head-nav-container {
+   width:100%;
+   display:flex;
+   flex-direction:column;
+   justify-content: space-between;
+   display:relative;
+}
+ 
+#head-nav-upper, #head-nav-lower{
+   align-self:end;
+}
+#head-nav-upper{
+  align-items:right;
+}
+#head0nav-lower{
+   width:100%;
+}
+ 
+#view-select label, select {
+   display:block;
+   width:200px;
+}
+ 
+#view-select label {
+   text-align:center;
+}
+ 
+#header-nav ul{
+   list-style-type:none;
+  
+}
+ 
+#header-nav ul li {
+   display:inline;
+   margin:0 10px 0 10px;
+}
+ 
+#profile{
+   text-align:center;
+   margin-top:10px;
+}
+ 
+#end, #top{
+   line-height:1.6em;
+}
+ 
+#profile-wrapper{
+   display:flex;
+   flex-direction:row;
+}
+ 
+#profile-wrapper img {
+   width:300px;
+   height:300px;
+}
+ 
+#profile-name-wrapper{
+   display:flex;
+   flex-direction:column;
+   justify-content: space-around;
+   margin-left:50px;
+}
+ 
+.divider{
+   width: 80%;
+   margin: 50px 0 50px 0;
+ 
+}
+ 
+div.about-wrapper {
+   display:flex;
+   flex-wrap:wrap;
+}
+ 
+figure img {
+   width:300px;
+   height:300px;
+ 
+}
+ 
+.user_avatar figcaption{
+   text-align:center;
+   font-size:1.4em;
+}
+ 
+ 
+#searchbar{
+   width:500px;
+   height:50px;
+   margin:0 auto;
+   display:inline;
+}
+ 
+#searchbar input{
+   width:500px;
+   height:50px;
+   margin:0 auto;
+   font-size:1.2em;
+}
+ 
+ 
+#searchsubmit{
+   display:inline;
+   height: 50px;
+   width:100px;
+   font-size:1.2em;
+}
+ 
+.search-results{
+   width:800px;
+   padding: 20px 0 20px 0;
+}
+ 
+#feed-sidebar{
+   line-height:1.4em;
+   list-style-type:none;
+   padding:0;
+}
+ 
+ 
+/* Charts styling */
+ 
+#stats-upper, #stats-lower{
+   width:95%;
+   min-width:800px;
+   display:flex;
+   flex-direction:row;
+   justify-content: space-between;
+}
+ 
+#stats-upper {
+   border-bottom:rgba(66, 66, 66,.2) 2px solid;
+   margin-bottom: 40px;
+   padding-bottom:40px;
+}
+ 
+#stats-upper-left, #stats-lower-left {
+   border-right:rgba(66, 66, 66,.2) 2px solid;
+   margin-right:40px;
+   padding-right:40px;
+}
+ 
+#stats-upper-left, #stats-upper-right, #stats-lower-left, #stats-lower-right{
+   width:45%;
+}
+ 
+#stats-upper-right{
+   display:flex;
+   flex-direction:row;
+   align-items:center;
+   justify-content: center;
+}
+ 
+#stats-kpi-1, #stats-kpi-2{
+   width:250px;
+   height:250px;
+}
+ 
+ 
+#stats-author-wrapper{
+   display:flex;
+   flex-direction:column;
+}
+ 
+.stats-author{
+   width:100%;
+   height:80px;
+   display:flex;
+   flex-direction:row;
+   flex-wrap:nowrap;
+   align-items:center;
+   justify-content:space-between;
+}
+ 
+.stat-author-item{
+   padding:5px;
+ 
+}
+ 
+/* author avatar */
+.stat-author-item-1{
+   flex-basis:50px;
+   background-color:rgb(232, 157, 255);
+   border-radius:50%;
+   max-width:50%;
+   height:50px;
+}
+/* author name */
+.stat-author-item-2{
+   width:90px;
+}
+/* author chart */
+.stat-author-item-3{
+   flex-basis:auto;
+   height:60px;
+}
+/* author posts */
+.stat-author-item-4{
+   flex-basis:50px;
+}
+/* author revenue */
+.stat-author-item-5{
+   flex-basis:50px;
+   text-align:right;
+}
+.stat-author-item-5::before{
+   content:'$';
+   display:inline;
+}
+ 
+#stats-author-header {
+   align-items:flex-start;
+}
+ 
+#stats-author-header .stat-author-item-1{
+   background-color:transparent;
+}
+ 
+#sidebar label{
+   margin-top:20px;
+}
+ 
+#sidebar select{
+   height:40px;
+   font-size:.9em;
+   margin-bottom:20px;
+}
+</code></pre>
+ 
+<p>Script.js</p>
+<pre><code>
+
+function search(){
+   console.log('you found me');
+   const form = document.getElementById('searchbar');
+   searchobj = {"search":form.childNodes[1].value}
+ 
+   fetch('/search/',{
+       method: 'POST',
+       credentials:'same-origin',
+       mode:'cors',
+       headers: {
+           'Content-Type':'application/json',
+       },
+       body: JSON.stringify(searchobj),
+   })
+   .then(res => res.json())
+   .then(data => {
+       console.log(data)
+       if(!data.response){
+           noResults()
+       }
+       else{
+           populate(data['answer'])
+       }
+   })
+}
+ 
+function populate(results){
+   container = document.getElementById('results');
+   container.innerHTML = "";
+   console.log('got to pupulate')
+   console.log(results.length)
+   for (i=0;i&lt;results.length;i++){
+       console.log(i)
+       let wrapper, h3, p, a
+       [wrapper,h3,p,a]= makeFeed();
+       h3.innerText = results[i][0];
+       p.innerText = results[i][2];
+       a.href = "/topic/"+results[i][1]+"/"+results[i][0];
+       a.appendChild(h3);
+       a.appendChild(p);
+       wrapper.appendChild(a);
+       container.appendChild(wrapper);
+   }
+}
+ 
+ 
+function noResults(){
+   container = document.getElementById('results');
+   container.innerHTML = '';
+   h3 = document.createElement('h3');
+   h3.innerText = 'There are no search results';
+   container.appendChild(h3);
+}
+ 
+function makeFeed(){
+   wrapper = document.createElement('div');
+   wrapper.classList.add('search-results');
+   a = document.createElement('a');
+   a.classList.add('result-a');
+   h3 = document.createElement('h3');
+   h3.classList.add('title');
+   p = document.createElement('p');
+   p.classList.add('preview');
+ 
+   return [wrapper,h3,p,a]
+}
+</code></pre>
+ 
+<p>Chart.js</p>
+<pre><code>
+let chart1 = false;
+let chart2 = false;
+let chart3 = false;
+ 
+chart4 = [false,false,false,false]
+ 
+window.onload=()=>{
+   resort_dashboard()
+}
+ 
+// UPPER LEFT CHART
+ 
+async function build_ul_chart(type,year,month,unique){
+   const data = await fetchAPI('views-time',{'type':type,'year':year,'month':month,'unique':unique})
+   let x
+   if (month){
+       x = data.day
+   }
+   else if (year){
+       console.log(data.month)
+       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+       x = []
+       for (i=0;i&lt;data.month.length;i++){
+           x.push(months[data.month[i]-1]);
+       }
+   }
+   else{
+       x = data.year.map(String);
+   }   
+ 
+   const y = data.viewers;
+   const label = 'Site '+type;
+ 
+   draw_ul_chart(x,y,label)
+}
+ 
+ 
+function draw_ul_chart(xdata,ydata,label){
+  
+   const ul_data = {
+       labels:xdata,
+       datasets:[
+           {
+               label:label,
+               borderColor:'rgb(255,99,132)',
+               data:ydata
+           }
+       ]
+   };
+ 
+   const ul_config = {
+       type:'line',
+       data:ul_data,
+       options: {
+           plugins:{
+               title:{
+                   display:true,
+                   text:label,
+                   fullSize:true,
+                   font:{
+                       size:24,
+                   }
+               },
+               legend:{
+                   display:false,
+               }
+           }
+       }
+   }
+ 
+   if (chart1){
+       chart1.data.labels = xdata;
+       chart1.data.datasets.forEach((dataset) => {
+           dataset.data = ydata;
+           dataset.label = label;
+       });
+       chart1.options.plugins.title.text = label
+       chart1.update();
+   }else{
+       chart1 = new Chart(
+           document.getElementById('ul-chart'),
+           ul_config
+       )
+ 
+   }
+}
+ 
+ 
+// UPPER RIGHT KPI
+ 
+ 
+ 
+async function build_ur_chart(year,month){
+   year = false
+   month = false
+   data_av = await fetchAPI('kpi',{'request':'KPI_av','year':year,'month':month})
+   data_goal = await fetchAPI('kpi',{'request':'KPI_goal','year':year,'month':month})
+  
+  
+   kpi1 = document.getElementById('kpi1');
+   kpi2 = document.getElementById('kpi2');
+   draw_circle(kpi1,data_av.fillColor,data_av.kpi,'av views');
+   draw_circle(kpi2,data_goal.fillColor,data_goal.kpi+'%','mo. goal');
+}
+ 
+function draw_circle(canvas,color,kpi,message){
+   c = canvas.getContext('2d');
+   c.beginPath();
+   c.fillStyle='white';
+   c.height = 250;
+   c.width = 250;
+   x = c.width / 2;
+   y = c.height / 2;
+   c.arc(x,y, 100, 0, 2*Math.PI, false);
+   c.fill();
+ 
+   c.lineWidth = 8;
+   c.strokeStyle = color;
+   c.stroke();
+ 
+   c.beginPath();
+   c.fillStyle='black';
+   c.font = '40px Ariel';
+ 
+   if (message=='av views'){
+       c.fillText(kpi,x-23,y)
+       c.font = '20px Ariel';
+       c.fillText(message,x-32,y+40)
+   }else{
+       c.fillText(kpi,x-40,y)
+       c.font = '20px Ariel';
+       c.fillText(message,x-32,y+40)
+   }
+   c.fill()
+ 
+ 
+}
+ 
+ 
+// LOWER LEFT CHART
+ 
+async function build_ll_chart(type,category,year,month){
+   const data = await fetchAPI('views-type',{'type':type,'category':category,'year':year,"month":month})
+ 
+   const label = type + ' by ' + category
+ 
+   const y = data.count_
+   const x = data.cat_
+   console.log(x,y)
+ 
+   draw_ll_chart(x,y,label)
+}
+ 
+ 
+function draw_ll_chart(xdata,ydata,label){
+ 
+   const ll_data = {
+       labels:xdata,
+       datasets:[
+           {
+               label:label,
+               borderColor:'rgb(255,99,132)',
+               data:ydata,
+               backgroundColor:[
+                   'rgba(54, 162, 235, 0.4)'
+               ]
+           }
+       ]
+   };
+ 
+   const ll_config = {
+       type:'bar',
+       data:ll_data,
+       options: {
+           plugins:{
+               title:{
+                   display:true,
+                   text:label,
+                   fullSize:true,
+                   font:{
+                       size:24,
+                   }
+               },
+               legend:{
+                   display:false,
+               }
+           },
+           indexAxis:'y',
+       }
+   };
+ 
+   if (chart2){
+       chart2.data.labels = xdata;
+       chart2.data.datasets.forEach((dataset) => {
+           dataset.data = ydata;
+       });
+       chart2.options.plugins.title.text = label
+       chart2.update();
+   }else{
+       chart2 = new Chart(
+           document.getElementById('ll-chart'),
+           ll_config
+       );
+   }
+ 
+};
+ 
+ 
+ 
+// LOWER RIGHT CHART
+ 
+ 
+async function build_lr_chart(type,year,month,unique){
+   //Call for author list
+  
+   const data = await fetchAPI('authors',{'type':type,'year':year,'month':month,'unique':unique});
+   const auth_stats_wrapper = document.getElementById('stats-author-wrapper');
+ 
+   for (i=0;i&lt;data.length;i++){
+       let canvasID
+       let row = data[i]
+       if (!chart4[i]){
+           let user_wrapper = document.createElement('div');
+           let nid = "stats-"+row.author.replace(/\s/g,"-")
+           user_wrapper.classList.add('stats-author');
+           user_wrapper.id = nid;
+          
+           let img = make_avatar(row.avatar,1);
+           let p_name = make_name(row.author,2);
+           let [container,ID] = make_canvas(nid,3);
+           let p_posts = make_post_stat(row.posts,4);
+           let p_revenue = make_revenue_stat(row.revenue,5);
+ 
+           let tags = [img,p_name,container,p_posts,p_revenue];
+           for (j=0;j&lt;tags.length;j++){
+               user_wrapper.appendChild(tags[j]);
+           canvasID = ID
+           }
+       auth_stats_wrapper.appendChild(user_wrapper);
+      
+       }
+ 
+       let xdata = [...Array(row.views.month.length).keys()]
+       let ydata = row.views.viewers
+      
+       draw_lr_chart(xdata,ydata,canvasID,i)
+ 
+   }
+}
+ 
+ 
+function draw_lr_chart(xdata,ydata,domID,i){
+   const lr_xLabs = xdata
+   const lr_ycoord = ydata
+ 
+   const lr_data = {
+       labels:lr_xLabs,
+       datasets:[
+           {
+               label:'',
+               borderColor:'rgb(255,99,132)',
+               data:lr_ycoord
+           }
+       ]
+   };
+ 
+   const lr_config = {
+       type:'line',
+       data:lr_data,
+       options: {
+           plugins:{
+               title:{
+                   display:false,
+                   },
+               legend:{
+                   display:false,
+               }
+           },
+           maintainAspectRatio:false,
+           scales:{
+               xAxis:{
+                   display:false,
+               },
+               yAxis:{
+                   display:false,
+               }
+           },
+           elements:{
+               point:{
+                   radius: 0,
+               }
+           }
+       }
+   }
+  
+   if (chart4[i]){
+       chart4[i].data.labels = lr_xLabs;
+       chart4[i].data.datasets.forEach((dataset) => {
+           dataset.data = lr_ycoord;
+       });
+       chart4[i].update();
+   }else{
+       const new_chart = new Chart(
+           document.getElementById(domID),
+           lr_config
+       )
+       chart4[i] = new_chart;
+   }
+ 
+}
+ 
+function make_avatar(link,i){
+   img = document.createElement('img');
+   img.classList.add('stat-author-item','stat-author-item-'+i)
+   linktext = "/img/"+link
+   img.src = linktext;
+   img.alt = "avatar from Pixabay.com";
+   return img
+}
+ 
+function make_name(name,i){
+   p = document.createElement('p');
+   p.classList.add('stat-author-item','stat-author-item-'+i);
+   p.innerText = name;
+   return p
+}
+ 
+function make_post_stat(stat,i){
+   p = document.createElement('p');
+   p.classList.add('stat-author-item','stat-author-item-'+i);
+   p.innerText = stat;
+   return p
+}
+ 
+function make_revenue_stat(stat,i){
+   p = document.createElement('p');
+   p.classList.add('stat-author-item','stat-author-item-'+i);
+   p.innerText = stat;
+   return p
+}
+ 
+function make_canvas(nid,i){
+   container = document.createElement('div');
+   container.classList.add('stats-sparkline','stat-author-item','stat-author-item-'+i);
+   canvas = document.createElement('canvas');
+   canvas.id=nid+"-spark";
+   container.appendChild(canvas);
+   return [container, canvas.id]
+}
+ 
+ 
+ 
+function resort_dashboard(){
+ 
+   let unique = document.getElementById('_type-all').value;
+   let year = document.getElementById('sort-year').value
+   let month = document.getElementById('sort-month').value
+   const view_subs = document.getElementById('sort-graph').value
+   const top_tag = document.getElementById('sort-graph-2').value
+ 
+   if (unique == 'false'){
+       unique = false;
+   }else{
+       unique = true;
+   }
+   if (year == 'false'){
+       year = false;
+   }else{
+       year = parseInt(year);
+   }
+   if (month == 'false'){
+       month = false;
+   }else{
+       month = parseInt(month);
+   }
+ 
+   build_ul_chart(view_subs,year,month,unique)
+   build_ur_chart(year,month)
+   build_ll_chart(view_subs,top_tag,year,month)
+   build_lr_chart(view_subs,year,month,unique)
+  
+}
+</code></pre>
+ 
+<p>dashAPI.js</p>
+<pre><code>
+async function fetchAPI(path,obj){
+   const url = '/stats/'+path+'/';
+   const call = await fetch(url,{
+       method: 'POST',
+       credentials:'same-origin',
+       mode:'cors',
+       headers: {
+           'Content-Type':'application/json',
+       },
+       body: JSON.stringify(obj),
+   })
+   const parsed = await call.json()
+  
+   return parsed
+}
+</code></pre>
+ 
+<p>Dashboard Routing</p>
+ 
+<p>Dashapp.py</p>
+<pre><code>
+from flask import Blueprint, render_template, session, request, redirect,jsonify, send_file
+ 
+import dashboard
+# from dashboard import *
+import customSQL
+from customSQL import custom_SQL
+ 
+dashapp = Blueprint('dashapp',__name__,template_folder='templates')
+ 
+@dashapp.route('/dashboard/')
+def dashboard_():
+   if session['role'] not in ['admin']:
+       return redirect('/home')
+  
+   user_stats = {}
+   if session['role'] == 'admin':
+       pass
+   if session['role'] == 'author':
+       pass
+   elif session['role'] == 'contributor':
+       pass
+ 
+ 
+   return render_template('dashboard.html',
+       role=session['role']
+   )
+ 
+ 
+@dashapp.route('/stats', methods=['POST'])
+def s():
+   req = request.json
+ 
+ 
+@dashapp.route('/stats/authors/', methods=['POST'])
+def statsauthors():
+   req = request.json
+   print(req)
+   Q = custom_SQL()
+   to_return = []
+   auth_stats = dashboard.stat_author_stats(Q)
+   if req['type'] == 'views':
+       func = dashboard.stat_author_views_time
+   else:
+       func = dashboard.stat_author_subs_time
+ 
+   for i in range(len(auth_stats['author'])):
+       name = auth_stats['author'][i]
+       to_return.append({
+           "author":auth_stats['author'][i],
+           "avatar":auth_stats['avatar_link'][i],
+           "posts":auth_stats['post'][i],
+           "revenue":auth_stats['revenue'][i],
+           "views":func(Q,name,req['year'],req['month'],req['unique'])
+           })
+   # print(to_return)
+   Q.close()
+   return jsonify(to_return)
+  
+ 
+@dashapp.route('/stats/views-time/', methods=['POST'])
+def viewstime():
+   req = request.json
+   Q = custom_SQL()
+   if req['type'] == 'views':
+       views = dashboard.stat_views_site_time(Q,req['year'],req['month'],req['unique'])
+       return jsonify(views)
+   elif req['type'] == 'subs':
+       subs = dashboard.stat_subs_site_time(Q,req['year'],req['month'],req['unique'])
+       return jsonify(subs)
+ 
+@dashapp.route('/stats/views-type/', methods=['POST'])
+def viewstype():
+   req = request.json
+   Q = custom_SQL()
+   if req['category'] == 'tag':
+       if req['type'] == 'views':
+           views = dashboard.stat_views_tag_time(Q,req['year'],req['month'])
+           return jsonify(views)
+       if req['type'] == 'subs':
+           views = dashboard.stat_subs_tag_time(Q,req['year'],req['month'])
+           return jsonify(views)
+   if req['category'] == 'topic':
+       if req['type'] == 'views':
+           views = dashboard.stat_all_topic_views_time(Q,req['year'],req['month'])
+           return jsonify(views)
+       if req['type'] == 'subs':
+           views = dashboard.stat_all_topic_subs_time(Q,req['year'],req['month'])
+          
+           return jsonify(views)
+ 
+@dashapp.route('/stats/kpi/', methods=['POST'])
+def stats():
+   Q = custom_SQL()
+   req = request.json
+   if req['request'] == "KPI_av":
+       kpi = dashboard.kpi_site_view_av_day_month(Q,req['year'],req['month'])
+       if kpi[0][0]&lt;10:
+           fillColor = 'orange'
+       elif kpi[0][0]&lt;25:
+           fillColor = 'yellow'
+       else:
+           fillColor = 'green'
+      
+       return jsonify({"fillColor":fillColor,"kpi":kpi[0]})
+   elif req['request'] == "KPI_goal":
+       kpi = dashboard.kpi_site_month_goals(Q,req['year'],req['month'])
+       if kpi[0][0]&lt;65:
+           fillColor = 'red'
+       elif kpi[0][0]&lt;90:
+           fillColor = 'orange'
+       else:
+           fillColor = 'green'
+      
+       return jsonify({"fillColor":fillColor,"kpi":kpi[0]})
+  
+ 
+@dashapp.route('/img/&lt;filename&lt;', methods=['GET'])
+def showimg(filename):
+   return send_file('static/img/'+filename,mimetype='image/png')
+
+</code></pre>

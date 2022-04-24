@@ -1,0 +1,16 @@
+<p>Although the final application of the project will be as a personal portfolio and potential website hosting platform for my personal business, this submission is not hosted on the internet. The server is locally hosted with Flask. The Database itself is hosted on my servers. Permissions for access will be displayed at the appropriate location in the coding process below. This access is only intended for the reviewers of this project as required for the Capstone evaluation. Production of this project would hide these parameters (it is currently hidden from my .git files). </p>
+<p>The project can be fully replicated by following the instructions at the end of this document called “Building the Project” </p>
+<p>Further, this "portfolio-like" project does not intend to handle:</p>
+<ul><li>security logins</li>
+<li>search sanitizing</li>
+<li>automatic emails</li>
+<li>financial transactions</li>
+<li>subscription collections</li>
+<li>statistics gathering</li></ul>
+<p>A basis for these is prepared for, and the format for use is existent. </p>
+<p>Review</p>
+<p>We have built expectations for our project. Below we will:</p> 
+<ul><li>Create expectations for the Database</li>
+<li>Create ER Diagram and ER Model for our intentions</li>
+<li>Create DDL and DML statements to get the Database up and running</li>
+<li>Create Queries to fall back on in order to create the website population and dashboard</li></ul>

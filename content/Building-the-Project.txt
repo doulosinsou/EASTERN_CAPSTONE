@@ -1,0 +1,11 @@
+<p>Here is a bullet point walk through for rebuilding the project. This assumes that you have access to the .zip files and either a local or web MySQL server with personal access credentials. </p>
+ 
+<ol><li>Boot up an SQL server</li>
+<li>Connect with Workbench </li>
+<li>Load .sql files from the sql_files folder on root</li>
+<li>Create a custom database (mine was “moyeraud_website-builder”) </li>
+<li>Build the tables and basic inserts from `capstone_init` and `INSERTS` and `ViewsFuncProc` (be mindful of known INSERT bugs based on Primary Keys with timestamps)</li>
+<li>Use the rest of the files as references for queries</li>
+<li>Supply the login information to mysql.connector at the top of `customSQL.py`</li>
+<li>From terminal, run `generate_posts.py`, `generate_stats.py` and `generate_revenue.py` in that order</li>
+<li>Run Flask using `webapp.py` as the entry file</li></ol>

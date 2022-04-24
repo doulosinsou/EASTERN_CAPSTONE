@@ -1,0 +1,596 @@
+<?xml version="1.0"?>
+<!-- TEMPLATE -->
+<!-- <post>
+    <title></title>
+    <subtitle></subtitle>
+    <author>
+        <first_name></first_name>
+        <last_name></last_name>
+        <email></email>
+    </author>
+    <contributors>
+        <user>
+            <first_name></first_name>
+            <last_name></last_name>
+            <email></email>
+        </user>
+    </contributors>
+    <theme></theme>
+    <topics>
+        <topic_name></topic_name>
+    </topics>
+    <tags>
+        <tag_name></tag_name>
+    </tags>
+    <post_order></post_order>
+    <cover_img_link></cover_img_link>
+    <content></content>
+</post> -->
+<post_feed>
+    <post>
+        <title>Welcome to Public Lorem</title>
+        <subtitle>First post in the public Lorem Ipsum blog</subtitle>
+        <author>
+            <first_name>Joe</first_name>
+            <last_name>Jerryfield</last_name>
+            <email>joejfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abiandres@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Public Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>public</tag_name>
+        </tags>
+        <post_order>0</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>This Blog is a public Topic. The content of these post are generated through <a href='https://www.lipsum.com'>lipsum.com</a>. The purpose of this blog is the show that a public topic on this site can be viewable by anyone without needed to be logged in or subscribed. See the <a href='/topics/'>topics</a> page to view additional topics (often called Categories). Use the "View As" dropdown above to change who you are viewing as.</p>
+        </div>
+    </post>
+    <post>
+        <title>Public Lorem Ipsum 1</title>
+        <subtitle>446 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Joe</first_name>
+            <last_name>Jerryfield</last_name>
+            <email>joejfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abiandres@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Public Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>public</tag_name>
+        </tags>
+        <post_order>1</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget commodo felis. Aliquam tellus tortor, dignissim in cursus a, posuere eget metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In a sagittis dolor. Nunc efficitur urna eget arcu porttitor dignissim. Ut efficitur ultricies enim in suscipit. Mauris ut suscipit augue. Vivamus consequat risus et lectus congue, sit amet accumsan mauris iaculis. Maecenas rutrum commodo vulputate. Phasellus molestie ut ligula in rutrum. Donec sed nibh velit. Donec dictum est sem, in imperdiet ante suscipit at.</p>
+            <p>Donec non lorem ac ipsum aliquet suscipit lobortis at urna. Nunc egestas turpis lorem, in euismod magna gravida ut. In sed molestie nisi. Vivamus non pulvinar lacus. Sed maximus urna eu lorem mollis, vel mollis turpis egestas. Vivamus eleifend metus tellus, a aliquam eros volutpat ac. Duis vitae porttitor nulla, vitae ultrices sapien. Mauris eu lorem felis. Suspendisse ultricies, enim in aliquet interdum, risus orci efficitur sem, non iaculis nunc velit id elit.</p>
+            <p>Integer ac ipsum dolor. Sed quis diam in neque rhoncus pulvinar. Cras vel mi efficitur, vestibulum odio euismod, euismod lorem. In odio ipsum, laoreet vitae porttitor ut, cursus bibendum neque. Vestibulum neque mauris, convallis in semper nec, faucibus ut odio. Praesent et nunc ut quam semper finibus at vel sapien. Maecenas iaculis mauris at ante mattis aliquet at et nisi. Donec ac ipsum at ligula facilisis molestie a nec augue. Etiam sit amet orci euismod, porta diam in, varius nisl. Phasellus varius, lectus eget molestie facilisis, justo ipsum molestie ligula, sed accumsan lorem mauris a sem. Curabitur tortor erat, molestie nec pharetra at, accumsan sed velit. Curabitur molestie elit orci, sed lacinia nibh dapibus eu. Sed sem mauris, malesuada eget dapibus non, mollis sit amet tortor. Proin hendrerit, velit euismod iaculis commodo, diam urna pretium lacus, vel mattis libero tellus sollicitudin metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vel libero vel est dictum venenatis laoreet non odio.</p>
+            <p>Vivamus gravida turpis in nibh gravida, non imperdiet elit eleifend. Praesent egestas euismod lorem ut vulputate. Phasellus luctus feugiat ex eget commodo. Suspendisse mattis, ante nec dapibus fermentum, ligula quam porttitor eros, vitae mattis mauris tellus id enim. Nullam placerat metus eget porta pretium. Pellentesque in nibh at ipsum imperdiet placerat ac et massa. Nulla aliquet ante quis tempor tristique. Praesent turpis nisl, fermentum ut feugiat sed, porttitor in elit. Nullam quis dui vehicula, sagittis mi vel, sodales eros. Pellentesque dolor ante, maximus eu dolor nec, aliquam iaculis magna. Vivamus eget dignissim dui. Morbi elementum maximus eleifend. Aliquam fringilla aliquam elementum. Pellentesque vestibulum ligula fermentum risus ultrices vulputate. Integer purus urna, sagittis a facilisis quis, consectetur nec mi.</p> 
+        </div>
+    </post>
+    <post>
+        <title>Public Lorem Ipsum 2</title>
+        <subtitle>341 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Joe</first_name>
+            <last_name>Jerryfield</last_name>
+            <email>joejfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abiandres@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Public Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>public</tag_name>
+        </tags>
+        <post_order>2</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat, sem nec tincidunt sollicitudin, augue eros tempor diam, ac porta tortor quam varius dui. Sed eu nulla non ex laoreet fringilla vitae vitae velit. Donec lobortis odio a mi tempor, in congue nisl varius. Proin eu porttitor eros. Praesent hendrerit, ex id interdum ornare, massa lorem feugiat mauris, sed molestie nunc neque quis nulla. Nunc dictum nisi et odio pulvinar, non aliquam elit viverra. Fusce faucibus feugiat magna non molestie. Pellentesque ligula ex, vulputate non cursus sed, vestibulum id enim. Mauris sed posuere purus, in luctus leo.</p>
+            <p>Aliquam enim risus, lacinia a maximus id, ullamcorper non felis. Sed ac nulla ut ipsum eleifend lobortis. Vivamus id pretium velit. Nunc cursus elit magna, non efficitur arcu auctor eu. Proin ac nunc sit amet metus eleifend cursus. Cras metus quam, gravida et turpis sit amet, feugiat efficitur dui. Aliquam eu porta tortor. Integer nisl lorem, convallis egestas rhoncus vitae, interdum id orci. Nam euismod lacinia libero, ac tincidunt erat consequat efficitur. Ut in ex a urna interdum maximus quis sed odio. Sed semper porta augue, vitae gravida lacus fermentum eu. Integer interdum lacus mauris. Vestibulum eu enim sit amet est mattis vehicula.</p>
+            <p>Curabitur vestibulum sodales arcu nec vulputate. Integer rutrum est at nibh pellentesque, id bibendum tellus dictum. Vivamus in mollis arcu. Donec eget turpis aliquam, semper quam eget, ultricies tellus. Sed bibendum erat non justo pulvinar, vitae ultricies purus varius. Donec suscipit purus ipsum, et lacinia ex luctus a. Cras euismod quam eu orci consequat aliquam et at ex.</p>
+            <p>Maecenas eget purus ut nisi semper volutpat nec non est. Aliquam eu metus sed odio accumsan congue eget volutpat nibh. Suspendisse potenti. Sed purus nulla, rutrum et metus at, congue egestas nisi. Mauris euismod non neque blandit ultrices. Donec euismod nunc est, vel pellentesque neque iaculis a. Proin pretium a neque id luctus. Vestibulum vitae est lacinia, malesuada augue sed, lobortis sapien. In pulvinar dui tincidunt velit maximus, sit amet semper libero egestas. Nulla molestie libero nec dolor facilisis, a elementum orci fermentum.</p>
+        </div>
+    </post>
+    <post>
+        <title>Public Lorem Ipsum 3</title>
+        <subtitle>239 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Joe</first_name>
+            <last_name>Jerryfield</last_name>
+            <email>joejfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abiandres@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Public Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>public</tag_name>
+        </tags>
+        <post_order>3</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo nibh, auctor in hendrerit eu, iaculis quis odio. Praesent a mi eu est gravida venenatis. Nunc consectetur nibh vitae ante finibus blandit. Etiam mattis finibus efficitur. Nam semper, velit et auctor rutrum, lacus velit euismod lectus, vitae mattis sem ex ut massa. Aenean gravida dui ut orci accumsan, in tincidunt ex volutpat. Maecenas nec lobortis nibh, eu dictum velit. Morbi sit amet ultrices ex. Pellentesque volutpat sit amet dui at viverra.</p>
+            <p>Mauris molestie pharetra nulla vitae laoreet. Vivamus ut ultrices purus, eget faucibus risus. Nunc tincidunt metus quis eleifend pellentesque. Vestibulum egestas velit purus, in posuere elit porttitor eu. Pellentesque ultrices tincidunt metus, a sagittis ipsum pretium ut. Vivamus sodales ligula molestie mauris auctor gravida. Quisque sollicitudin eros quis quam dignissim eleifend et ut orci. Aenean in vehicula justo. Phasellus viverra consequat turpis vel tempus. Sed vulputate sapien sit amet metus pharetra, iaculis tincidunt est commodo.</p>
+            <p>Integer nec eleifend velit, a commodo ipsum. Aliquam venenatis urna ac nulla faucibus, non aliquet elit iaculis. Ut ut tortor vulputate, porttitor lacus ut, viverra ex. Vivamus ut suscipit massa. Curabitur a pellentesque enim, in bibendum odio. Etiam tristique tincidunt odio, sit amet pharetra urna accumsan id. Etiam eget consequat libero. Sed volutpat malesuada ultricies. Suspendisse vitae dui eu risus cursus tristique. Vivamus ac malesuada mauris. Cras a dignissim erat, eu facilisis magna. Phasellus elit dolor, porttitor vel velit quis, mollis sagittis sem. </p>
+        </div>
+    </post>
+    <post>
+        <title>Public Lorem Ipsum 4</title>
+        <subtitle>264 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Joe</first_name>
+            <last_name>Jerryfield</last_name>
+            <email>joejfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Abi</first_name>
+                <last_name>Andres</last_name>
+                <email>abiandres@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Public Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>public</tag_name>
+        </tags>
+        <post_order>4</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel metus sit amet dolor eleifend cursus id non tortor. Curabitur a malesuada libero. Suspendisse interdum dapibus nunc, ac cursus lacus semper nec. Cras faucibus auctor odio, vulputate gravida magna eleifend vel. Cras eu elit in enim faucibus dignissim a et purus. Vestibulum a sagittis neque. Praesent ut lectus diam. Fusce suscipit ac nunc vitae vulputate. Mauris dignissim ipsum mattis ligula ultricies blandit. Ut viverra sem at faucibus feugiat. Nullam lobortis elit in maximus sodales. In consequat erat vitae nisl porttitor rhoncus. Proin pulvinar dignissim purus, id sollicitudin justo luctus vestibulum.</p>
+            <p>Morbi non tristique dolor. Sed pretium diam ut purus efficitur pellentesque. Phasellus malesuada at urna faucibus vestibulum. Donec gravida consequat metus nec finibus. Quisque nisl tellus, aliquam non tincidunt id, condimentum vel enim. Curabitur ornare, justo eu cursus lacinia, justo risus consectetur arcu, vitae posuere nisi elit non enim. Ut sagittis urna et lectus eleifend, a vestibulum ligula pellentesque. Donec porta interdum tellus vitae pellentesque. Maecenas efficitur vulputate neque in pharetra.</p>
+            <p>Cras hendrerit felis at justo viverra, id gravida nibh ornare. Praesent nec nulla pretium tellus elementum ultrices. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris sit amet suscipit metus, pharetra porta lacus. Integer nec tellus consequat, fringilla eros ut, pulvinar felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat, tellus eu vulputate tincidunt, ligula diam pulvinar sem, nec eleifend felis quam et velit. Aenean nec dictum est. Cras tincidunt interdum blandit. Vestibulum id porta nisi. In hac habitasse platea dictumst. Mauris eget varius lectus, sit amet pharetra est. </p>
+        </div>
+    </post>
+
+
+
+
+
+    <post>
+        <title>Welcome to Subscribed Lorem</title>
+        <subtitle>First post in the subscribed Lorem Ipsum blog</subtitle>
+        <author>
+            <first_name>Liz</first_name>
+            <last_name>Longerfield</last_name>
+            <email>lizlfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-narrow</theme>
+        <topics>
+            <topic_name>Subscribed Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>0</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>This Blog is a Subscribed Topic. The content of these posts are generated through <a href='www.lipsum.com'>lipsum.com</a>. The purpose of this blog is the show that a subscribed topic on this site can be viewable by anyone who is subscribed for free. See the <a href='/topics/'>topics</a> page to view additional topics (often called Categories). Use the "View As" dropdown above to change who you are viewing as.</p>
+        </div>
+    </post>
+    <post>
+        <title>Subscribed Lorem Ipsum 1</title>
+        <subtitle>446 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Liz</first_name>
+            <last_name>Longerfield</last_name>
+            <email>lizlfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-narrow</theme>
+        <topics>
+            <topic_name>Subscribed Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>1</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget commodo felis. Aliquam tellus tortor, dignissim in cursus a, posuere eget metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In a sagittis dolor. Nunc efficitur urna eget arcu porttitor dignissim. Ut efficitur ultricies enim in suscipit. Mauris ut suscipit augue. Vivamus consequat risus et lectus congue, sit amet accumsan mauris iaculis. Maecenas rutrum commodo vulputate. Phasellus molestie ut ligula in rutrum. Donec sed nibh velit. Donec dictum est sem, in imperdiet ante suscipit at.</p>
+            <p>Donec non lorem ac ipsum aliquet suscipit lobortis at urna. Nunc egestas turpis lorem, in euismod magna gravida ut. In sed molestie nisi. Vivamus non pulvinar lacus. Sed maximus urna eu lorem mollis, vel mollis turpis egestas. Vivamus eleifend metus tellus, a aliquam eros volutpat ac. Duis vitae porttitor nulla, vitae ultrices sapien. Mauris eu lorem felis. Suspendisse ultricies, enim in aliquet interdum, risus orci efficitur sem, non iaculis nunc velit id elit.</p>
+            <p>Integer ac ipsum dolor. Sed quis diam in neque rhoncus pulvinar. Cras vel mi efficitur, vestibulum odio euismod, euismod lorem. In odio ipsum, laoreet vitae porttitor ut, cursus bibendum neque. Vestibulum neque mauris, convallis in semper nec, faucibus ut odio. Praesent et nunc ut quam semper finibus at vel sapien. Maecenas iaculis mauris at ante mattis aliquet at et nisi. Donec ac ipsum at ligula facilisis molestie a nec augue. Etiam sit amet orci euismod, porta diam in, varius nisl. Phasellus varius, lectus eget molestie facilisis, justo ipsum molestie ligula, sed accumsan lorem mauris a sem. Curabitur tortor erat, molestie nec pharetra at, accumsan sed velit. Curabitur molestie elit orci, sed lacinia nibh dapibus eu. Sed sem mauris, malesuada eget dapibus non, mollis sit amet tortor. Proin hendrerit, velit euismod iaculis commodo, diam urna pretium lacus, vel mattis libero tellus sollicitudin metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vel libero vel est dictum venenatis laoreet non odio.</p>
+            <p>Vivamus gravida turpis in nibh gravida, non imperdiet elit eleifend. Praesent egestas euismod lorem ut vulputate. Phasellus luctus feugiat ex eget commodo. Suspendisse mattis, ante nec dapibus fermentum, ligula quam porttitor eros, vitae mattis mauris tellus id enim. Nullam placerat metus eget porta pretium. Pellentesque in nibh at ipsum imperdiet placerat ac et massa. Nulla aliquet ante quis tempor tristique. Praesent turpis nisl, fermentum ut feugiat sed, porttitor in elit. Nullam quis dui vehicula, sagittis mi vel, sodales eros. Pellentesque dolor ante, maximus eu dolor nec, aliquam iaculis magna. Vivamus eget dignissim dui. Morbi elementum maximus eleifend. Aliquam fringilla aliquam elementum. Pellentesque vestibulum ligula fermentum risus ultrices vulputate. Integer purus urna, sagittis a facilisis quis, consectetur nec mi.</p> 
+        </div>
+    </post>
+    <post>
+        <title>Subscribed Lorem Ipsum 2</title>
+        <subtitle>341 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Liz</first_name>
+            <last_name>Longerfield</last_name>
+            <email>lizlfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-narrow</theme>
+        <topics>
+            <topic_name>Subscribed Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>2</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat, sem nec tincidunt sollicitudin, augue eros tempor diam, ac porta tortor quam varius dui. Sed eu nulla non ex laoreet fringilla vitae vitae velit. Donec lobortis odio a mi tempor, in congue nisl varius. Proin eu porttitor eros. Praesent hendrerit, ex id interdum ornare, massa lorem feugiat mauris, sed molestie nunc neque quis nulla. Nunc dictum nisi et odio pulvinar, non aliquam elit viverra. Fusce faucibus feugiat magna non molestie. Pellentesque ligula ex, vulputate non cursus sed, vestibulum id enim. Mauris sed posuere purus, in luctus leo.</p>
+            <p>Aliquam enim risus, lacinia a maximus id, ullamcorper non felis. Sed ac nulla ut ipsum eleifend lobortis. Vivamus id pretium velit. Nunc cursus elit magna, non efficitur arcu auctor eu. Proin ac nunc sit amet metus eleifend cursus. Cras metus quam, gravida et turpis sit amet, feugiat efficitur dui. Aliquam eu porta tortor. Integer nisl lorem, convallis egestas rhoncus vitae, interdum id orci. Nam euismod lacinia libero, ac tincidunt erat consequat efficitur. Ut in ex a urna interdum maximus quis sed odio. Sed semper porta augue, vitae gravida lacus fermentum eu. Integer interdum lacus mauris. Vestibulum eu enim sit amet est mattis vehicula.</p>
+            <p>Curabitur vestibulum sodales arcu nec vulputate. Integer rutrum est at nibh pellentesque, id bibendum tellus dictum. Vivamus in mollis arcu. Donec eget turpis aliquam, semper quam eget, ultricies tellus. Sed bibendum erat non justo pulvinar, vitae ultricies purus varius. Donec suscipit purus ipsum, et lacinia ex luctus a. Cras euismod quam eu orci consequat aliquam et at ex.</p>
+            <p>Maecenas eget purus ut nisi semper volutpat nec non est. Aliquam eu metus sed odio accumsan congue eget volutpat nibh. Suspendisse potenti. Sed purus nulla, rutrum et metus at, congue egestas nisi. Mauris euismod non neque blandit ultrices. Donec euismod nunc est, vel pellentesque neque iaculis a. Proin pretium a neque id luctus. Vestibulum vitae est lacinia, malesuada augue sed, lobortis sapien. In pulvinar dui tincidunt velit maximus, sit amet semper libero egestas. Nulla molestie libero nec dolor facilisis, a elementum orci fermentum.</p>
+        </div>
+    </post>
+    <post>
+        <title>Subscribed Lorem Ipsum 3</title>
+        <subtitle>239 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Liz</first_name>
+            <last_name>Longerfield</last_name>
+            <email>lizlfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-narrow</theme>
+        <topics>
+            <topic_name>Subscribed Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>3</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo nibh, auctor in hendrerit eu, iaculis quis odio. Praesent a mi eu est gravida venenatis. Nunc consectetur nibh vitae ante finibus blandit. Etiam mattis finibus efficitur. Nam semper, velit et auctor rutrum, lacus velit euismod lectus, vitae mattis sem ex ut massa. Aenean gravida dui ut orci accumsan, in tincidunt ex volutpat. Maecenas nec lobortis nibh, eu dictum velit. Morbi sit amet ultrices ex. Pellentesque volutpat sit amet dui at viverra.</p>
+            <p>Mauris molestie pharetra nulla vitae laoreet. Vivamus ut ultrices purus, eget faucibus risus. Nunc tincidunt metus quis eleifend pellentesque. Vestibulum egestas velit purus, in posuere elit porttitor eu. Pellentesque ultrices tincidunt metus, a sagittis ipsum pretium ut. Vivamus sodales ligula molestie mauris auctor gravida. Quisque sollicitudin eros quis quam dignissim eleifend et ut orci. Aenean in vehicula justo. Phasellus viverra consequat turpis vel tempus. Sed vulputate sapien sit amet metus pharetra, iaculis tincidunt est commodo.</p>
+            <p>Integer nec eleifend velit, a commodo ipsum. Aliquam venenatis urna ac nulla faucibus, non aliquet elit iaculis. Ut ut tortor vulputate, porttitor lacus ut, viverra ex. Vivamus ut suscipit massa. Curabitur a pellentesque enim, in bibendum odio. Etiam tristique tincidunt odio, sit amet pharetra urna accumsan id. Etiam eget consequat libero. Sed volutpat malesuada ultricies. Suspendisse vitae dui eu risus cursus tristique. Vivamus ac malesuada mauris. Cras a dignissim erat, eu facilisis magna. Phasellus elit dolor, porttitor vel velit quis, mollis sagittis sem. </p>
+        </div>
+    </post>
+    <post>
+        <title>Subscribed Lorem Ipsum 4</title>
+        <subtitle>264 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Liz</first_name>
+            <last_name>Longerfield</last_name>
+            <email>lizlfield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-narrow</theme>
+        <topics>
+            <topic_name>Subscribed Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>4</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel metus sit amet dolor eleifend cursus id non tortor. Curabitur a malesuada libero. Suspendisse interdum dapibus nunc, ac cursus lacus semper nec. Cras faucibus auctor odio, vulputate gravida magna eleifend vel. Cras eu elit in enim faucibus dignissim a et purus. Vestibulum a sagittis neque. Praesent ut lectus diam. Fusce suscipit ac nunc vitae vulputate. Mauris dignissim ipsum mattis ligula ultricies blandit. Ut viverra sem at faucibus feugiat. Nullam lobortis elit in maximus sodales. In consequat erat vitae nisl porttitor rhoncus. Proin pulvinar dignissim purus, id sollicitudin justo luctus vestibulum.</p>
+            <p>Morbi non tristique dolor. Sed pretium diam ut purus efficitur pellentesque. Phasellus malesuada at urna faucibus vestibulum. Donec gravida consequat metus nec finibus. Quisque nisl tellus, aliquam non tincidunt id, condimentum vel enim. Curabitur ornare, justo eu cursus lacinia, justo risus consectetur arcu, vitae posuere nisi elit non enim. Ut sagittis urna et lectus eleifend, a vestibulum ligula pellentesque. Donec porta interdum tellus vitae pellentesque. Maecenas efficitur vulputate neque in pharetra.</p>
+            <p>Cras hendrerit felis at justo viverra, id gravida nibh ornare. Praesent nec nulla pretium tellus elementum ultrices. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris sit amet suscipit metus, pharetra porta lacus. Integer nec tellus consequat, fringilla eros ut, pulvinar felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat, tellus eu vulputate tincidunt, ligula diam pulvinar sem, nec eleifend felis quam et velit. Aenean nec dictum est. Cras tincidunt interdum blandit. Vestibulum id porta nisi. In hac habitasse platea dictumst. Mauris eget varius lectus, sit amet pharetra est. </p>
+        </div>
+    </post>
+
+
+
+
+
+    <post>
+        <title>Welcome to Premium Lorem</title>
+        <subtitle>First post in the Premium Lorem Ipsum blog</subtitle>
+        <author>
+            <first_name>Ashley</first_name>
+            <last_name>Atfield</last_name>
+            <email>ashleyafield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Dark-wide</theme>
+        <topics>
+            <topic_name>Premium Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>0</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>This Blog is a Premium Topic. The content of these posts are generated through <a href='www.lipsum.com'>lipsum.com</a>. The purpose of this blog is the show that a premium topic on this site can be viewable only by those who is have a premium subscription. See the <a href='/topics/'>topics</a> page to view additional topics (often called Categories). Use the "View As" dropdown above to change who you are viewing as.</p>
+        </div>
+    </post>
+    <post>
+        <title>Premium Lorem Ipsum 1</title>
+        <subtitle>446 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Ashley</first_name>
+            <last_name>Atfield</last_name>
+            <email>ashleyafield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Dark-wide</theme>
+        <topics>
+            <topic_name>Premium Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>1</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget commodo felis. Aliquam tellus tortor, dignissim in cursus a, posuere eget metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In a sagittis dolor. Nunc efficitur urna eget arcu porttitor dignissim. Ut efficitur ultricies enim in suscipit. Mauris ut suscipit augue. Vivamus consequat risus et lectus congue, sit amet accumsan mauris iaculis. Maecenas rutrum commodo vulputate. Phasellus molestie ut ligula in rutrum. Donec sed nibh velit. Donec dictum est sem, in imperdiet ante suscipit at.</p>
+            <p>Donec non lorem ac ipsum aliquet suscipit lobortis at urna. Nunc egestas turpis lorem, in euismod magna gravida ut. In sed molestie nisi. Vivamus non pulvinar lacus. Sed maximus urna eu lorem mollis, vel mollis turpis egestas. Vivamus eleifend metus tellus, a aliquam eros volutpat ac. Duis vitae porttitor nulla, vitae ultrices sapien. Mauris eu lorem felis. Suspendisse ultricies, enim in aliquet interdum, risus orci efficitur sem, non iaculis nunc velit id elit.</p>
+            <p>Integer ac ipsum dolor. Sed quis diam in neque rhoncus pulvinar. Cras vel mi efficitur, vestibulum odio euismod, euismod lorem. In odio ipsum, laoreet vitae porttitor ut, cursus bibendum neque. Vestibulum neque mauris, convallis in semper nec, faucibus ut odio. Praesent et nunc ut quam semper finibus at vel sapien. Maecenas iaculis mauris at ante mattis aliquet at et nisi. Donec ac ipsum at ligula facilisis molestie a nec augue. Etiam sit amet orci euismod, porta diam in, varius nisl. Phasellus varius, lectus eget molestie facilisis, justo ipsum molestie ligula, sed accumsan lorem mauris a sem. Curabitur tortor erat, molestie nec pharetra at, accumsan sed velit. Curabitur molestie elit orci, sed lacinia nibh dapibus eu. Sed sem mauris, malesuada eget dapibus non, mollis sit amet tortor. Proin hendrerit, velit euismod iaculis commodo, diam urna pretium lacus, vel mattis libero tellus sollicitudin metus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed vel libero vel est dictum venenatis laoreet non odio.</p>
+            <p>Vivamus gravida turpis in nibh gravida, non imperdiet elit eleifend. Praesent egestas euismod lorem ut vulputate. Phasellus luctus feugiat ex eget commodo. Suspendisse mattis, ante nec dapibus fermentum, ligula quam porttitor eros, vitae mattis mauris tellus id enim. Nullam placerat metus eget porta pretium. Pellentesque in nibh at ipsum imperdiet placerat ac et massa. Nulla aliquet ante quis tempor tristique. Praesent turpis nisl, fermentum ut feugiat sed, porttitor in elit. Nullam quis dui vehicula, sagittis mi vel, sodales eros. Pellentesque dolor ante, maximus eu dolor nec, aliquam iaculis magna. Vivamus eget dignissim dui. Morbi elementum maximus eleifend. Aliquam fringilla aliquam elementum. Pellentesque vestibulum ligula fermentum risus ultrices vulputate. Integer purus urna, sagittis a facilisis quis, consectetur nec mi.</p> 
+        </div>
+    </post>
+    <post>
+        <title>Premium Lorem Ipsum 2</title>
+        <subtitle>341 words from Lipsum.com</subtitle>
+        <author>
+            <first_name>Ashley</first_name>
+            <last_name>Atfield</last_name>
+            <email>ashleyafield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Dark-wide</theme>
+        <topics>
+            <topic_name>Premium Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>2</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat, sem nec tincidunt sollicitudin, augue eros tempor diam, ac porta tortor quam varius dui. Sed eu nulla non ex laoreet fringilla vitae vitae velit. Donec lobortis odio a mi tempor, in congue nisl varius. Proin eu porttitor eros. Praesent hendrerit, ex id interdum ornare, massa lorem feugiat mauris, sed molestie nunc neque quis nulla. Nunc dictum nisi et odio pulvinar, non aliquam elit viverra. Fusce faucibus feugiat magna non molestie. Pellentesque ligula ex, vulputate non cursus sed, vestibulum id enim. Mauris sed posuere purus, in luctus leo.</p>
+            <p>Aliquam enim risus, lacinia a maximus id, ullamcorper non felis. Sed ac nulla ut ipsum eleifend lobortis. Vivamus id pretium velit. Nunc cursus elit magna, non efficitur arcu auctor eu. Proin ac nunc sit amet metus eleifend cursus. Cras metus quam, gravida et turpis sit amet, feugiat efficitur dui. Aliquam eu porta tortor. Integer nisl lorem, convallis egestas rhoncus vitae, interdum id orci. Nam euismod lacinia libero, ac tincidunt erat consequat efficitur. Ut in ex a urna interdum maximus quis sed odio. Sed semper porta augue, vitae gravida lacus fermentum eu. Integer interdum lacus mauris. Vestibulum eu enim sit amet est mattis vehicula.</p>
+            <p>Curabitur vestibulum sodales arcu nec vulputate. Integer rutrum est at nibh pellentesque, id bibendum tellus dictum. Vivamus in mollis arcu. Donec eget turpis aliquam, semper quam eget, ultricies tellus. Sed bibendum erat non justo pulvinar, vitae ultricies purus varius. Donec suscipit purus ipsum, et lacinia ex luctus a. Cras euismod quam eu orci consequat aliquam et at ex.</p>
+            <p>Maecenas eget purus ut nisi semper volutpat nec non est. Aliquam eu metus sed odio accumsan congue eget volutpat nibh. Suspendisse potenti. Sed purus nulla, rutrum et metus at, congue egestas nisi. Mauris euismod non neque blandit ultrices. Donec euismod nunc est, vel pellentesque neque iaculis a. Proin pretium a neque id luctus. Vestibulum vitae est lacinia, malesuada augue sed, lobortis sapien. In pulvinar dui tincidunt velit maximus, sit amet semper libero egestas. Nulla molestie libero nec dolor facilisis, a elementum orci fermentum.</p>
+        </div>
+    </post>
+    <post>
+        <title>Premium Lorem Ipsum 3</title>
+        <subtitle>239 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Ashley</first_name>
+            <last_name>Atfield</last_name>
+            <email>ashleyafield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Dark-wide</theme>
+        <topics>
+            <topic_name>Premium Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>3</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam leo nibh, auctor in hendrerit eu, iaculis quis odio. Praesent a mi eu est gravida venenatis. Nunc consectetur nibh vitae ante finibus blandit. Etiam mattis finibus efficitur. Nam semper, velit et auctor rutrum, lacus velit euismod lectus, vitae mattis sem ex ut massa. Aenean gravida dui ut orci accumsan, in tincidunt ex volutpat. Maecenas nec lobortis nibh, eu dictum velit. Morbi sit amet ultrices ex. Pellentesque volutpat sit amet dui at viverra.</p>
+            <p>Mauris molestie pharetra nulla vitae laoreet. Vivamus ut ultrices purus, eget faucibus risus. Nunc tincidunt metus quis eleifend pellentesque. Vestibulum egestas velit purus, in posuere elit porttitor eu. Pellentesque ultrices tincidunt metus, a sagittis ipsum pretium ut. Vivamus sodales ligula molestie mauris auctor gravida. Quisque sollicitudin eros quis quam dignissim eleifend et ut orci. Aenean in vehicula justo. Phasellus viverra consequat turpis vel tempus. Sed vulputate sapien sit amet metus pharetra, iaculis tincidunt est commodo.</p>
+            <p>Integer nec eleifend velit, a commodo ipsum. Aliquam venenatis urna ac nulla faucibus, non aliquet elit iaculis. Ut ut tortor vulputate, porttitor lacus ut, viverra ex. Vivamus ut suscipit massa. Curabitur a pellentesque enim, in bibendum odio. Etiam tristique tincidunt odio, sit amet pharetra urna accumsan id. Etiam eget consequat libero. Sed volutpat malesuada ultricies. Suspendisse vitae dui eu risus cursus tristique. Vivamus ac malesuada mauris. Cras a dignissim erat, eu facilisis magna. Phasellus elit dolor, porttitor vel velit quis, mollis sagittis sem. </p>
+        </div>
+    </post>
+    <post>
+        <title>Premium Lorem Ipsum 4</title>
+        <subtitle>264 words from Lipsum.com</subtitle>
+       <author>
+            <first_name>Ashley</first_name>
+            <last_name>Atfield</last_name>
+            <email>ashleyafield@website.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>John</first_name>
+                <last_name>Jackson</last_name>
+                <email>johnjackson@website.com</email>
+            </user>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Dark-wide</theme>
+        <topics>
+            <topic_name>Premium Blog</topic_name>
+        </topics>
+        <tags>
+            <tag_name>Lorem Ipsum</tag_name>
+            <tag_name>demo</tag_name>
+            <tag_name>subscriber</tag_name>
+        </tags>
+        <post_order>4</post_order>
+        <cover_img_link></cover_img_link>
+        <div class='content'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel metus sit amet dolor eleifend cursus id non tortor. Curabitur a malesuada libero. Suspendisse interdum dapibus nunc, ac cursus lacus semper nec. Cras faucibus auctor odio, vulputate gravida magna eleifend vel. Cras eu elit in enim faucibus dignissim a et purus. Vestibulum a sagittis neque. Praesent ut lectus diam. Fusce suscipit ac nunc vitae vulputate. Mauris dignissim ipsum mattis ligula ultricies blandit. Ut viverra sem at faucibus feugiat. Nullam lobortis elit in maximus sodales. In consequat erat vitae nisl porttitor rhoncus. Proin pulvinar dignissim purus, id sollicitudin justo luctus vestibulum.</p>
+            <p>Morbi non tristique dolor. Sed pretium diam ut purus efficitur pellentesque. Phasellus malesuada at urna faucibus vestibulum. Donec gravida consequat metus nec finibus. Quisque nisl tellus, aliquam non tincidunt id, condimentum vel enim. Curabitur ornare, justo eu cursus lacinia, justo risus consectetur arcu, vitae posuere nisi elit non enim. Ut sagittis urna et lectus eleifend, a vestibulum ligula pellentesque. Donec porta interdum tellus vitae pellentesque. Maecenas efficitur vulputate neque in pharetra.</p>
+            <p>Cras hendrerit felis at justo viverra, id gravida nibh ornare. Praesent nec nulla pretium tellus elementum ultrices. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris sit amet suscipit metus, pharetra porta lacus. Integer nec tellus consequat, fringilla eros ut, pulvinar felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut volutpat, tellus eu vulputate tincidunt, ligula diam pulvinar sem, nec eleifend felis quam et velit. Aenean nec dictum est. Cras tincidunt interdum blandit. Vestibulum id porta nisi. In hac habitasse platea dictumst. Mauris eget varius lectus, sit amet pharetra est. </p>
+        </div>
+    </post>
+
+</post_feed>

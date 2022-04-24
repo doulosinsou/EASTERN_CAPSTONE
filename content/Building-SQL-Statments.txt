@@ -1,0 +1,785 @@
+<p>The following is copied from `customSQL.py` and will be the basis for all sql calls. It begins by building a connector class with relevant select/insert methods. This class will be called, and passed into the query functions we want to use. Many of those query functions are pasted below. Not every one is used, but many are and serve as a basis to build on in further development.</p>
+<p>After this paste is the function statements for the dashboard queries</p>
+<p>(Thank you to google docs for retaining color schemes, making it far easier to read. This is not a picture, it's just formatted text as PASTE into google docs) </p>
+
+<pre><code>
+MYSQL_share_credentials = {
+   "user":'moyeraud_capstoneViewer',
+   "password":'(EcL$)nH{u5~,',
+   "host":"moyeraudio.com",
+   "database":"moyeraud_website-builder"
+}
+
+
+from tokenize import group
+import mysql.connector
+from auth import MYSQL_credentials as cred
+ 
+ 
+class custom_SQL:
+   def __init__(self):
+       try:
+           self.con = mysql.connector.connect(**cred)
+       except mysql.connector.Error as err:
+           return(err)
+  
+   def select(self,Q,table,conditions=False,orderby=False,groupby=False):
+       cur = self.con.cursor(buffered=True)
+       statement = f'SELECT {Q} FROM {table}'
+       if conditions:
+           features = []
+           matches = []
+           for key in conditions:
+               features.append(key)
+               matches.append(conditions[key])
+ 
+           statement += ' WHERE {}=%s'.format(features[0])
+           if len(conditions.keys())>1:
+               for feat in features[1:]:
+                   statement += ' AND {}=%s'.format(feat)
+          
+ 
+           if orderby:
+               statement+=" ORDER BY "+orderby
+           if groupby:
+               statement+=" GROUP BY "+groupby
+           print(statement)
+           cur.execute(statement,(*matches,))
+       else:
+           if orderby:
+               statement+=" ORDER BY "+orderby
+           if groupby:
+               statement+=" GROUP BY "+groupby
+           # cur.execute(statement,(Q,table))
+           print(statement)
+           cur.execute(statement)
+ 
+       column_names = [c[0] for c in cur.description]
+       data_dict = dict()
+       for name in column_names:
+           data_dict[name] = []
+       results = [cur.fetchall()]
+       for row in results[0]:
+           for i, col in enumerate(row):
+               data_dict[column_names[i]].append(col)
+       cur.close()
+ 
+       return data_dict
+ 
+   def insert(self,table,col_val_dict,close=True):
+       cur = self.con.cursor(buffered=True)
+       columns=tuple([key for key in col_val_dict.keys()])
+       col_string=','.join(columns)
+       values=tuple([col_val_dict[c] for c in columns])
+       statement = 'INSERT INTO {} ({}) VALUES {}'.format(table,col_string,values)
+       print(statement)
+      
+       # cur.execute(statement,(values,))
+       cur.execute(statement)
+       last_id = cur.lastrowid
+       if close:
+           cur.close()
+           # self.commit()
+       return last_id
+ 
+   def update(self,table,column,value,row_id, close=True):
+       cur = self.con.cursor(buffered=False)
+       statement = "UPDATE {} SET {} = '{}' WHERE article_ID={}".format(table,column,value,row_id)
+       # print(statement)
+       # cur.execute(statement,(values,))
+       # cur.execute(statement, multi=True)
+       cur.execute(statement)
+       last_id = cur.lastrowid
+      
+       if close:
+          
+           cur.close()
+           # self.commit()
+       return last_id
+ 
+   def exists(self,what,table,conditions):
+       cur = self.con.cursor(buffered=True)
+       statement = f'SELECT EXISTS( SELECT {what} FROM {table}'
+       cond_keys = []
+       cond_values = []
+       for cond in conditions.keys():
+           cond_keys.append(cond)
+           cond_values.append(conditions[cond])
+       statement += " WHERE {}=%s".format(cond_keys[0])
+       if len(cond_keys)>1:
+           for cond in cond_keys[1:]:
+               statement += " AND {}=%s ".format(cond)
+       statement += ")"
+       vals = (*cond_values,)
+ 
+       cur.execute(statement,vals)
+       answer = cur.fetchone()
+       cur.close()
+       return answer
+ 
+   def like(self,what,table,item,term):
+       cur = self.con.cursor(buffered=True)
+ 
+       statement = f"SELECT {what} FROM {table} WHERE {item} LIKE CONCAT('%', %s, '%') limit 10"
+  
+       cur.execute(statement,(term,))
+       answer = cur.fetchall()
+       cur.close()
+       return answer
+ 
+   def custom(self,statement,values):
+       print(statement, values)
+       cur = self.con.cursor(buffered=True)
+       if len(values) > 0:
+           cur.execute(statement,(*values,))
+       else:
+           cur.execute(statement)
+       answer = cur.fetchall()
+       print(answer)
+       cur.close()
+       return answer
+ 
+   def commit(self):
+       self.con.commit()
+ 
+   def close(self):
+       self.con.close()
+ 
+ 
+ 
+########### SELECT ############
+ 
+def grab_article(sql_obj, title, post_id=False):
+   find="Post.article_ID, Post.title, concat(Users.first_name,' ',Users.last_name) AS author, Post.subtitle, Post.post_date, Post.theme, Post.page_type, Post.post_order, Post.content, Post.cover_img_link"
+   table="Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Users.ID=Writes.author_ID"
+   conditions={"Post.title":title}
+   if post_id:
+       conditions["Post.article_ID":post_id]
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_all_topics(sql_obj):
+   find="topic_name, topic_status"
+   table="Topics"
+   return sql_obj.select(find,table)
+ 
+def grab_all_tags(sql_obj):
+   find="tag_name, COUNT(*) as count"
+   table="Tags GROUP BY tag_name ORDER BY count DESC"
+   return sql_obj.select(find,table)
+ 
+def grab_articles_in_topic(sql_obj,topic_name,order="DESC"):
+   find="Post.title, Topics.topic_description, Topics.topic_status"
+   table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
+   conditions={"Topics.topic_name":topic_name}
+   orderby=f"Post.post_order {order}, Post.post_date {order}"
+   return sql_obj.select(find,table,conditions,orderby)
+ 
+def grab_articles_in_tag(sql_obj,tag_name):
+   find="Post.title, Topic_Post.topic_name"
+   table=" Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID"
+   conditions={"Tags.tag_name":tag_name}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_topics_in_article(sql_obj,article_ID):
+   find="Topics.topic_name, Topics.topic_status"
+   table="Topics INNER JOIN Topic_Post ON Topics.topic_name=Topic_Post.topic_name INNER JOIN Post ON Topic_Post.article_ID=Post.article_ID"
+   conditions={"Post.article_ID":article_ID}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_tags_in_article(sql_obj,article_ID):
+   find="tag_name"
+   table="Tags"
+   conditions={"article_ID":article_ID}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_authors(sql_obj):
+   find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS author, Users.avatar_link"
+   table="Users INNER JOIN Writes ON Users.ID=Writes.author_ID"
+   return sql_obj.select(find,table)
+ 
+def grab_about_author(sql_obj,first_name,last_name):
+   find="*,  DATE_FORMAT(date_employ, '%M %Y') as date, TIMESTAMPDIFF(DAY,date_employ,NOW()) as days_employed"
+   table="Users"
+   conditions={'first_name':first_name,'last_name':last_name}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_author_id(sql_obj,email):
+   find="ID"
+   table="Users"
+   conditions={
+       "email":email
+   }
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_contributors(sql_obj):
+   find="DISTINCT concat(Users.first_name,' ',Users.last_name) AS contributor, Users.avatar_link"
+   table="Users INNER JOIN Contributes ON Users.ID=Contributes.contributor"
+   return sql_obj.select(find,table)
+ 
+def grab_author_articles(sql_obj,author_ID):
+   find="Post.title, Topic_Post.topic_name"
+   table="(Post INNER JOIN Writes ON Post.article_ID=Writes.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID) INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={"Users.ID":author_ID}
+   orderby="topic_name"
+   return sql_obj.select(find,table,conditions,orderby)
+ 
+def grab_contributor_articles(sql_obj,contributor_ID):
+   find="Post.title, Topic_Post.topic_name"
+   table="(Post INNER JOIN Contributes ON Post.article_ID=Contributes.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID) INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={"Users.ID":contributor_ID}
+   orderby="topic_name"
+   return sql_obj.select(find,table,conditions,orderby)
+ 
+ 
+##### Known bug in this statement. I spent a long time trying to get it to replicate the successful query in the `.sql` file with no success
+def grab_kin_article(sql_obj,title,topic,kin):
+   find="Post.title,Topics.topic_name"
+   table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
+   conditions={
+       "Topics.topic_name":topic,
+       "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 1)'
+       }
+   return sql_obj.select(find,table,conditions)
+ 
+ 
+def grab_subscribed_topics(sql_obj,user_email):
+   find="Topics.topic_name"
+   table="Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email"
+   conditions={"Subscriber.email":user_email}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_public_topics(sql_obj):
+   find="topic_name"
+   table="Topics"
+   conditions={"topic_status":"public"}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_role(sql_obj,email):
+   find="role"
+   table="(SELECT email, user_role AS role FROM Users UNION SELECT sub_email, membership AS role FROM Subscribes) AS all_users"
+   conditions={"email":email}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_article_feed(sql_obj,email):
+   find="Topics.topic_name, Topics.topic_status, Subscribes.membership, Post.article_ID, Post.title, Post.post_date"
+   table="(Topics INNER JOIN Subscribes ON Topics.topic_name=Subscribes.topic_name INNER JOIN Subscriber ON Subscribes.sub_email=Subscriber.email) INNER JOIN (Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID) ON Topics.topic_name=Topic_Post.topic_name"
+   conditions={"Subscriber.email":email,"Subscriber.sub_status":"active"}
+   orderby="Post.post_date DESC LIMIT 10"
+   return sql_obj.select(find,table,conditions,orderby)
+ 
+def grab_theme(sql_obj,theme):
+   find="*"
+   table="Theme"
+   conditions={"theme_name":theme}
+   return sql_obj.select(find,table,conditions)
+ 
+def grab_like(sql_obj,searchtext):
+   find="title, topic_name, SUBSTRING(content, 1, 200) AS preview"
+   table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+   term="content"
+   return  sql_obj.like(find,table,term,searchtext)
+ 
+ 
+############# INSERTS ##############
+ 
+def put_article(sql_obj,title,subtitle,theme,content,post_order):
+   table = 'Post'
+   col_value= {
+       'title':title,
+       'subtitle':subtitle,
+       'content':content,
+       'post_order':post_order,
+       'theme':theme
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_topic(sql_obj,name,status,description):
+   table = 'Topics'
+   col_value= {
+       'topic_name':name,
+       'topic_status':status,
+       'topic_description':description
+   }
+   return sql_obj.insert(table,col_value)
+  
+def put_tag(sql_obj,name,article_ID):
+   table = 'Tags'
+   col_value= {
+       'tag_name':name,
+       'article_ID':article_ID,
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_stat(sql_obj,article_ID,IP_address,datetime):
+   table = 'Stats'
+   col_value= {
+       'IP_address':IP_address,
+       'article_ID':article_ID,
+       'visit':datetime
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_writes(sql_obj,article_ID,author_ID):
+   table = 'Writes'
+   col_value= {
+       'author_ID':author_ID,
+       'article_ID':article_ID,
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_topic_post(sql_obj,topic_name,article_ID):
+   table = 'Topic_Post'
+   col_value= {
+       'topic_name':topic_name,
+       'article_ID':article_ID,
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_contributes(sql_obj,article_ID,contributor_ID):
+   table = 'Contributes'
+   col_value= {
+       'contributor':contributor_ID,
+       'article_ID':article_ID,
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_revenue(sql_obj,email,amount,date):
+   table = 'Revenue'
+   col_value= {
+       'sub_email':email,
+       'trans_amount':amount,
+       'trans_date':date
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_subscriber(sql_obj,email):
+   table = 'Subscriber'
+   col_value= {
+       'email':email,
+       'sub_status':'active',
+   }
+   return sql_obj.insert(table,col_value)
+ 
+def put_subscribes(sql_obj,email,topic_name,membership,sub_date):
+   table = 'Subscribes'
+   col_value= {
+       'sub_email':email,
+       'topic_name':topic_name,
+       'membership':membership,
+       'sub_date':sub_date
+   }
+   return sql_obj.insert(table,col_value)
+ 
+ 
+ 
+def alter_article(sql_obj,title,content):
+   table = 'Post'
+   column='content'
+   return sql_obj.update(table,column,content,title)
+
+</code></pre>
+
+<p>From `dashboard.py` , which serves the functions used to query for the dashboard</p>
+
+<pre><code>
+from datetime import datetime
+ 
+import customSQL
+from customSQL import custom_SQL
+ 
+def kpi_site_view_av_day_month(sql_obj,year,month):
+   SELECT1 = "SELECT ROUND( AVG(c.views) ) AS av "
+   FROM1 = "FROM "
+   SELECT2 = "(SELECT COUNT(IP_address) AS views FROM Stats"
+   WHERE1 = " WHERE YEAR(visit)=%s"
+   COND = " AND"
+   WHERE2 = " MONTH(visit)=%s"
+   GROUP = " GROUP BY MONTH(visit), DAY(visit)) as c"
+ 
+   statement = SELECT1+FROM1+SELECT2
+   vals = tuple()
+   if year and month:
+       statement+=WHERE1 + COND + WHERE2
+       vals = (year,month)
+   elif year:
+       statement+=WHERE1
+       vals = (year,)
+   elif month:
+       statement+=WHERE2
+       vals = (month,)
+   statement+=GROUP
+   return sql_obj.custom(statement, vals)
+ 
+def kpi_site_month_goals(sql_obj,year,month):
+   SELECT1 = "SELECT ROUND( (SUM(trans_amount)/4500 * 100),1 ) as percent_goal "
+   FROM1 = "FROM Revenue"
+   WHERE1 = " WHERE YEAR(trans_date)=%s"
+   COND = " AND"
+   WHERE2 = " MONTH(trans_date)=%s"
+ 
+   statement = SELECT1 + FROM1
+   vals = tuple()
+   if year and month:
+       statement+=WHERE1+COND+WHERE2
+       vals = (year,month)
+   elif year:
+       statement+=WHERE1
+       vals = (year,)
+   elif month:
+       statement+=WHERE2
+       vals = (month,)
+   return sql_obj.custom(statement, vals)
+ 
+ 
+def stat_all_topic_subs_time(sql_obj,year=False,month=False):
+   find='COUNT(Subscribes.sub_email) AS count_, Subscribes.topic_name as cat_, YEAR(sub_date) as year, MONTH(sub_date) as month'
+   table="Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+   conditions={}
+   group="cat_"
+   if year:
+       conditions["YEAR(sub_date)"] = year
+       group+=", year"
+   if month:
+       conditions["MONTH(sub_date)"] = month
+       group+=", month"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_all_topic_views_time(sql_obj,year=False,month=False,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS count_, Topic_Post.topic_name as cat_, YEAR(visit) as year, MONTH(visit) as month"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+   conditions = {}
+   group='cat_'
+   if year:
+       conditions["YEAR(visit)"] = year
+       group+=", year"
+   if month:
+       conditions["MONTH(visit)"] = month
+       group+=", month"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+def stat_views_tag_time(sql_obj,year=False,month=False,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS count_, Tags.tag_name AS cat_, visit, YEAR(visit) as year ,MONTH(visit) as month"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID"
+   conditions={}
+   group="cat_"
+   if year:
+       conditions["YEAR(visit)"] = year
+       group+=", year"
+   if month:
+       conditions["MONTH(visit)"] = month
+       group+=", month"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+ 
+def stat_subs_tag_time(sql_obj,year=False,month=False,unique=True):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} sub_email) AS count_, Tags.tag_name AS cat_, sub_date, YEAR(sub_date) as year ,MONTH(sub_date) as month"
+   table="(Subscribes INNER JOIN Topic_Post ON Subscribes.topic_name=Topic_Post.topic_name) INNER JOIN Tags ON Topic_Post.article_ID=Tags.article_ID"
+   conditions={}
+   group="cat_"
+   if year:
+       conditions["YEAR(sub_date)"] = year
+       group+=", year"
+   if month:
+       conditions["MONTH(sub_date)"] = month
+       group+=", month"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+def stat_author_views_time(sql_obj,author_name,year=False,month=False,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Writes ON Writes.article_ID=Post.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   group="year, month"
+   if year:
+       conditions["YEAR(visit)"]=year
+   if month:
+       conditions['MONTH(visit)']=month
+       group+=', day'
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+def stat_author_subs_time(sql_obj,author_name,year=False,month=False,unique=False):
+   find='COUNT(sub_email) AS viewers, author, YEAR(sub_date) as year, MONTH(sub_date) as month, DAY(sub_date) as day'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+   conditions={"author":author_name}
+   group="year, month"
+   if year:
+       conditions["YEAR(sub_date)"]=year
+   if month:
+       conditions['MONTH(sub_date)']=month
+       group+=', day'
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+ 
+def stat_site_views(sql_obj, unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats"
+   return sql_obj.select(find,table)
+ 
+def stat_article_views(sql_obj,post_title,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID"
+   conditions={'Post.title':post_title}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_views_site_time(sql_obj,year=False,month=False,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day"
+   table="Stats"
+   conditions={}
+   group="year"
+   if year:
+       conditions['YEAR(visit)']=year
+       group+=', month'
+   if month:
+       conditions['MONTH(visit)']=month
+       group+=", day"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_views_article_time(sql_obj,post_title,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID"
+   conditions={'Post.title':post_title}
+   group="year, month, day, hour"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_all_topic_views(sql_obj,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+   group='Topic_Post.topic_name'
+   return sql_obj.select(find,table,groupby=group)
+ 
+ 
+def stat_topic_views(sql_obj,topic_name,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+   conditions={'Topic_Post.topic_name':topic_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_views_topic_time(sql_obj,topic_name,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
+   conditions={'Topic_Post.topic_name':topic_name}
+   group="year, month, day, hour"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_all_tag_views(sql_obj,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, Tags.tag_name"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID"
+   group='Tags.tag_name'
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_tag_views(sql_obj,tag_name,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Tags ON Post.article_ID=Tags.article_ID"
+   conditions={'Tags.tag_name':tag_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+ 
+ 
+def stat_author_views(sql_obj,author_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Writes ON Writes.article_ID=Post.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_all_author_posts(sql_obj):
+   find="COUNT(article_ID) AS post, CONCAT(first_name,' ',last_name) as author "
+   table="Writes INNER JOIN Users ON Writes.author_ID=Users.ID"
+   group="author"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_author_stats(sql_obj):
+   find="*"
+   table="author_stats"
+   return sql_obj.select(find,table)
+ 
+def stat_contributor_views(sql_obj,author_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Contributes ON Contributes.article_ID=Post.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+ 
+def stat_contributor_views_time(sql_obj,author_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Contributes ON Contributes.article_ID=Post.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   group="year, month, day, hour"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_author_topic_views(sql_obj,author_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, Topic_Post.topic_name"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Writes ON Writes.article_ID=Post.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   group="topic_name"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_contributor_topic_views(sql_obj,author_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, Topic_Post.topic_name"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Contributes ON Contributes.article_ID=Post.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1]}
+   group="topic_name"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_author_topic_views_time(sql_obj,author_name,topic_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Writes ON Writes.article_ID=Post.article_ID INNER JOIN Users ON Writes.author_ID=Users.ID INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1],'Topic_Post.topic_name':topic_name}
+   group="year, month, day, hour"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_contributor_topic_views_time(sql_obj,author_name,topic_name,unique=False):
+   author = author_name.split(' ')
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} IP_address) AS viewers, visit, YEAR(visit) as year ,MONTH(visit) as month, DAY(visit) as day, HOUR(visit) as hour"
+   table="Stats INNER JOIN Post on Stats.article_ID=Post.article_ID INNER JOIN Contributes ON Contributes.article_ID=Post.article_ID INNER JOIN Users ON Contributes.contributor=Users.ID INNER JOIN Topic_Post on Post.article_ID=Topic_Post.article_ID"
+   conditions={'Users.first_name':author[0],'Users.last_name':author[1],'Topic_Post.topic_name':topic_name}
+   group="year, month, day, hour"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+def stat_site_subs(sql_obj):
+   find='COUNT(sub_email) AS count_subs'
+   table="Subscribes"
+   return sql_obj.select(find,table)
+ 
+def stat_subs_site_time(sql_obj,year=False,month=False,unique=False):
+   unique = 'DISTINCT' if unique else ''
+   find=f"COUNT({unique} sub_email) AS viewers, sub_date, YEAR(sub_date) as year ,MONTH(sub_date) as month, DAY(sub_date) as day"
+   table="Subscribes"
+   conditions={}
+   group="year"
+   if year:
+       conditions['YEAR(sub_date)']=year
+       group+=', month'
+   if month:
+       conditions['MONTH(sub_date)']=month
+       group+=", day"
+   return sql_obj.select(find,table,conditions=conditions,groupby=group)
+ 
+ 
+def stat_all_topic_subs(sql_obj):
+   find='COUNT(Subscribes.sub_email) AS count_subs, Subscribes.topic_name'
+   table="Subscribes INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+   group="Subscribes.topic_name"
+   return sql_obj.select(find,table,groupby=group)
+ 
+ 
+ 
+def stat_topic_subs(sql_obj,topic_name):
+   find='COUNT(Subscribes.sub_email) AS count_subs'
+   table="Subscribes"
+   conditions={"topic_name":topic_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_membership_subs(sql_obj):
+   find='COUNT(sub_email) AS count_subs, membership'
+   table="Subscribes"
+   group="membership"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_all_author_subs(sql_obj):
+   find='COUNT(author) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+   group="author"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_author_subs(sql_obj, author_name):
+   find='COUNT(author) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+   conditions={"author":author_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_all_contributor_subs(sql_obj):
+   find='COUNT(author) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+   group="author"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_all_contributor_subs(sql_obj,contrib_name):
+   find='COUNT(author) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name"
+   conditions={"author":contrib_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_site_revenue(sql_obj):
+   find='SUM(trans_amount) AS revenue'
+   table='Revenue'
+   return sql_obj.select(find,table)
+ 
+def stat_all_topics_revenue(sql_obj):
+   find='SUM(trans_amount) AS revenue, Topics.topic_name'
+   table="Revenue INNER JOIN Subscribes ON Revenue.sub_email=Subscribes.sub_email INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+   group="Topics.topic_name"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_topic_revenue(sql_obj,topic_name):
+   find='SUM(trans_amount) AS revenue, Topics.topic_name'
+   table="Revenue INNER JOIN Subscribes ON Revenue.sub_email=Subscribes.sub_email INNER JOIN Topics ON Subscribes.topic_name=Topics.topic_name"
+   conditions={"Topics.topic_name":topic_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_all_author_revenue(sql_obj):
+   find='SUM(trans_amount) AS revenue, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email"
+   group="author"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_author_revenue(sql_obj, author_name):
+   find='SUM(trans_amount) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Writes ON Users.ID=Writes.author_ID INNER JOIN Topic_Post ON Writes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email"
+   conditions={"author":author_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+def stat_all_contributor_revenue(sql_obj):
+   find='SUM(trans_amount) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email"
+   group="author"
+   return sql_obj.select(find,table,groupby=group)
+ 
+def stat_contributor_revenue(sql_obj,contrib_name):
+   find='SUM(trans_amount) AS count_subs, author'
+   table="(SELECT topic_name, CONCAT(Users.first_name,' ',Users.last_name) as author FROM Users INNER JOIN Contributes ON Users.ID=Contributes.contributor INNER JOIN Topic_Post ON Contributes.article_ID=Topic_Post.article_ID GROUP BY author, topic_name) AS U INNER JOIN Subscribes ON U.topic_name=Subscribes.topic_name INNER JOIN Revenue ON Subscribes.sub_email=Revenue.sub_email"
+   conditions={"author":contrib_name}
+   return sql_obj.select(find,table,conditions=conditions)
+ 
+ 
+if __name__=="__main__":
+   Q = custom_SQL()
+ 
+   s2 = stat_site_views(Q)
+ 
+   Q.close()
+   print(s2)
+
+</code></pre>
+
+<p>Onces again, not all of these functions are used, but they will be easily adaptable for production.</p>

@@ -1,0 +1,33 @@
+<p>Review</p>
+<p>So far this is what we have done:</p>
+<ul><li>Created expectations for our project</li>
+<li>Created expectations for the Database</li>
+<li>Created ER Diagram and ER Model for our intentions</li>
+<li>Created DDL and DML statements to get the Database up and running</li>
+<li>Created Queries to fall back on in order to create the website population and dashboard</li></ul>
+<p>Up next we need to:</p>
+<ul><li>Choose tools to use to create more data</li>
+<li>Write code to build more data</li>
+<li>Write server code to provide the data to a web browser</li>
+<li>Review and provide systematic instructions for duplicating project</li>
+<li>Implementation Tools</li></ul>
+<p>For this project, here are the tools I am using:</p>
+<ul><li>Computer: Mac mini (Late 2014)</li>
+<li>Processor: 2.6GHz Dual-Core Intel Core i5</li>
+<li>Memory: 8 GB 1600 MHz DDR3</li>
+<li>Graphics: Intel Iris 1536 MB</li>
+<li>Version: 11.2.2 macOS Big Sur</li></ul>
+<p>Software:</p>
+<ul><li>MySQL Workbench 8.0.28 (64bit) Community by ORACLE </li>
+<li>Visual Studio Code 1.65.0</li>
+<li>Terminal 2.11 (440)</li>
+<li>Firefox Browser 99.0.1 (64bit)</li>
+<li>A2Hosting Drive Web Hosting (for MySQL Database)</li></ul>
+<p>Code:</p>
+<ul><li>Python 3.9.4</li>
+<li>Flask 2.0.3</li>
+<li>Jinja2 3.0.2</li>
+<li>Mysql-connector 2.2.9</li>
+<li>Numpy 1.21.3</li></ul>
+<p>Javascript</p>
+<ul><li>Chartjs.org (char.js)</li></ul>

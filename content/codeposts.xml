@@ -1,0 +1,635 @@
+<?xml version="1.0"?>
+<post_feed>
+
+    <post>
+        <title>Welcome To Project</title>
+        <subtitle>Introduction to the Capstone</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+            <user type='container'>
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>0</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+            <p>This project is in fulfillment for Eastern University's DTSC691, the Applied Captstone for MS in Data Science, term Spring2 2022. Lucas E Moyer is submitting this website and all it's underlying code and database to satisfy the requirements for the Database track, approved by Dr. Gregory Longo.</p>
+        </content>
+    </post>
+
+<post>
+        <title>Capstone Goals</title>
+        <subtitle>What are we trying to accomplish?</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>1</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post>
+<post>
+        <title>Project Limitations</title>
+        <subtitle>I can't do everything</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>2</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post>
+<post>
+        <title>Data Description</title>
+        <subtitle>Where is our data coming from?</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>3</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Data Requirements</title>
+        <subtitle>Defining the kind of Database we want</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>4</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+
+        </content>
+    </post> 
+
+
+<post>
+        <title>ER Model and Diagram</title>
+        <subtitle>Visualizing what we will want</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>5</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+        </content>
+    </post> 
+
+<post>
+        <title>SQL DDL</title>
+        <subtitle>Creating the Database Structure</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>6</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>SQL DML</title>
+        <subtitle>Populating preliminary fields</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>7</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+<post>
+        <title>Sample Queries</title>
+        <subtitle>What kinds of searches can we make?</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>8</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Application Code</title>
+        <subtitle>Delivering the database</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>9</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+<post>
+        <title>Building SQL Statments</title>
+        <subtitle>Communicate with the Database through Python</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>10</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+<post>
+        <title>Serving Files with Flask</title>
+        <subtitle>The serverside structure</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>11</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Templates</title>
+        <subtitle>HTML endpoinds for API routes</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>12</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Generating Data</title>
+        <subtitle>Making our own Data</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>13</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Generating Stats Data</title>
+        <subtitle>Simulating Views</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>14</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Generating Revenue Data</title>
+        <subtitle>Simulating Subscriptions</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>15</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Dashboard Styling and JS</title>
+        <subtitle>Simulating Views</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>16</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+
+
+<post>
+        <title>Functionality</title>
+        <subtitle>Known Bugs</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>17</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+
+        </content>
+    </post> 
+
+<post>
+        <title>Plans for the Future</title>
+        <subtitle>Where to go from here?</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>17</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+        </content>
+    </post> 
+
+<post>
+        <title>What I Learned</title>
+        <subtitle>This was more than just a test</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>18</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+        </content>
+    </post> 
+
+<post>
+        <title>Building the Project</title>
+        <subtitle>Reduplicating the Project</subtitle>
+        <author>
+            <first_name>Lucas</first_name>
+            <last_name>Moyer</last_name>
+            <email>admin@moyeraudio.com</email>
+        </author>
+        <contributors>
+              <user type="container">
+                <first_name>Lucas</first_name>
+                <last_name>Moyer</last_name>
+                <email>admin@moyeraudio.com</email>
+            </user>
+        </contributors>
+        <theme>Bright-medium</theme>
+        <topics>
+            <topic_name>Project_Full</topic_name>
+        </topics>
+        <tags>
+            <tag_name>coding</tag_name>
+            <tag_name>database</tag_name>
+        </tags>
+        <post_order>19</post_order>
+        <cover_img_link></cover_img_link>
+        <content>
+
+
+        </content>
+    </post> 
+
+
+
+</post_feed>

@@ -1,0 +1,37 @@
+<p>Here are the data requirements I used to map the database:</p>
+<ul><li>Many Authors may write many articles</li>
+<li>Many Articles can be written by only one author (Article total participation)</li>
+<li>Many Articles can be assigned only one date of publication</li>
+<li>Many Articles by be co-written/edited by many contributors </li>
+<li>Many roles can view many articles</li>
+<li>Many subscribers can view many topics of articles (subscriber total participation)</li>
+<li>Many proprietary topics can be viewed by only premium subscribers</li>
+<li>Every Article must have at least one Category (default applies)</li>
+<li>All articles can have any number of tags</li>
+<li>Every Tag must have at least one article</li>
+<li>Every Subscription must have a Revenue transaction</li>
+<li>Each transaction can be linked to only one subscriber</li>
+<li>Every post must have only one page template (default applies)</li>
+<li>Every post must have only one theme (default applies)</li></ul>
+
+<p>Constraints:</p>
+<p>Tables:</p>
+<p>Entity Sets: </p>
+<ul><li>Users (ID, Name [first, last], Date (of employment)[datetime], email, {Role}, Biography)</li>
+<li>Post(ID, Title, Subtitle, Date,theme,page_type,post_order, Content,cover_image)</li>
+<li>Topics(ID, Title, Status, Description)</li>
+<li>Subscriber(Email, Activity_status)</li>
+<li>Tags(ID, Name)</li>
+<li>Revenue(sub_email, Amount, Date[datetime])</li>
+<li>Stats(article_ID, IP_address, visit_date[datetime])</li>
+<li>Theme(theme_id, Name, Color1,Color2,TextColor, Format, Font)</li>
+<li>Page_type(Name, template_link)</li></ul>
+<p>Relationships:</p>
+<ul><li>Writes (author_ID,article_ID,updated(datatime))</li>
+<li>Contributes (contributor,article_ID)</li>
+<li>Topic_Post (topic_name, article_ID)</li>
+<li>Subscribes (sub_email,topic_name,membership,date(datetime),renewed_date(datetime))</li></ul>
+<p>Function:</p>
+<ul><li>Sort calls to subscription type (subscriber or premium) and return as premium if previously premium or subscriber is in yearly anniversary of original subscription</li></ul>
+<p>Views:</p>
+<ul><li>Administrative view to see sum posts and revenue amount by author</li></ul>

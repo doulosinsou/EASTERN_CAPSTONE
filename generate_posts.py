@@ -21,7 +21,7 @@ def nested(node,tagname):
         group_list.append(nest_dict)
     return group_list
 
-def gather_posts(root, parser):
+def gather_posts(root, parser, code=False):
     postList = []
 
     for post in root:
@@ -36,46 +36,67 @@ def gather_posts(root, parser):
         post_dict['tags'] = nested(post,'tags')
         post_dict['post_order'] = int(findTag(post,'post_order').text)
         post_dict['cover_img_link'] = findTag(post,'cover_img_link').text
-        # post_dict['content'] = str(parser.tostring(findTag(post,'div'))).replace('"',"'").decode("utf-8")
-        post_dict['content'] = parser.tostring(findTag(post,'div')).decode("utf-8")
+
+        if code:
+            with open('content/'+'-'.join(post_dict['title'].split())+'.txt') as f:
+                post_dict['content'] = str(f.read())
+        else:
+            post_dict['content'] = parser.tostring(findTag(post,'div')).decode("utf-8")
         
         postList.append(post_dict)
     
     return postList
 
 
-file = ET.parse('content/posts.xml')
-feed = file.getroot()
-posts = gather_posts(feed, ET)
+def save_posts(posts,update=False):
+
+    Q = custom_SQL() 
+    for post in posts:
+        if update:
+            row_id = customSQL.grab_article(Q,post['title'])['article_ID']
+            print(row_id, post['title'],post['content'][:30])
+            Q.update('Post','content',post['content'],row_id[0])
+            print()
+        else:
+            row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
+            print(row_id, post['title'])
+            print()
+            for topic in post['topics']:
+                exists = Q.exists('topic_name','Topics',{'topic_name':topic['topic_name']})
+                if not exists[0]:
+                    Project_description = 'The topic reviews the whole process of building this website from scratch, including its underlying database and code'
+                    proof = Q.insert('Topics',{'topic_name':topic['topic_name'],'topic_description':Project_description})
+                    # Q.commit()
+                customSQL.put_topic_post(Q,topic['topic_name'],row_id)
+
+            for tag in post['tags']:
+                customSQL.put_tag(Q,tag['tag_name'],row_id)
+
+            author_id = customSQL.grab_author_id(Q,post['author'][2]['email'])
+            customSQL.put_writes(Q,row_id,author_id["ID"][0])
+
+            for contributor in post['contributors']:
+                cont_id = customSQL.grab_author_id(Q,contributor['email'])
+                customSQL.put_contributes(Q,row_id,cont_id['ID'][0])
+        
+    Q.commit()
+    Q.close()
 
 
-update=True
 
-Q = custom_SQL() 
-for post in posts:
-    if update:
-        row_id = customSQL.grab_article(Q,post['title'])['article_ID']
-        print(row_id, post['title'],post['content'][:30])
-        Q.update('Post','content',post['content'],row_id[0])
-        print()
-    else:
-        row_id = customSQL.put_article(Q, post['title'],post['subtitle'],post['theme'],post['content'],post['post_order'])
 
-        for topic in post['topics']:
-            customSQL.put_topic_post(Q,topic['topic_name'],row_id)
+dumfile = ET.parse('content/dumposts.xml')
+dumfeed = dumfile.getroot()
+dumposts = gather_posts(dumfeed, ET)
 
-        for tag in post['tags']:
-            customSQL.put_tag(Q,tag['tag_name'],row_id)
 
-        author_id = customSQL.grab_author_id(Q,post['author'][2]['email'])
-        customSQL.put_writes(Q,row_id,author_id["ID"][0])
+codefile = ET.parse('content/codeposts.xml')
+codefeed = codefile.getroot()
+codeposts = gather_posts(codefeed, ET, code=True)
 
-        for contributor in post['contributors']:
-            cont_id = customSQL.grab_author_id(Q,contributor['email'])
-            customSQL.put_contributes(Q,row_id,cont_id['ID'][0])
-    
-Q.commit()
-Q.close()
+save_posts(dumposts)
+save_posts(codeposts)
+
     
 
 

@@ -1,0 +1,7 @@
+<p>The data for populating the project comes from the creation process itself. This document, with its sections, are used as the “Project” topic blog. All required components, including authors, themes, page views, emails, subscribers, and revenue data are self generated as described below. </p>
+<p>The exception to this is dummy Lorem Ipsum content generated for the public, subscription, and private blogs. I use www.lipsum.org  to generate blocks of text for those blogs. The content is duplicated for each blog. The purpose is to create material viewable only by certain audiences. </p>
+<p>Summary of types of data used:</p>
+<ul><li>Self generated through code. Random strings and random numbers used for populating views and subscriptions</li>
+<li>Written from SQL statements. Following the _innit_ database creation, I have an INSERTS file which generates enough components to get up and running</li> 
+<li>Written in XML. The articles and their metadata are written in xml, and read through python to insert all components into the existing database</li>
+<li>Copied from lipsum.org dummy generator. Dummy content for public, subscription, and private topics/blogs</li> </ul>

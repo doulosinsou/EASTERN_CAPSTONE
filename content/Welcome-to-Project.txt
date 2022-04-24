@@ -1,0 +1,1 @@
+<p>This project is in fulfillment for Eastern University's DTSC691, the Applied Captstone for MS in Data Science, term Spring2 2022. Lucas E Moyer is submitting this website and all it's underlying code and database to satisfy the requirements for the Database track, approved by Dr. Gregory Longo.</p>

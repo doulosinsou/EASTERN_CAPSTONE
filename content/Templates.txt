@@ -1,0 +1,567 @@
+<p>We call Templates for serving pages. Here is the file archival structure for our project:</p>
+<ul><li>-webapp.py</li>
+<li>-dashboard.py</li>
+<li>-customSQL.py</li>
+<li>-dashapp.py</li>
+<li>-generate_posts.py</li>
+<li>-generate_revenue.py</li>
+<li>-generate_stats.py</li>
+<li>-(hidden auth.py)</li>
+<li>-content
+    <ul><li>-posts.xml</li></ul></li>
+<li>-static
+    <ul><li>-img</li>
+    <li>-style.css</li>
+    <li>-script.js</li>
+    <li>-chart.js</li>
+    <li>-dashAPI.js</li></ul></li>
+<li>-templates
+    <ul><li>-about.html</li>
+    <li>-author.html</li></ul></li>
+<li>-base.html</li>
+<li>-dashboard.html</li>
+<li>-feed.html</li>
+<li>-main.html</li>
+<li>-post.html</li>
+<li>-search.html</li>
+<li>-sidebar.html</li>
+<li>-tag_page.html</li>
+<li>-tags.html</li>
+<li>-topic.html</li>
+<li>-topics.html</li></ul>
+ 
+<p>Here is the content from these templates starting with base.html :</p>
+ 
+<p>Base.html</p>
+<pre><code>
+&lt;!DOCTYPE html&gt;
+<html lang='en'>
+<head>
+   <meta charset='utf-8'></meta>
+   <meta name='viewport' content='width=device-width, initial-scale=1'></meta>
+   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"></link>
+   <title> {% block title %} {% endblock %}</title>
+   {% block style %} {% endblock %}
+ 
+   <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}"></link>
+</head>
+<body>
+   <header>
+       <a id="title" href="/"><div>
+           <h1>Website Builder</h1>
+           <h2>Database Capstone Project</h2>
+       </div></a>
+       <div id="head-nav-container">
+           <div id="head-nav-upper">
+               <form action="/viewas/" method="POST" id="view-select">
+                   <label for="'logged-in">Change view as:</label>
+                   <select name='logged-in' id="logged-in" onchange="this.form.submit()" >
+                       <option value='Public'>Public</option>
+                       <option value='basicSubscriber2@subs.org' {% if role=='Subscriber'  %} selected {% endif %}>Subscriber</option>
+                       <option value='premiumSubscriber2@subs.org'{% if role=='Premium' %} selected {% endif %}>Premium</option>
+                       <option value='joejfield@website.com'{% if role=='author' %} selected {% endif %}>Author</option>
+                       <option value='abiandres@website.com'{% if role=='contributor' %} selected {% endif %}>Contributor</option>
+                       <option value='admin@moyeraudio.com'{% if role=='admin' %} selected {% endif %}>Admin</option>
+                   </select>
+               </form>
+           </div>
+           <div id="head-nav-lower">
+               <nav id="header-nav">
+                   <ul>
+                       <li><a href="/home">HOME</a></li>
+                       <li><a href="/search">SEARCH</a></li>
+                       <li><a href="/topics">TOPICS</a></li>
+                       {% if role in ['admin','author','contributor'] %}
+                       <li><a href="/dashboard">DASHBOARD</a></li>
+                       {% endif %}
+                       {% if role in ['Subscriber','Premium'] %}
+                        <li><a href="/feed">FEED</a></li>
+                        {% endif %}
+                       <li><a href="/about">ABOUT</a></li>
+                   </ul>
+               </nav>
+           </div>
+       </div>
+ 
+   </header>
+   <aside id="sidebar">
+      
+       {% if sidebarvar == 'sidebar1' %} {% include 'sidebar.html' %} {% block sidebar1 %} {% endblock %} {% endif %}
+       {% if sidebarvar == 'sidebar2' %} {% block sidebar2 %} {% endblock %} {% endif %}
+       {% if sidebarvar == 'sidebar3' %} {% block sidebar3 %} {% endblock %} {% endif %}
+       {% if sidebarvar == 'sidebar4' %} {% block sidebar4 %} {% endblock %} {% endif %}
+   </aside>
+   <main>
+       {% block content %} {% endblock %}
+   </main>
+  
+   <footer>
+       <p>&copy; Lucas E Moyer</p>
+       <p>Project in partial fulfillment of Eastern University Data Science Program</p>
+   </footer>
+   <script src="{{ url_for('static', filename='script.js') }}"></script>
+ 
+</body>
+</html>
+</code></pre>
+ 
+<p>About.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Authors and Contributors {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h2>Authors</h2>
+</section>
+<section id='middle'>
+   <div class="about-wrapper">
+   {% for i in range( authors['author']|length ) %}
+   <figure class="user_avatar">
+       <a href="/author/{{ authors['author'][i] }}">
+           <img src="{{ url_for('static', filename = 'img/'+authors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
+           <figcaption>{{ authors['author'][i] }}  </figcaption>
+       </a>
+   </figure>
+   {% endfor %}
+   </div>
+</section>
+<section id='end'>
+   <h2>Contributors</h2>
+   <div class="about-wrapper">
+   {% for i in range( contributors['contributor']|length ) %}
+ 
+       <figure class="user_avatar">
+           <a href="/author/{{ contributors['contributor'][i] }}">
+           <img src="{{ url_for('static', filename = 'img/'+contributors['avatar_link'][i]) }}" alt="avatar from pixabay.com">
+           <figcaption>{{ contributors['contributor'][i] }}</figcaption>
+           </a>
+       </figure>
+  
+   {% endfor %}
+   </div>
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Author.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} {{ author['name'] }} {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <div id="profile-wrapper">
+       <img src="{{ url_for('static', filename = 'img/'+author['avatar_link']) }}" alt="avatar from pixabay.com">
+       <div id="profile-name-wrapper">
+           <h2>{{ author['name'] }}</h2>
+           <p>{{ author['role'] }} since {{ author['date'] }} ({{ author['days_employed'] }} days)</p>
+           <p>Contact <a href="mailto:{{ author['email'] }}">directly</a></p>
+       </div>
+   </div>
+</section>
+<section id="middle">
+   <h3>Bio</h3>
+   <p>{{ author['biography'] }}</p>
+</section>
+<hr class="divider">
+<section id='end'>
+   {% if articles %}
+   <h3>Contributions to this site as Author:</h3>
+   {% for key in articles.keys() %}
+       <h4>{{ key }}</h4>
+       {% for post in articles[key] %}
+           <a href="/topic/{{ key }}/{{ post }}">{{ post }} </a>  
+       {% endfor %}
+   {% endfor %}
+   {% endif %}
+ 
+   {% if contribs %}
+   <hr class="divider">
+   <h3>Contributions to this site as Contributor:</h3>
+   {% for key in contribs.keys() %}
+       <h4>{{ key }}</h4>
+       {% for post in contribs[key] %}
+           <a href="/topic/{{ key }}/{{ post }}">{{ post }} </a>  
+       {% endfor %}
+   {% endfor %}
+   {% endif %}
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Dashboard.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Dashboard {% endblock %}
+ 
+{% block style %}
+<style>
+   :root {
+       --page-width: {{ '100%' }} ;
+       --primary-color: {{ '#f7f9f8' }};
+       --secondary-color: {{ '#fe0037' }};
+       --text-color: {{ '#5b5b5b' }};
+       --font: {{ 'Ariel' }};
+   }
+</style>
+{% endblock %}
+ 
+{% set sidebarvar = 'sidebar2' %}
+{% block sidebar2 %}
+   <p>Logged in as: {{ role }}</p>
+   <label for="sort-year">Sort By Year</label>
+   <select name='sort-year' id="sort-year" onchange="resort_dashboard()" >
+       <option value=false selected>All</option>
+       <option value=2020>2020</option>
+       <option value=2021>2021</option>
+   </select>
+   <label for="sort-month">Sort By Month</label>
+   <select name='sort-month' id="sort-month" onchange="resort_dashboard()" >
+       <option value=false selected>All</option>
+       <option value=1>January</option>
+       <option value=2>Febuary</option>
+       <option value=3>March</option>
+       <option value=4>April</option>
+       <option value=5>May</option>
+       <option value=6>June</option>
+       <option value=7>July</option>
+       <option value=8>August</option>
+       <option value=9>September</option>
+       <option value=10>October</option>
+       <option value=11>November</option>
+       <option value=12>December</option>
+   </select>
+   <label for="sort-graph">Change Graphs</label>
+   <select name='sort-graph' id="sort-graph" onchange="resort_dashboard()" >
+       <option value="views" selected>Page Views</option>
+       <option value='subs'>Subscriptions</option>
+   </select>
+   <label for="sort-graph-2">Change Bar Graph</label>
+   <select name='sort-graph-2' id="sort-graph-2" onchange="resort_dashboard()" >
+       <option value="topic" selected>Topics</option>
+       <option value='tag'>Tags</option>
+   </select>
+   <label for="_type-all">IP_address</label>
+   <select name='sort-graph-3' id="_type-all" onchange="resort_dashboard()" >
+       <option value="false" selected>All</option>
+       <option value='true'>Unique</option>
+   </select>
+  
+{% endblock %}
+ 
+{% block content %}
+<section id="stats-options">
+   <h1>Dashboard</h1>
+   <div di="stats-meta">
+       <div>
+           <form id="stats-time">
+ 
+           </form>
+       </div>
+   </div>
+</section>
+<section id="stats-upper">
+   <div id="stats-upper-left">
+       <div id="ul-params"></div>
+       <div id="ul-chart-wrapper">
+           <canvas id="ul-chart"></canvas>
+       </div>
+   </div>
+   <div id="stats-upper-right">
+       <div id="stats-kpi-1">
+           <canvas id="kpi1" width="250" height="250"></canvas>
+       </div>
+       <div id="stats-kpi-2">
+           <canvas id="kpi2" width="250" height="250"></canvas>
+       </div>
+   </div>
+</section>
+<section id='stats-lower'>
+   <div id="stats-lower-left">
+       <div id="ll-params"></div>
+       <div id="ll-chart-wrapper">
+           <canvas id="ll-chart"></canvas>
+       </div>
+   </div>
+   <div id="stats-lower-right">
+       <!-- <h3>Authors</h3> -->
+       <div id="stats-author-wrapper">
+           <div class="stats-author" id="stats-author-header">
+               <p class="stat-author-item stat-author-item-1"></p>
+               <p class="stat-author-item stat-author-item-2">Author</p>
+               <p class="stat-author-item stat-author-item-3">Engagement</p>
+               <p class="stat-author-item stat-author-item-4">Posts</p>
+               <p class="stat-author-item stat-author-item-5">Revenue</p>
+           </div>
+       </div>
+   </div>
+</section>
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='dashAPI.js') }}"></script>
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
+{% endblock %}
+
+</code></pre>
+ 
+<p>Feed.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} List Subcriptions {% endblock %}
+ 
+{% set sidebarvar = 'sidebar2' %}
+{% block sidebar2 %}
+   <p>Logged in as: {{ role }}</p>
+   <p>Newest articles</p>
+   <ul id="feed-sidebar">
+       {% for i in range( Feed['title']|length ) %}
+       <li><a href="/topic/{{ Feed['topic_name'][i] }}/{{ Feed['title'][i] }}">{{ Feed['title'][i] }}</a></li>
+       {% endfor %}
+   </ul>
+{% endblock %}
+ 
+{% block content %}
+<section id="top">
+   <h2>Current Subscriptions</h2>
+   {% for i in range( availableTopics['topic_name']|length ) %}
+       <a href="/topic/{{ availableTopics['topic_name'][i] }}">{{ availableTopics['topic_name'][i] }}</a>  
+   {% endfor %}
+</section>
+<section id='end'>
+   <h2>Available Subscriptions</h2>
+   {% for i in range( potential_feed['topic_name']|length ) %}
+       <a href="/topic/{{ potential_feed['topic_name'][i] }}">{{ potential_feed['topic_name'][i] }}</a>  
+   {% endfor %}
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Main.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} {{ post.title }} {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h1>{{ post.title }} </h1>
+   {% if post.subtitle != None %}
+       <h2>{{ post.subtitle }}</h2>
+   {% endif %}
+</section>
+<section id="middle">
+   <div>{{ post.content|safe }}</div>
+   <div id="meta">
+      
+   </div>
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Post.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} {{ topic.name }} - {{ post.title }} {% endblock %}
+ 
+{% block style %}
+<style>
+   :root {
+       --page-width: {{ theme.theme_format[0] }} ;
+       --primary-color: {{ theme.color_primary[0] }};
+       --secondary-color: {{ theme.color_secondary[0] }};
+       --text-color: {{ theme.text_color[0] }};
+       --font: {{ theme.font[0] }};
+   }
+</style>
+{% endblock %}
+ 
+{% set sidebarvar = 'sidebar3' %}
+{% block sidebar3 %}
+   <p>Current Topic: {{ topic.name }}</p>
+   <ul id="current_articles">
+       {% for topost in topic.list %}
+       <li><a href='{{ topost }}'>{{ topost }}</a></li>
+       {% endfor %}
+   </ul>
+{% endblock %}
+ 
+{% block content %}
+<section id="top">
+   <h1>{{ post.title }} </h1>
+   <a href="/author/{{ post.author }}">{{ post.author }}</a>
+   <p>{{ post.date }}</p>
+</section>
+<section id="middle">
+   {% if post.subtitle != None %}
+       <h2>{{ post.subtitle }}</h2>
+   {% endif %}
+   <div>{{ post.content|safe }}</div>
+</section>
+<section id='end'>
+   <p>Topics: {% for p in post.topics %}<a href="/topic/{{ p }}">{{ p }}</a>,{% endfor %}</p>
+   <p>Tags: {% for t in post.tags %}<a href="/tag/{{ t }}">{{ t }}</a>,{% endfor %}</p>
+</section>
+<section id='post-nav'>
+   <a href="{{ post.previous }}">Previous: {{ post.previous }}</a>
+   <a href="{{ post.next }}">Next: {{ post.next }}</a>
+</section>
+{% endblock %}
+</code></pre>
+ 
+<p>Search.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Search Site {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h1>Search</h1>
+   <form id="searchbar">
+       <input type="text" name="search" placeholder="Search The Site..">
+   </form>
+   <button id="searchsubmit" onclick=search()>Search</button>
+  
+</section>
+<section id="middle">
+   <div id="results">
+       <div class="search-result">
+           <h3 class="title"></h3>
+           <p class="preview"></p>
+       </div>
+   </div>
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Sidebar.html</p>
+<pre><code>
+{% block sidebar1 %}
+   <nav>
+   <ul id="current_articles">
+       {% if user %}
+       <li><a href='/dashboard'>Dashboard (admin)</a></li>
+       {% endif %}
+       <li><a href='/'>Home</a></li>
+       <li><a href='/search'>Search</a></li>
+       <li><a href='/feed'>Feed</a></li>
+       <li><a href='/topics'>Topics</a></li>
+       <li><a href='/tags'>Tags</a></li>
+       <li><a href='/about'>About</a></li>
+   </ul>
+   </nav>
+{% endblock %}
+ 
+ </code></pre>
+ 
+<p>Tag_page.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Tag - {{ tag }} {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h2>{{ tag }}</h2>
+</section>
+<section id='end'>
+   {% for i in range( article_list['title']|length ) %}
+       <a href="/topic/{{ article_list['topic_name'][i] }}/{{ article_list['title'][i] }}">{{ article_list['title'][i] }}</a>  
+  
+   {% endfor %}
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Tags.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Tags {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h2>All Tags</h2>
+</section>
+<section id='end'>
+   {% for i in range( tag_list['tag_name']|length ) %}
+       <a href="/tag/{{ tag_list['tag_name'][i] }}">{{ tag_list['tag_name'][i] }} <i>{{ tag_list['count'][i] }}</i></a>  
+  
+   {% endfor %}
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Topic.html</p>
+<pre><code>
+{% extends 'base.html' %}
+ 
+{% block title %} Topic - {{ topic.topic_name }} {% endblock %}
+ 
+{% set sidebarvar = 'sidebar1' %}
+ 
+{% block content %}
+<section id="top">
+   <h2>{{ topic.topic_name }}</h2>
+   <p>{{ topic.topic_description }}</p>
+</section>
+ 
+<section id='end'>
+{% if subscribed %}
+   {% for i in range( topic['post_title']|length ) %}
+       <a href="/topic/{{ topic.topic_name }}/{{ topic['post_title'][i] }}">{{ topic['post_title'][i] }}</a>  
+   {% endfor %}
+{% else %}
+   <p>You are not subsribed to this topic. Please subscribe in order to read.</p>
+{% endif %}
+</section>
+ 
+{% endblock %}
+</code></pre>
+ 
+<p>Topics.html</p>
+<pre><code>
+{% extends 'base.html' %}
+
+{% block title %} Topics {% endblock %}
+
+{% set sidebarvar = 'sidebar1' %}
+
+{% block content %}
+<section id="top">
+<h2>All Topics</h2>
+</section>
+<section id='end'>
+{% for i in range( topic_list['topic_name']|length ) %}
+    <a href="/topic/{{ topic_list['topic_name'][i] }}">{{ topic_list['topic_name'][i] }} <i>{{ topic_list['topic_status'][i] }}</i></a>  
+{% endfor %}
+</section>
+
+{% endblock %}
+
+</code></pre>
