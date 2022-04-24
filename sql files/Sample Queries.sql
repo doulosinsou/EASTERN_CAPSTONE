@@ -64,9 +64,17 @@ FROM Users
 WHERE first_name="Lucas" AND last_name="Moyer";
 
 --- def grab_kin_article ---
-SELECT Post.title, Topics.topic_name
-FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name
-WHERE Topics.topic_name = "Project" AND Post.post_order = ((SELECT post_order FROM Post WHERE title = "Project Goals" LIMIT 1) + 1) ;
+SELECT Post.title, Topic_Post.topic_name as topic
+FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID
+WHERE  Topic_Post.topic_name = "Project" AND Post.post_order = ((SELECT post_order FROM Post WHERE title = "Project Goals" LIMIT 1) + 1) ;
+
+
+
+
+
+
+
+
 
 SELECT post_order FROM Post WHERE title = "Public Lorem Ipsum 3" LIMIT 1;
 
@@ -120,6 +128,9 @@ SELECT EXISTS(
     FROM Subscribes
     WHERE sub_email='basicSubscriber@subs.org' AND topic_name='Premium Blog'
 );
+
+
+-- for search bar --
 
 --- def grab_like ---
 SELECT * FROM Post 

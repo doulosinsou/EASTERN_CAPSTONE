@@ -10,16 +10,6 @@ async function fetchAPI(path,obj){
         body: JSON.stringify(obj),
     })
     const parsed = await call.json()
-    // .then(res => res.json())
-    // .then(data => {
-    //     if(!data.response){
-    //         console.log("there was an error in fetchAPI")
-    //     }
-    //     else{
-    //         return data
-    //     }
-    // })
-
     
     return parsed
 }

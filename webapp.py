@@ -10,7 +10,9 @@ from dashapp import dashapp
 app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(dashapp)
 
-#default dummy key for now
+#default dummy key 
+#normally this should be in a hidden file
+#this security is not required for our purposes
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
@@ -27,10 +29,6 @@ def check_user():
 @app.route('/')
 @app.route('/<page>')
 def index(page='home'):
-    # print('/ index?')
-    # if page in ['topics','topic','viewas']:
-    #     print("Made it past page in [***]")
-    #     return redirect(page)
     
     Q = custom_SQL()
     page = customSQL.grab_article(Q,page)
@@ -85,8 +83,6 @@ def aboutTop(thisTopic):
         )
 
 def prepTopic(thisTopic="Project",title="Project Goals"):
-    #Deliver page post
-
 
     Q = custom_SQL()
     article = customSQL.grab_article(Q,title)
@@ -110,8 +106,6 @@ def prepTopic(thisTopic="Project",title="Project Goals"):
         'subtitle':article['subtitle'][i],
         'topics':tops['topic_name'],
         'tags':tags['tag_name'],
-        # 'topics':', '.join(tops['topic_name']),
-        # 'tags':', '.join(tags['tag_name']),
         'content': article['content'][i],
         'previous':previous['title'][0],
         'next':after['title'][0]
@@ -247,10 +241,6 @@ def aboutAuthor(author=None):
         role=session['role'],
         )
 
-# @app.route('/dashboard/')
-# dashapp.dashboard()
-
-
 
 
 @app.route('/viewas/', methods=['POST'])
@@ -277,12 +267,12 @@ def viewas():
 @app.route('/search/',methods=["POST","GET"])
 def search():
     if request.method == "POST":
-        # print(request.form)
+
         searchText = request.json
         Q = custom_SQL()
         foundList = customSQL.grab_like(Q,searchText['search'])
         print(foundList)
-        # except:
+
         if foundList ==[]:
             Q.close()
             return jsonify({'response':False})

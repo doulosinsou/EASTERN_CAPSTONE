@@ -20,9 +20,6 @@ VALUES ('Abi','Andres','abiandres@website.com','contributor',"Abi edits news art
 INSERT INTO Users (first_name, last_name, email, user_role, biography, avatar_link)
 VALUES ('John','Jackson','johnjackson@website.com','contributor',"John edits science and children's articles", 'man.png');
 
--- UPDATE Users 
--- SET `avatar_link` = 'woman.png' 
--- WHERE (`ID` = '3') or (`ID` = '4') or (`ID` = '5');
 
 
 
@@ -64,12 +61,7 @@ VALUES ('Dark-medium', '#323538', '#fe9815', '900px', 'Times');
 INSERT INTO Theme (theme_name, color_primary, color_secondary, theme_format, font)
 VALUES ('Dark-narrow', '#323538', '#fe9815', '600px', 'Times');
 
--- ALTER TABLE Theme
--- ADD COLUMN text_color varchar(20) DEFAULT '#5b5b5b' ;
 
-UPDATE Theme
-SET text_color = '#5b5b5b'
-WHERE theme_name = 'Dark-wide';
 
 
 --- Inserts for Post --- 
@@ -96,6 +88,7 @@ INSERT INTO Post (title,subtitle, content, post_order)
 VALUES ('Data Handling','What is our project data?','<p>This is the third article in the Project topic</p>',2);
 
 
+
 --- Inserts for Topics --- 
 
 INSERT INTO Topics (topic_name, topic_status, topic_description)
@@ -112,14 +105,6 @@ VALUES ('Premium Blog','premium','This topic represents all the blog posts that 
 
 INSERT INTO Topics (topic_name, topic_status,topic_description)
 VALUES ('Uncategorized','public','This topic is a default backup for all posts which are otherwise unlabled.');
-
--- ALTER TABLE Topics
--- ADD COLUMN topic_description LONGTEXT ;
-
--- UPDATE Topics
--- SET topic_description = 'This topic is a default backup for all posts which are otherwise unlabled.'
--- WHERE topic_name = 'Uncategorized';
-
 
 
 
@@ -276,7 +261,8 @@ VALUES ("premiumSubscriber2@subs.org", "Public Blog", "Premium");
 INSERT INTO Subscribes (sub_email, topic_name, membership)
 VALUES ("premiumSubscriber2@subs.org", "Premium Blog", "Premium"); 
 
-
+INSERT INTO Subscribes (sub_email, topic_name, membership)
+VALUES ("premiumSubscriber2@subs.org", "Subscribed Blog", "Premium"); 
 
 
 --- Inserts for Revenue ---

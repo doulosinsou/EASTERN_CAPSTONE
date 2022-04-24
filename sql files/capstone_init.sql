@@ -17,7 +17,7 @@
 -- DROP TABLE Theme;
 -- DROP TABLE Users;
 -- DROP TABLE Writes;
--- SET FOREIGN_KEY_CHECKS = 1;
+-- 
 
 
 --- Creating the Entity tables ---
@@ -38,7 +38,7 @@ CREATE TABLE Users (
 
 CREATE TABLE Page_type (
 	type_name		char(20) NOT NULL UNIQUE,
-    template_link 	varchar(100) DEFAULT 'default_template.png',
+    template_link 	varchar(100) DEFAULT 'main.html',
     
     CONSTRAINT Page_type_pk PRIMARY KEY (type_name)
 );
@@ -46,9 +46,9 @@ CREATE TABLE Page_type (
 CREATE TABLE Theme (
 	theme_ID		SMALLINT NOT NULL AUTO_INCREMENT,
     theme_name		varchar(20) NOT NULL UNIQUE,
-    color_primary	varchar(20),
-    color_secondary	varchar(20),
-    text_color		varchar(20) DEFAULT '#eeeeee',
+    color_primary	varchar(20) DEFAULT '#f7f9f8',
+    color_secondary	varchar(20) DEFAULT '#fe0037',
+    text_color		varchar(20) DEFAULT '#5b5b5b',
     theme_format	varchar(12) DEFAULT '900px' CHECK(theme_format in ('600px','900px','1200px')),
     font			varchar(12) DEFAULT 'Arial',
     
@@ -60,7 +60,7 @@ CREATE TABLE Post (
 	title		varchar(50) NOT NULL,
     subtitle	char(100),
 	post_date 	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    theme		varchar(20) DEFAULT 'Dark-wide',
+    theme		varchar(20) DEFAULT 'Bright-medium',
     page_type	char(20) DEFAULT 'blog',
     post_order	SMALLINT DEFAULT 0,
     content 	LONGTEXT,

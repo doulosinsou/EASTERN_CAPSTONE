@@ -77,8 +77,5 @@ for post in posts:
 Q.commit()
 Q.close()
     
-# Q= custom_SQL()
-# print(posts[0]['title'])
-# findinsert = customSQL.grab_article(Q,posts[0]['title'])
-# print(findinsert)
+
 

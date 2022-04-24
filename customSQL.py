@@ -217,6 +217,8 @@ def grab_contributor_articles(sql_obj,contributor_ID):
     orderby="topic_name"
     return sql_obj.select(find,table,conditions,orderby)
 
+
+##### Known bug in this statement. I spent a long time trying to get it to replicate the successful query in the `.sql` file with no success
 def grab_kin_article(sql_obj,title,topic,kin):
     find="Post.title,Topics.topic_name"
     table="Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID INNER JOIN Topics ON Topic_Post.topic_name=Topics.topic_name"
@@ -225,13 +227,6 @@ def grab_kin_article(sql_obj,title,topic,kin):
         "Post.post_order":f'((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 1)'
         }
     return sql_obj.select(find,table,conditions)
-
-
-# def grab_kin_next(sql_obj,title,topic):
-#     SELECT = "SELECT Post.title, Topics.topic_name"
-#     FROM = " FROM Post INNER JOIN Topic_Post ON Post.article_ID=Topic_Post.article_ID"
-#     WHERE = f'WHERE Topics.topic_name = `{topic}` AND Post.post_order = ((SELECT post_order FROM Post WHERE title = "{title}" LIMIT 1) + 2)'
-#     return sql_obj.custom(SELECT+FROM+WHERE,tuple())
 
 
 def grab_subscribed_topics(sql_obj,user_email):
@@ -361,8 +356,6 @@ def put_subscribes(sql_obj,email,topic_name,membership,sub_date):
         'sub_date':sub_date
     }
     return sql_obj.insert(table,col_value)
-
-
 
 
 

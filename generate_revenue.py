@@ -36,7 +36,6 @@ email_list = [makeSubscriber() for i in range(num_of_subscribers)]
 
 Q = custom_SQL()
 topics = customSQL.grab_all_topics(Q)['topic_name']
-# premium_subs = Q.select("sub_email","Subscribes",{"membership":"Premium"})['sub_email']
 Q.close()
 
 num_premium = random.randint(80,150)
